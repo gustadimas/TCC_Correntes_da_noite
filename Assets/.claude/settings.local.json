@@ -1,8 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(powershell -Command:*)",
-      "Bash(Out-String)"
+      "Bash(Select-Object -First 1)",
+      "Bash(findstr:*)",
+      "Bash(cat:*)"
     ],
     "deny": [],
     "ask": []
