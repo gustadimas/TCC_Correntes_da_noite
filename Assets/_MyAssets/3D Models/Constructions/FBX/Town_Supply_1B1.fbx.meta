@@ -1,0 +1,221 @@
+fileFormatVersion: 2
+guid: 814f61e43526ced4b8fa1eacaceea09e
+timeCreated: 1495818004
+licenseType: Store
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Foundation_Extension_1A1
+    100002: Foundation_Extension_1A1_B
+    100004: Foundation_Extension_1A2
+    100006: Foundation_Extension_1A2_B
+    100008: Foundation_Extension_1B1
+    100010: Foundation_Extension_1B1_B
+    100012: Foundation_Extension_1B2
+    100014: Foundation_Extension_1B2_B
+    100016: Foundation_Full_2A1
+    100018: Foundation_Full_2A2
+    100020: Foundation_Full_2B1
+    100022: Foundation_Full_2B2
+    100024: Foundation_Full_3A1
+    100026: Foundation_Full_3A2
+    100028: Foundation_Full_3A3
+    100030: Foundation_Full_3A4
+    100032: Foundation_Full_3B1
+    100034: Foundation_Full_3B2
+    100036: Foundation_Full_3B3
+    100038: Foundation_Full_3B4
+    100040: Roof_Extension_1A1
+    100042: Roof_Extension_1A2
+    100044: Roof_Extension_1B1
+    100046: Roof_Extension_1B2
+    100048: //RootNode
+    400000: Foundation_Extension_1A1
+    400002: Foundation_Extension_1A1_B
+    400004: Foundation_Extension_1A2
+    400006: Foundation_Extension_1A2_B
+    400008: Foundation_Extension_1B1
+    400010: Foundation_Extension_1B1_B
+    400012: Foundation_Extension_1B2
+    400014: Foundation_Extension_1B2_B
+    400016: Foundation_Full_2A1
+    400018: Foundation_Full_2A2
+    400020: Foundation_Full_2B1
+    400022: Foundation_Full_2B2
+    400024: Foundation_Full_3A1
+    400026: Foundation_Full_3A2
+    400028: Foundation_Full_3A3
+    400030: Foundation_Full_3A4
+    400032: Foundation_Full_3B1
+    400034: Foundation_Full_3B2
+    400036: Foundation_Full_3B3
+    400038: Foundation_Full_3B4
+    400040: Roof_Extension_1A1
+    400042: Roof_Extension_1A2
+    400044: Roof_Extension_1B1
+    400046: Roof_Extension_1B2
+    400048: //RootNode
+    2300000: Foundation_Extension_1A1
+    2300002: Foundation_Extension_1A1_B
+    2300004: Foundation_Extension_1A2
+    2300006: Foundation_Extension_1A2_B
+    2300008: Foundation_Extension_1B1
+    2300010: Foundation_Extension_1B1_B
+    2300012: Foundation_Extension_1B2
+    2300014: Foundation_Extension_1B2_B
+    2300016: Foundation_Full_2A1
+    2300018: Foundation_Full_2A2
+    2300020: Foundation_Full_2B1
+    2300022: Foundation_Full_2B2
+    2300024: Foundation_Full_3A1
+    2300026: Foundation_Full_3A2
+    2300028: Foundation_Full_3A3
+    2300030: Foundation_Full_3A4
+    2300032: Foundation_Full_3B1
+    2300034: Foundation_Full_3B2
+    2300036: Foundation_Full_3B3
+    2300038: Foundation_Full_3B4
+    2300040: Roof_Extension_1A1
+    2300042: Roof_Extension_1A2
+    2300044: Roof_Extension_1B1
+    2300046: Roof_Extension_1B2
+    3300000: Foundation_Extension_1A1
+    3300002: Foundation_Extension_1A1_B
+    3300004: Foundation_Extension_1A2
+    3300006: Foundation_Extension_1A2_B
+    3300008: Foundation_Extension_1B1
+    3300010: Foundation_Extension_1B1_B
+    3300012: Foundation_Extension_1B2
+    3300014: Foundation_Extension_1B2_B
+    3300016: Foundation_Full_2A1
+    3300018: Foundation_Full_2A2
+    3300020: Foundation_Full_2B1
+    3300022: Foundation_Full_2B2
+    3300024: Foundation_Full_3A1
+    3300026: Foundation_Full_3A2
+    3300028: Foundation_Full_3A3
+    3300030: Foundation_Full_3A4
+    3300032: Foundation_Full_3B1
+    3300034: Foundation_Full_3B2
+    3300036: Foundation_Full_3B3
+    3300038: Foundation_Full_3B4
+    3300040: Roof_Extension_1A1
+    3300042: Roof_Extension_1A2
+    3300044: Roof_Extension_1B1
+    3300046: Roof_Extension_1B2
+    4300000: Foundation_Extension_1B2_B
+    4300002: Foundation_Extension_1B1_B
+    4300004: Foundation_Extension_1A1_B
+    4300006: Foundation_Extension_1A2_B
+    4300008: Foundation_Full_3B1
+    4300010: Foundation_Full_3B2
+    4300012: Foundation_Full_3B4
+    4300014: Foundation_Full_3B3
+    4300016: Foundation_Full_3A3
+    4300018: Foundation_Full_3A4
+    4300020: Roof_Extension_1B1
+    4300022: Roof_Extension_1B2
+    4300024: Roof_Extension_1A2
+    4300026: Foundation_Full_3A2
+    4300028: Roof_Extension_1A1
+    4300030: Foundation_Full_2B1
+    4300032: Foundation_Extension_1B1
+    4300034: Foundation_Full_2B2
+    4300036: Foundation_Extension_1B2
+    4300038: Foundation_Full_3A1
+    4300040: Foundation_Extension_1A2
+    4300042: Foundation_Full_2A2
+    4300044: Foundation_Extension_1A1
+    4300046: Foundation_Full_2A1
+    6400000: Foundation_Extension_1A1
+    6400002: Foundation_Extension_1A1_B
+    6400004: Foundation_Extension_1A2
+    6400006: Foundation_Extension_1A2_B
+    6400008: Foundation_Extension_1B1
+    6400010: Foundation_Extension_1B1_B
+    6400012: Foundation_Extension_1B2
+    6400014: Foundation_Extension_1B2_B
+    6400016: Foundation_Full_2A1
+    6400018: Foundation_Full_2A2
+    6400020: Foundation_Full_2B1
+    6400022: Foundation_Full_2B2
+    6400024: Foundation_Full_3A1
+    6400026: Foundation_Full_3A2
+    6400028: Foundation_Full_3A3
+    6400030: Foundation_Full_3A4
+    6400032: Foundation_Full_3B1
+    6400034: Foundation_Full_3B2
+    6400036: Foundation_Full_3B3
+    6400038: Foundation_Full_3B4
+    6400040: Roof_Extension_1A1
+    6400042: Roof_Extension_1A2
+    6400044: Roof_Extension_1B1
+    6400046: Roof_Extension_1B2
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 1
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,185 @@
+fileFormatVersion: 2
+guid: cb66aa5294c03f34783d2e57ccd54682
+timeCreated: 1495818404
+licenseType: Store
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Door_1A1
+    100002: Door_1B1
+    100004: Double_Wall_1A2(Windows_1A1)
+    100006: Double_Wall_1A2(Windows_1B1)
+    100008: Double_Wall_1A3(Windows_1A1)
+    100010: Double_Wall_1A3(Windows_1B1)
+    100012: Double_Wall_1B2(Windows_1A1)
+    100014: Double_Wall_1B2(Windows_1B1)
+    100016: Double_Wall_1B3(Windows_1A1)
+    100018: Double_Wall_1B3(Windows_1B1)
+    100020: Single_Wall_1A2(Door_1B1)
+    100022: Single_Wall_1A3(Windows_1A1)
+    100024: Single_Wall_1A3(Windows_1B1)
+    100026: Single_Wall_1B2(Door_1B1)
+    100028: Single_Wall_1B3(Windows_1A1)
+    100030: Single_Wall_1B3(Windows_1B1)
+    100032: //RootNode
+    100034: Windows_1A1
+    100036: Windows_1B1
+    400000: Door_1A1
+    400002: Door_1B1
+    400004: Double_Wall_1A2(Windows_1A1)
+    400006: Double_Wall_1A2(Windows_1B1)
+    400008: Double_Wall_1A3(Windows_1A1)
+    400010: Double_Wall_1A3(Windows_1B1)
+    400012: Double_Wall_1B2(Windows_1A1)
+    400014: Double_Wall_1B2(Windows_1B1)
+    400016: Double_Wall_1B3(Windows_1A1)
+    400018: Double_Wall_1B3(Windows_1B1)
+    400020: Single_Wall_1A2(Door_1B1)
+    400022: Single_Wall_1A3(Windows_1A1)
+    400024: Single_Wall_1A3(Windows_1B1)
+    400026: Single_Wall_1B2(Door_1B1)
+    400028: Single_Wall_1B3(Windows_1A1)
+    400030: Single_Wall_1B3(Windows_1B1)
+    400032: //RootNode
+    400034: Windows_1A1
+    400036: Windows_1B1
+    2300000: Door_1A1
+    2300002: Door_1B1
+    2300004: Double_Wall_1A2(Windows_1A1)
+    2300006: Double_Wall_1A2(Windows_1B1)
+    2300008: Double_Wall_1A3(Windows_1A1)
+    2300010: Double_Wall_1A3(Windows_1B1)
+    2300012: Double_Wall_1B2(Windows_1A1)
+    2300014: Double_Wall_1B2(Windows_1B1)
+    2300016: Double_Wall_1B3(Windows_1A1)
+    2300018: Double_Wall_1B3(Windows_1B1)
+    2300020: Single_Wall_1A2(Door_1B1)
+    2300022: Single_Wall_1A3(Windows_1A1)
+    2300024: Single_Wall_1A3(Windows_1B1)
+    2300026: Single_Wall_1B2(Door_1B1)
+    2300028: Single_Wall_1B3(Windows_1A1)
+    2300030: Single_Wall_1B3(Windows_1B1)
+    2300032: Windows_1A1
+    2300034: Windows_1B1
+    3300000: Door_1A1
+    3300002: Door_1B1
+    3300004: Double_Wall_1A2(Windows_1A1)
+    3300006: Double_Wall_1A2(Windows_1B1)
+    3300008: Double_Wall_1A3(Windows_1A1)
+    3300010: Double_Wall_1A3(Windows_1B1)
+    3300012: Double_Wall_1B2(Windows_1A1)
+    3300014: Double_Wall_1B2(Windows_1B1)
+    3300016: Double_Wall_1B3(Windows_1A1)
+    3300018: Double_Wall_1B3(Windows_1B1)
+    3300020: Single_Wall_1A2(Door_1B1)
+    3300022: Single_Wall_1A3(Windows_1A1)
+    3300024: Single_Wall_1A3(Windows_1B1)
+    3300026: Single_Wall_1B2(Door_1B1)
+    3300028: Single_Wall_1B3(Windows_1A1)
+    3300030: Single_Wall_1B3(Windows_1B1)
+    3300032: Windows_1A1
+    3300034: Windows_1B1
+    4300000: Door_1B1
+    4300002: Door_1A1
+    4300004: Windows_1B1
+    4300006: Windows_1A1
+    4300008: Double_Wall_1B2(Windows_1B1)
+    4300010: Double_Wall_1B3(Windows_1B1)
+    4300012: Single_Wall_1B3(Windows_1B1)
+    4300014: Double_Wall_1A3(Windows_1B1)
+    4300016: Double_Wall_1A2(Windows_1B1)
+    4300018: Single_Wall_1A3(Windows_1A1)
+    4300020: Double_Wall_1B3(Windows_1A1)
+    4300022: Double_Wall_1B2(Windows_1A1)
+    4300024: Double_Wall_1A2(Windows_1A1)
+    4300026: Double_Wall_1A3(Windows_1A1)
+    4300028: Single_Wall_1B2(Door_1B1)
+    4300030: Single_Wall_1A2(Door_1B1)
+    4300032: Single_Wall_1B3(Windows_1A1)
+    4300034: Single_Wall_1A3(Windows_1B1)
+    6400000: Door_1A1
+    6400002: Door_1B1
+    6400004: Double_Wall_1A2(Windows_1A1)
+    6400006: Double_Wall_1A2(Windows_1B1)
+    6400008: Double_Wall_1A3(Windows_1A1)
+    6400010: Double_Wall_1A3(Windows_1B1)
+    6400012: Double_Wall_1B2(Windows_1A1)
+    6400014: Double_Wall_1B2(Windows_1B1)
+    6400016: Double_Wall_1B3(Windows_1A1)
+    6400018: Double_Wall_1B3(Windows_1B1)
+    6400020: Single_Wall_1A2(Door_1B1)
+    6400022: Single_Wall_1A3(Windows_1A1)
+    6400024: Single_Wall_1A3(Windows_1B1)
+    6400026: Single_Wall_1B2(Door_1B1)
+    6400028: Single_Wall_1B3(Windows_1A1)
+    6400030: Single_Wall_1B3(Windows_1B1)
+    6400032: Windows_1A1
+    6400034: Windows_1B1
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 1
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
