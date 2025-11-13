@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using CorrentesDaNoite.Camera;
 
 namespace CorrentesDaNoite.Player
 {
@@ -28,6 +29,7 @@ namespace CorrentesDaNoite.Player
         [Header("Camera")]
         [SerializeField] Transform cameraTransform;
         [SerializeField] bool useCameraRelativeMovement = true;
+        [SerializeField] bool useDirectionalZones = true;
 
         CharacterController _characterController;
         Animator _animator;
@@ -106,6 +108,13 @@ namespace CorrentesDaNoite.Player
 
         Vector3 GetMoveDirection()
         {
+            // Prioriza o sistema de zonas direcionais se ativo e disponível
+            if (useDirectionalZones && CameraDirectionManager.Instance != null)
+            {
+                return CameraDirectionManager.Instance.ConvertInputToWorldDirection(_movementInput);
+            }
+
+            // Fallback para movimento relativo à câmera tradicional
             if (useCameraRelativeMovement && cameraTransform != null)
             {
                 Vector3 cameraForward = cameraTransform.forward;
@@ -117,6 +126,7 @@ namespace CorrentesDaNoite.Player
                 return (cameraRight * _movementInput.x + cameraForward * _movementInput.y).normalized;
             }
 
+            // Fallback para movimento absoluto
             return new Vector3(_movementInput.x, 0f, _movementInput.y).normalized;
         }
 
