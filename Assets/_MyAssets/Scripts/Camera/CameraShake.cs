@@ -6,27 +6,21 @@ namespace CorrentesDaNoite.Camera
     [RequireComponent(typeof(CinemachineCamera))]
     public class CameraShake : MonoBehaviour
     {
-        [Header("Shake Presets")]
         [SerializeField] float detectionIntensity = 2f;
         [SerializeField] float detectionDuration = 0.5f;
         [SerializeField] float lightShakeIntensity = 0.5f;
         [SerializeField] float mediumShakeIntensity = 1.5f;
         [SerializeField] float heavyShakeIntensity = 3f;
 
-        CinemachineCamera _virtualCamera;
         CinemachineBasicMultiChannelPerlin _noise;
         float _shakeTimer;
         float _initialAmplitude;
 
         void Awake()
         {
-            _virtualCamera = GetComponent<CinemachineCamera>();
-            _noise = _virtualCamera.GetCinemachineComponent(CinemachineCore.Stage.Noise) as CinemachineBasicMultiChannelPerlin;
-
-            if (_noise == null)
-                Debug.LogWarning("CameraShake: Noise não encontrado!");
-            else
-                _initialAmplitude = _noise.AmplitudeGain;
+            CinemachineCamera vcam = GetComponent<CinemachineCamera>();
+            _noise = vcam.GetCinemachineComponent(CinemachineCore.Stage.Noise) as CinemachineBasicMultiChannelPerlin;
+            if (_noise != null) _initialAmplitude = _noise.AmplitudeGain;
         }
 
         void Update()

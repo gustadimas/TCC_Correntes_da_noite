@@ -25,8 +25,7 @@ namespace CorrentesDaNoite.Camera
 
         void OnDestroy()
         {
-            if (Instance == this)
-                Instance = null;
+            if (Instance == this) Instance = null;
         }
 
         public void OnCameraDirectionChanged(CameraDirection newDirection)
@@ -36,11 +35,8 @@ namespace CorrentesDaNoite.Camera
         }
 
         public void SetDirection(CameraDirection direction) => OnCameraDirectionChanged(direction);
-
         public Quaternion GetCurrentRotationQuaternion() => Quaternion.Euler(0f, CurrentYRotation, 0f);
-
         public Vector3 GetCurrentForwardDirection() => GetCurrentRotationQuaternion() * Vector3.forward;
-
         public Vector3 GetCurrentRightDirection() => GetCurrentRotationQuaternion() * Vector3.right;
 
         public Vector3 ConvertInputToWorldDirection(Vector2 input)

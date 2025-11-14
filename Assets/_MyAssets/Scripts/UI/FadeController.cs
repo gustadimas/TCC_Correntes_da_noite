@@ -82,19 +82,13 @@ namespace CorrentesDaNoite.UI
 
         IEnumerator FadeInOutCoroutine(System.Action onFadeOutComplete, float duration)
         {
-            if (_isFading)
-            {
-                Debug.LogWarning("Já está fazendo fade.");
-                yield break;
-            }
+            if (_isFading) yield break;
 
             _isFading = true;
-
             yield return FadeCoroutine(0f, 1f, duration, null);
             onFadeOutComplete?.Invoke();
             yield return new WaitForSeconds(0.1f);
             yield return FadeCoroutine(1f, 0f, duration, null);
-
             _isFading = false;
         }
 
