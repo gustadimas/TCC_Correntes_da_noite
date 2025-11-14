@@ -9,13 +9,9 @@ namespace CorrentesDaNoite.Teleport
         [SerializeField] CameraDirection cameraDirection = CameraDirection.East;
         [SerializeField] bool useCustomPlayerRotation = false;
         [SerializeField] float customPlayerRotationY = 0f;
-
-        [Header("Camera")]
         [SerializeField] Unity.Cinemachine.CinemachineCamera targetCamera;
         [SerializeField] int cameraPriority = 15;
         [SerializeField] Vector3 followOffset = new Vector3(0f, 4f, 0f);
-
-        [Header("Debug")]
         [SerializeField] Color gizmoColor = Color.green;
         [SerializeField] bool showGizmo = true;
 
@@ -36,12 +32,10 @@ namespace CorrentesDaNoite.Teleport
             targetCamera.transform.rotation = Quaternion.Euler(15f, (float)cameraDirection, 0f);
 
             var follow = targetCamera.GetComponent<Unity.Cinemachine.CinemachineFollow>();
-            if (follow != null)
-                follow.FollowOffset = followOffset;
+            if (follow != null) follow.FollowOffset = followOffset;
 
-            var pendulum = targetCamera.GetComponent<CameraPendulum>();
-            if (pendulum != null)
-                pendulum.UpdateInitialRotation();
+            targetCamera.GetComponent<CameraPendulum>()?.UpdateInitialRotation();
+            targetCamera.GetComponent<CameraMouseLook>()?.UpdateBaseRotation();
 
             targetCamera.enabled = false;
             targetCamera.enabled = true;

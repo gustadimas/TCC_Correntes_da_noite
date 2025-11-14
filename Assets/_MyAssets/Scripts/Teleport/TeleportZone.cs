@@ -28,22 +28,13 @@ namespace CorrentesDaNoite.Teleport
         [SerializeField] Color gizmoColor = Color.magenta;
         [SerializeField] bool showGizmo = true;
 
-        Collider _trigger;
         bool _hasBeenUsed;
         bool _isTeleporting;
 
         void Awake()
         {
-            _trigger = GetComponent<Collider>();
-
-            if (!_trigger.isTrigger)
-            {
-                _trigger.isTrigger = true;
-                Debug.LogWarning($"Collider em {gameObject.name} não era Trigger.");
-            }
-
-            if (destination == null)
-                Debug.LogError($"Destino não definido em {gameObject.name}!");
+            Collider trigger = GetComponent<Collider>();
+            if (!trigger.isTrigger) trigger.isTrigger = true;
 
             if (audioSource == null && teleportSound != null)
             {
@@ -81,10 +72,8 @@ namespace CorrentesDaNoite.Teleport
 
             if (FadeController.Instance == null)
             {
-                Debug.LogWarning("FadeController não encontrado! Teleportando sem fade.");
                 ExecuteTeleport(player, animator);
-                if (playerController != null)
-                    playerController.enabled = true;
+                if (playerController != null) playerController.enabled = true;
                 _isTeleporting = false;
                 yield break;
             }

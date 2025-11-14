@@ -19,12 +19,9 @@ namespace CorrentesDaNoite.Camera
         [SerializeField] int activePriority = 15;
         [SerializeField] int inactivePriority = 0;
         [SerializeField] Vector3 followOffset = new Vector3(0f, 3f, -10f);
-
-        [Header("Debug")]
         [SerializeField] Color gizmoColor = Color.cyan;
         [SerializeField] bool showGizmo = true;
 
-        Collider _trigger;
         bool _isPlayerInside;
 
         public bool IsPlayerInside => _isPlayerInside;
@@ -32,62 +29,42 @@ namespace CorrentesDaNoite.Camera
 
         void Awake()
         {
-            _trigger = GetComponent<Collider>();
-            if (!_trigger.isTrigger)
-            {
-                _trigger.isTrigger = true;
-                Debug.LogWarning($"Collider em {gameObject.name} não era Trigger.");
-            }
+            Collider trigger = GetComponent<Collider>();
+            if (!trigger.isTrigger) trigger.isTrigger = true;
 
             if (virtualCamera != null)
             {
                 virtualCamera.Priority = inactivePriority;
                 SetupCamera();
             }
-            else
-            {
-                Debug.LogError($"Virtual Camera não definida em {gameObject.name}!");
-            }
         }
 
         void SetupCamera()
         {
             virtualCamera.transform.rotation = Quaternion.Euler(15f, TargetYRotation, 0f);
-            var follow = virtualCamera.GetComponent<CinemachineFollow>();
-            if (follow != null)
-                follow.FollowOffset = followOffset;
 
-            var pendulum = virtualCamera.GetComponent<CameraPendulum>();
-            if (pendulum != null)
-                pendulum.UpdateInitialRotation();
+            var follow = virtualCamera.GetComponent<CinemachineFollow>();
+            if (follow != null) follow.FollowOffset = followOffset;
+
+            virtualCamera.GetComponent<CameraPendulum>()?.UpdateInitialRotation();
+            virtualCamera.GetComponent<CameraMouseLook>()?.UpdateBaseRotation();
         }
 
         void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag("Player"))
-                ActivateCamera();
+            if (other.CompareTag("Player")) ActivateCamera();
         }
 
         void OnTriggerExit(Collider other)
         {
-            if (other.CompareTag("Player"))
-                DeactivateCamera();
+            if (other.CompareTag("Player")) DeactivateCamera();
         }
 
         public void ActivateCamera()
         {
             if (virtualCamera == null) return;
 
-            virtualCamera.transform.rotation = Quaternion.Euler(15f, TargetYRotation, 0f);
-
-            var follow = virtualCamera.GetComponent<CinemachineFollow>();
-            if (follow != null)
-                follow.FollowOffset = followOffset;
-
-            var pendulum = virtualCamera.GetComponent<CameraPendulum>();
-            if (pendulum != null)
-                pendulum.UpdateInitialRotation();
-
+            SetupCamera();
             virtualCamera.Priority = activePriority;
             _isPlayerInside = true;
 
