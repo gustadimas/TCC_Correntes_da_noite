@@ -58,8 +58,17 @@ namespace CorrentesDaNoite.Teleport
             var playerController = player.GetComponent<Player.PlayerController>();
             var animator = player.GetComponent<Animator>();
 
-            if (!string.IsNullOrEmpty(enterAnimationTrigger) && animator != null)
-                animator.SetTrigger(enterAnimationTrigger);
+            if (animator != null)
+            {
+                animator.ResetTrigger("Jump");
+                animator.ResetTrigger("IsRunning");
+                animator.SetBool("IsCrouching", false);
+                animator.ResetTrigger("IsDeath");
+                animator.SetFloat("Speed", 0f);
+
+                if (!string.IsNullOrEmpty(enterAnimationTrigger))
+                    animator.SetTrigger(enterAnimationTrigger);
+            }
 
             if (triggerDelay > 0f)
                 yield return new WaitForSeconds(triggerDelay);
@@ -173,9 +182,7 @@ namespace CorrentesDaNoite.Teleport
                 Gizmos.DrawWireCube(boxCol.center, boxCol.size);
             }
             else if (col is SphereCollider sphereCol)
-            {
                 Gizmos.DrawWireSphere(transform.position + sphereCol.center, sphereCol.radius);
-            }
 
             if (destination != null)
             {
