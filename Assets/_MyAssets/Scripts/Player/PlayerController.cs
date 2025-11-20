@@ -33,6 +33,7 @@ namespace CorrentesDaNoite.Player
 
         CharacterController _characterController;
         Animator _animator;
+        PlayerSoundEmitter _soundEmitter;
 
         Vector2 _movementInput;
         bool _isRunning;
@@ -42,18 +43,26 @@ namespace CorrentesDaNoite.Player
         float _currentSpeed;
         float _targetSpeed;
         Vector3 _verticalVelocity;
+        bool _isCaptured;
 
         static readonly int Speed = Animator.StringToHash("Speed");
-        static readonly int IsRunning = Animator.StringToHash("IsRunning");
-        static readonly int IsCrouching = Animator.StringToHash("IsCrouching");
+        static readonly int IsRunningHash = Animator.StringToHash("IsRunning");
+        static readonly int IsCrouchingHash = Animator.StringToHash("IsCrouching");
         static readonly int Jump = Animator.StringToHash("Jump");
         static readonly int VelocityX = Animator.StringToHash("VelocityX");
         static readonly int VelocityZ = Animator.StringToHash("VelocityZ");
+        static readonly int Struggling = Animator.StringToHash("Struggling");
+
+        public bool IsCaptured => _isCaptured;
+        public float CurrentSpeed => _currentSpeed;
+        public bool IsRunning => _isRunning;
+        public bool IsCrouching => _isCrouching;
 
         void Awake()
         {
             _characterController = GetComponent<CharacterController>();
             _animator = GetComponent<Animator>();
+            _soundEmitter = GetComponent<PlayerSoundEmitter>();
 
             if (cameraTransform == null)
             {
@@ -70,9 +79,12 @@ namespace CorrentesDaNoite.Player
 
         void Update()
         {
-            HandleMovement();
-            ApplyGravity();
-            UpdateAnimator();
+            if (!_isCaptured)
+            {
+                HandleMovement();
+                ApplyGravity();
+                UpdateAnimator();
+            }
         }
 
         void HandleMovement()
@@ -151,8 +163,10 @@ namespace CorrentesDaNoite.Player
         void UpdateAnimator()
         {
             _animator.SetFloat(Speed, _currentSpeed / runSpeed);
-            _animator.SetBool(IsRunning, _isRunning && _movementInput.magnitude > 0.1f);
-            _animator.SetBool(IsCrouching, _isCrouching);
+
+            // Garantir que agachar tem prioridade sobre correr
+            _animator.SetBool(IsCrouchingHash, _isCrouching);
+            _animator.SetBool(IsRunningHash, _isRunning && !_isCrouching && _movementInput.magnitude > 0.1f);
 
             Vector3 localVelocity = transform.InverseTransformDirection(_currentVelocity);
             _animator.SetFloat(VelocityX, localVelocity.x);
@@ -177,8 +191,11 @@ namespace CorrentesDaNoite.Player
 
         public void OnRun(InputAction.CallbackContext context)
         {
-            if (context.performed) _isRunning = true;
-            else if (context.canceled) _isRunning = false;
+            // Não pode correr enquanto agachado
+            if (context.performed && !_isCrouching)
+                _isRunning = true;
+            else if (context.canceled)
+                _isRunning = false;
         }
 
         public void OnCrouch(InputAction.CallbackContext context)
@@ -186,6 +203,11 @@ namespace CorrentesDaNoite.Player
             if (context.performed)
             {
                 _isCrouching = !_isCrouching;
+
+                // Se agachar, para de correr
+                if (_isCrouching)
+                    _isRunning = false;
+
                 AdjustCharacterControllerHeight();
             }
         }
@@ -197,6 +219,34 @@ namespace CorrentesDaNoite.Player
                 _animator.SetTrigger(Jump);
                 if (enableJumpPhysics)
                     _verticalVelocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+
+                if (_soundEmitter != null)
+                    _soundEmitter.EmitJumpSound();
+            }
+        }
+
+        public virtual void SetCapturedState(bool captured)
+        {
+            _isCaptured = captured;
+            if (captured)
+            {
+                _movementInput = Vector2.zero;
+                _currentVelocity = Vector3.zero;
+                _currentSpeed = 0f;
+                _isRunning = false;
+                _characterController.enabled = false;
+            }
+            else
+            {
+                _characterController.enabled = true;
+            }
+        }
+
+        public virtual void PlayCaptureAnimation()
+        {
+            if (_animator != null)
+            {
+                _animator.SetTrigger(Struggling);
             }
         }
 

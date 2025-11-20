@@ -16,7 +16,12 @@ namespace CorrentesDaNoite.Player
 
         public void Die()
         {
-            CheckpointManager.Instance?.RespawnPlayer(gameObject);
+            CheckpointManager.Instance?.RespawnPlayer(gameObject, false);
+        }
+
+        public void DieFromCapture()
+        {
+            CheckpointManager.Instance?.RespawnPlayer(gameObject, true);
         }
 
         void OnTriggerEnter(Collider other)

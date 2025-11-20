@@ -21,24 +21,31 @@ namespace CorrentesDaNoite.Player
         void OnEnable()
         {
             _inputActions.Enable();
-            _inputActions.Player.Move.performed += ctx => _playerController.OnMove(ctx);
-            _inputActions.Player.Move.canceled += ctx => _playerController.OnMove(ctx);
-            _inputActions.Player.Run.performed += ctx => _playerController.OnRun(ctx);
-            _inputActions.Player.Run.canceled += ctx => _playerController.OnRun(ctx);
-            _inputActions.Player.Crouch.performed += ctx => _playerController.OnCrouch(ctx);
-            _inputActions.Player.Jump.performed += ctx => _playerController.OnJump(ctx);
+            _inputActions.Player.Move.performed += OnMovePerformed;
+            _inputActions.Player.Move.canceled += OnMoveCanceled;
+            _inputActions.Player.Run.performed += OnRunPerformed;
+            _inputActions.Player.Run.canceled += OnRunCanceled;
+            _inputActions.Player.Crouch.performed += OnCrouchPerformed;
+            _inputActions.Player.Jump.performed += OnJumpPerformed;
         }
 
         void OnDisable()
         {
-            _inputActions.Player.Move.performed -= ctx => _playerController.OnMove(ctx);
-            _inputActions.Player.Move.canceled -= ctx => _playerController.OnMove(ctx);
-            _inputActions.Player.Run.performed -= ctx => _playerController.OnRun(ctx);
-            _inputActions.Player.Run.canceled -= ctx => _playerController.OnRun(ctx);
-            _inputActions.Player.Crouch.performed -= ctx => _playerController.OnCrouch(ctx);
-            _inputActions.Player.Jump.performed -= ctx => _playerController.OnJump(ctx);
+            _inputActions.Player.Move.performed -= OnMovePerformed;
+            _inputActions.Player.Move.canceled -= OnMoveCanceled;
+            _inputActions.Player.Run.performed -= OnRunPerformed;
+            _inputActions.Player.Run.canceled -= OnRunCanceled;
+            _inputActions.Player.Crouch.performed -= OnCrouchPerformed;
+            _inputActions.Player.Jump.performed -= OnJumpPerformed;
             _inputActions.Disable();
         }
+
+        void OnMovePerformed(InputAction.CallbackContext context) => _playerController.OnMove(context);
+        void OnMoveCanceled(InputAction.CallbackContext context) => _playerController.OnMove(context);
+        void OnRunPerformed(InputAction.CallbackContext context) => _playerController.OnRun(context);
+        void OnRunCanceled(InputAction.CallbackContext context) => _playerController.OnRun(context);
+        void OnCrouchPerformed(InputAction.CallbackContext context) => _playerController.OnCrouch(context);
+        void OnJumpPerformed(InputAction.CallbackContext context) => _playerController.OnJump(context);
 
         void Update()
         {

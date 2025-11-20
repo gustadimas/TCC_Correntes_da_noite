@@ -16,6 +16,7 @@ namespace CorrentesDaNoite.Checkpoint
         [SerializeField] float delayBeforeRespawn = 0.5f;
         [SerializeField] bool resetAnimatorOnRespawn = true;
         [SerializeField] string deathAnimationTrigger = "";
+        [SerializeField] string capturedAnimationTrigger = "Struggling";
         [SerializeField] string respawnAnimationState = "";
         [SerializeField] string idleAnimationState = "Idle";
         [SerializeField] bool waitForRespawnAnimation = false;
@@ -25,6 +26,8 @@ namespace CorrentesDaNoite.Checkpoint
         Checkpoint _currentCheckpoint;
         bool _isRespawning;
         Dictionary<string, Checkpoint> _checkpoints = new Dictionary<string, Checkpoint>();
+
+        public static System.Action OnPlayerRespawned;
 
         public Checkpoint CurrentCheckpoint => _currentCheckpoint;
         public ISaveSystem SaveSystem => _saveSystem;
@@ -49,7 +52,7 @@ namespace CorrentesDaNoite.Checkpoint
 
         void RegisterAllCheckpoints()
         {
-            Checkpoint[] allCheckpoints = FindObjectsOfType<Checkpoint>();
+            Checkpoint[] allCheckpoints = FindObjectsByType<Checkpoint>(FindObjectsSortMode.None);
             foreach (var checkpoint in allCheckpoints)
             {
                 if (!_checkpoints.ContainsKey(checkpoint.CheckpointId))
@@ -96,13 +99,13 @@ namespace CorrentesDaNoite.Checkpoint
             return _checkpoints.TryGetValue(checkpointId, out Checkpoint checkpoint) ? checkpoint : null;
         }
 
-        public void RespawnPlayer(GameObject player)
+        public void RespawnPlayer(GameObject player, bool fromCapture = false)
         {
             if (_isRespawning || _currentCheckpoint == null) return;
-            StartCoroutine(RespawnSequence(player));
+            StartCoroutine(RespawnSequence(player, fromCapture));
         }
 
-        IEnumerator RespawnSequence(GameObject player)
+        IEnumerator RespawnSequence(GameObject player, bool fromCapture)
         {
             _isRespawning = true;
 
@@ -119,8 +122,17 @@ namespace CorrentesDaNoite.Checkpoint
                 animator.ResetTrigger("IsTeleporting");
                 animator.SetFloat("Speed", 0f);
 
-                if (!string.IsNullOrEmpty(deathAnimationTrigger))
-                    animator.SetTrigger(deathAnimationTrigger);
+                if (fromCapture)
+                {
+                    if (!string.IsNullOrEmpty(capturedAnimationTrigger))
+                        animator.ResetTrigger(capturedAnimationTrigger);
+                }
+                else
+                {
+                    string triggerToUse = deathAnimationTrigger;
+                    if (!string.IsNullOrEmpty(triggerToUse))
+                        animator.SetTrigger(triggerToUse);
+                }
             }
 
             yield return new WaitForSeconds(delayBeforeRespawn);
@@ -162,6 +174,8 @@ namespace CorrentesDaNoite.Checkpoint
             if (animator != null && !string.IsNullOrEmpty(idleAnimationState))
                 animator.Play(idleAnimationState, 0, 0f);
 
+            OnPlayerRespawned?.Invoke();
+
             if (playerController != null) playerController.enabled = true;
 
             _isRespawning = false;
@@ -170,6 +184,12 @@ namespace CorrentesDaNoite.Checkpoint
         void ExecuteRespawn(GameObject player, Animator animator)
         {
             if (_currentCheckpoint == null) return;
+
+            var playerController = player.GetComponent<Player.PlayerController>();
+            if (playerController != null)
+            {
+                playerController.SetCapturedState(false);
+            }
 
             CharacterController charController = player.GetComponent<CharacterController>();
             if (charController != null)
@@ -191,6 +211,11 @@ namespace CorrentesDaNoite.Checkpoint
             {
                 animator.Rebind();
                 animator.Update(0f);
+
+                if (!string.IsNullOrEmpty(capturedAnimationTrigger))
+                    animator.ResetTrigger(capturedAnimationTrigger);
+                animator.ResetTrigger("Jump");
+                animator.ResetTrigger("IsTeleporting");
             }
 
             if (animator != null && !string.IsNullOrEmpty(respawnAnimationState))
