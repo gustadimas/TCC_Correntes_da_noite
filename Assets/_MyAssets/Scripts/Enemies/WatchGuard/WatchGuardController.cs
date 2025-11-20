@@ -14,6 +14,8 @@ namespace CorrentesDaNoite.Enemies
         [SerializeField] protected float lookAlignmentTolerance = 2f;
         [SerializeField] protected bool loopGuardPoints = true;
 
+        protected WatchGuardLight _guardLight;
+
         public Transform[] GuardPoints => guardPoints;
         public Transform[] LookTargets => lookTargets;
         public float GuardMoveSpeed => guardMoveSpeed;
@@ -23,7 +25,7 @@ namespace CorrentesDaNoite.Enemies
         public float LookAlignmentTolerance => lookAlignmentTolerance;
         public bool LoopGuardPoints => loopGuardPoints;
         public WatchGuardAnimationController WatchAnimation => animationController as WatchGuardAnimationController;
-        public WatchGuardLight GuardLight { get; protected set; }
+        public WatchGuardLight GuardLight => _guardLight;
 
         protected override void InitializeStateMachine()
         {
@@ -32,14 +34,14 @@ namespace CorrentesDaNoite.Enemies
             else
                 base.InitializeStateMachine();
 
-            GuardLight?.SetLightActive(false);
+            _guardLight?.SetLightActive(false);
         }
 
         protected override void InitializeComponents()
         {
             base.InitializeComponents();
-            if (GuardLight == null)
-                GuardLight = GetComponentInChildren<WatchGuardLight>();
+            if (_guardLight == null)
+                _guardLight = GetComponentInChildren<WatchGuardLight>();
         }
 
         protected override void ResetEnemy()

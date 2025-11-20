@@ -4,75 +4,75 @@ namespace CorrentesDaNoite.Enemies
 {
     public class WatchGuardWatchingState : EnemyState
     {
-        protected WatchGuardController guardController;
-        protected int guardIndex;
-        protected float lookTimer;
+        protected WatchGuardController _guardController;
+        protected int _guardIndex;
+        protected float _lookTimer;
 
         public WatchGuardWatchingState(WatchGuardController controller, EnemyStateMachine stateMachine, int guardIndex) : base(controller, stateMachine)
         {
-            guardController = controller;
-            this.guardIndex = guardIndex;
+            _guardController = controller;
+            _guardIndex = guardIndex;
         }
 
         public override void Enter()
         {
             base.Enter();
 
-            controller.Movement.Stop();
-            controller.AnimationController.SetWalking(false);
-            controller.AnimationController.SetRunning(false);
-            lookTimer = 0f;
+            _controller.Movement.Stop();
+            _controller.AnimationController.SetWalking(false);
+            _controller.AnimationController.SetRunning(false);
+            _lookTimer = 0f;
 
-            guardController.WatchAnimation?.SetWatching(true);
-            guardController.WatchAnimation?.TriggerLook();
+            _guardController.WatchAnimation?.SetWatching(true);
+            _guardController.WatchAnimation?.TriggerLook();
 
-            if (guardController.GuardLight != null)
-                guardController.GuardLight.SetLightActive(true);
+            if (_guardController.GuardLight != null)
+                _guardController.GuardLight.SetLightActive(true);
         }
 
         public override void Update()
         {
             base.Update();
 
-            Transform lookTarget = guardController.GetLookTargetForGuardPoint(guardIndex);
+            Transform lookTarget = _guardController.GetLookTargetForGuardPoint(_guardIndex);
             if (lookTarget != null)
                 RotateTowards(lookTarget.position);
 
             if (IsAlignedWithTarget(lookTarget))
             {
-                lookTimer += Time.deltaTime;
-                if (lookTimer >= guardController.LookDuration)
+                _lookTimer += Time.deltaTime;
+                if (_lookTimer >= _guardController.LookDuration)
                 {
-                    int nextIndex = guardController.GetNextGuardIndex(guardIndex);
+                    int nextIndex = _guardController.GetNextGuardIndex(_guardIndex);
                     if (nextIndex >= 0)
-                        stateMachine.ChangeState(new WatchGuardWalkingState(guardController, stateMachine, nextIndex));
+                        _stateMachine.ChangeState(new WatchGuardWalkingState(_guardController, _stateMachine, nextIndex));
                 }
             }
             else 
-                lookTimer = 0f;
+                _lookTimer = 0f;
         }
 
         public override void Exit()
         {
             base.Exit();
-            guardController.WatchAnimation?.SetWatching(false);
-            if (guardController.GuardLight != null)
-                guardController.GuardLight.SetLightActive(false);
+            _guardController.WatchAnimation?.SetWatching(false);
+            if (_guardController.GuardLight != null)
+                _guardController.GuardLight.SetLightActive(false);
         }
 
         void RotateTowards(Vector3 targetPosition)
         {
-            Vector3 direction = targetPosition - controller.transform.position;
+            Vector3 direction = targetPosition - _controller.transform.position;
             direction.y = 0f;
 
             if (direction.sqrMagnitude < 0.001f)
                 return;
 
             Quaternion targetRotation = Quaternion.LookRotation(direction.normalized);
-            controller.transform.rotation = Quaternion.RotateTowards(
-                controller.transform.rotation,
+            _controller.transform.rotation = Quaternion.RotateTowards(
+                _controller.transform.rotation,
                 targetRotation,
-                guardController.LookRotationSpeed * Time.deltaTime
+                _guardController.LookRotationSpeed * Time.deltaTime
             );
         }
 
@@ -81,14 +81,14 @@ namespace CorrentesDaNoite.Enemies
             if (lookTarget == null)
                 return true;
 
-            Vector3 toTarget = lookTarget.position - controller.transform.position;
+            Vector3 toTarget = lookTarget.position - _controller.transform.position;
             toTarget.y = 0f;
 
             if (toTarget.sqrMagnitude < 0.001f)
                 return true;
 
-            float angle = Vector3.Angle(controller.transform.forward, toTarget);
-            return angle <= guardController.LookAlignmentTolerance;
+            float angle = Vector3.Angle(_controller.transform.forward, toTarget);
+            return angle <= _guardController.LookAlignmentTolerance;
         }
     }
 }

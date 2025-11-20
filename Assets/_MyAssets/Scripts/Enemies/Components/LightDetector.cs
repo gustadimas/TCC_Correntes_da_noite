@@ -12,24 +12,24 @@ namespace CorrentesDaNoite.Enemies
         [SerializeField] bool checkObstacles = true;
         [SerializeField] LayerMask obstacleLayer;
 
-        SphereCollider detectionCollider;
-        EnemyController enemyController;
-        Transform playerTransform;
-        bool isDetectingPlayer;
+        SphereCollider _detectionCollider;
+        EnemyController _enemyController;
+        Transform _playerTransform;
+        bool _isDetectingPlayer;
 
-        public bool IsDetectingPlayer => isDetectingPlayer;
+        public bool IsDetectingPlayer => _isDetectingPlayer;
         public float LightRadius => lightRadius;
 
         void Awake()
         {
-            enemyController = GetComponent<EnemyController>();
+            _enemyController = GetComponent<EnemyController>();
 
-            detectionCollider = GetComponent<SphereCollider>();
-            if (detectionCollider == null)
-                detectionCollider = gameObject.AddComponent<SphereCollider>();
+            _detectionCollider = GetComponent<SphereCollider>();
+            if (_detectionCollider == null)
+                _detectionCollider = gameObject.AddComponent<SphereCollider>();
 
-            detectionCollider.isTrigger = true;
-            detectionCollider.radius = lightRadius;
+            _detectionCollider.isTrigger = true;
+            _detectionCollider.radius = lightRadius;
 
             if (lightSource == null)
                 lightSource = transform;
@@ -37,18 +37,18 @@ namespace CorrentesDaNoite.Enemies
 
         void Update()
         {
-            if (playerTransform != null)
+            if (_playerTransform != null)
             {
                 bool canSeePlayer = !checkObstacles || HasLineOfSight();
 
-                if (canSeePlayer != isDetectingPlayer)
+                if (canSeePlayer != _isDetectingPlayer)
                 {
-                    isDetectingPlayer = canSeePlayer;
+                    _isDetectingPlayer = canSeePlayer;
 
-                    if (isDetectingPlayer)
-                        enemyController?.OnPlayerDetectedByLight();
+                    if (_isDetectingPlayer)
+                        _enemyController?.OnPlayerDetectedByLight();
                     else
-                        enemyController?.OnPlayerLostFromLight();
+                        _enemyController?.OnPlayerLostFromLight();
                 }
             }
         }
@@ -56,28 +56,28 @@ namespace CorrentesDaNoite.Enemies
         void OnTriggerEnter(Collider other)
         {
             if (!other.CompareTag("Player")) return;
-            playerTransform = other.transform;
+            _playerTransform = other.transform;
         }
 
         void OnTriggerExit(Collider other)
         {
             if (!other.CompareTag("Player")) return;
 
-            playerTransform = null;
-            isDetectingPlayer = false;
-            enemyController?.OnPlayerLostFromLight();
+            _playerTransform = null;
+            _isDetectingPlayer = false;
+            _enemyController?.OnPlayerLostFromLight();
         }
 
         bool HasLineOfSight()
         {
-            if (playerTransform == null) return false;
+            if (_playerTransform == null) return false;
 
-            Vector3 direction = playerTransform.position - lightSource.position;
+            Vector3 direction = _playerTransform.position - lightSource.position;
             float distance = direction.magnitude;
 
             if (Physics.Raycast(lightSource.position, direction.normalized, out RaycastHit hit, distance, obstacleLayer))
             {
-                return hit.transform == playerTransform;
+                return hit.transform == _playerTransform;
             }
 
             return true;
@@ -86,14 +86,14 @@ namespace CorrentesDaNoite.Enemies
         public void SetLightRadius(float radius)
         {
             lightRadius = radius;
-            if (detectionCollider != null)
-                detectionCollider.radius = radius;
+            if (_detectionCollider != null)
+                _detectionCollider.radius = radius;
         }
 
         public void EnableDetection(bool enable)
         {
-            if (detectionCollider != null)
-                detectionCollider.enabled = enable;
+            if (_detectionCollider != null)
+                _detectionCollider.enabled = enable;
         }
 
         void OnDrawGizmosSelected()
@@ -106,20 +106,21 @@ namespace CorrentesDaNoite.Enemies
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(center, lightRadius);
 
-            if (playerTransform != null)
+            if (_playerTransform != null)
             {
-                float distance = Vector3.Distance(center, playerTransform.position);
+                float distance = Vector3.Distance(center, _playerTransform.position);
 
-                Gizmos.color = isDetectingPlayer ? Color.green : Color.red;
-                Gizmos.DrawLine(center, playerTransform.position);
-                Gizmos.DrawWireSphere(playerTransform.position, 0.5f);
+                Gizmos.color = _isDetectingPlayer ? Color.green : Color.red;
+                Gizmos.DrawLine(center, _playerTransform.position);
+                Gizmos.DrawWireSphere(_playerTransform.position, 0.5f);
 
                 #if UNITY_EDITOR
                 UnityEditor.Handles.Label(
-                    playerTransform.position + Vector3.up * 2f,
-                    $"{distance:F1}m - {(isDetectingPlayer ? "DETECTADO" : "BLOQUEADO")}",
-                    new GUIStyle() {
-                        normal = new GUIStyleState() { textColor = isDetectingPlayer ? Color.green : Color.red },
+                    _playerTransform.position + Vector3.up * 2f,
+                    $"{distance:F1}m - {(_isDetectingPlayer ? "DETECTADO" : "BLOQUEADO")}",
+                    new GUIStyle()
+                    {
+                        normal = new GUIStyleState() { textColor = _isDetectingPlayer ? Color.green : Color.red },
                         fontSize = 14,
                         fontStyle = FontStyle.Bold,
                         alignment = TextAnchor.MiddleCenter

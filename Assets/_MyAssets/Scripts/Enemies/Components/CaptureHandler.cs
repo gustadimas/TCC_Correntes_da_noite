@@ -9,26 +9,26 @@ namespace CorrentesDaNoite.Enemies
         [SerializeField] protected float moveToHoldPointSpeed = 3f;
         [SerializeField] protected float rotationSpeed = 8f;
 
-        protected PlayerController capturedPlayer;
-        protected bool isHoldingPlayer;
-        protected bool isMovingToHoldPoint;
-        protected Vector3 captureStartPosition;
-        protected float captureProgress;
+        protected PlayerController _capturedPlayer;
+        protected bool _isHoldingPlayer;
+        protected bool _isMovingToHoldPoint;
+        protected Vector3 _captureStartPosition;
+        protected float _captureProgress;
 
-        public bool IsHoldingPlayer => isHoldingPlayer;
-        public PlayerController CapturedPlayer => capturedPlayer;
-        public bool IsMovingToHoldPoint => isMovingToHoldPoint;
+        public bool IsHoldingPlayer => _isHoldingPlayer;
+        public PlayerController CapturedPlayer => _capturedPlayer;
+        public bool IsMovingToHoldPoint => _isMovingToHoldPoint;
 
         public virtual void CapturePlayer(PlayerController player, Transform holdPoint)
         {
             if (player == null || holdPoint == null) return;
             if (player.IsCaptured) return;
 
-            capturedPlayer = player;
-            isHoldingPlayer = true;
-            isMovingToHoldPoint = true;
-            captureProgress = 0f;
-            captureStartPosition = player.transform.position;
+            _capturedPlayer = player;
+            _isHoldingPlayer = true;
+            _isMovingToHoldPoint = true;
+            _captureProgress = 0f;
+            _captureStartPosition = player.transform.position;
 
             player.SetCapturedState(true);
             player.PlayCaptureAnimation();
@@ -36,37 +36,37 @@ namespace CorrentesDaNoite.Enemies
 
         public virtual void ReleasePlayer()
         {
-            if (capturedPlayer == null) return;
-            capturedPlayer.SetCapturedState(false);
-            capturedPlayer = null;
-            isHoldingPlayer = false;
-            isMovingToHoldPoint = false;
-            captureProgress = 0f;
+            if (_capturedPlayer == null) return;
+            _capturedPlayer.SetCapturedState(false);
+            _capturedPlayer = null;
+            _isHoldingPlayer = false;
+            _isMovingToHoldPoint = false;
+            _captureProgress = 0f;
         }
 
         public virtual void UpdatePlayerPosition(Transform holdPoint)
         {
-            if (!isHoldingPlayer || capturedPlayer == null || holdPoint == null) return;
+            if (!_isHoldingPlayer || _capturedPlayer == null || holdPoint == null) return;
 
-            if (isMovingToHoldPoint)
+            if (_isMovingToHoldPoint)
             {
-                captureProgress += Time.deltaTime * moveToHoldPointSpeed;
-                captureProgress = Mathf.Clamp01(captureProgress);
+                _captureProgress += Time.deltaTime * moveToHoldPointSpeed;
+                _captureProgress = Mathf.Clamp01(_captureProgress);
 
-                capturedPlayer.transform.position = Vector3.Lerp(captureStartPosition, holdPoint.position, captureProgress);
-                capturedPlayer.transform.rotation = Quaternion.Slerp(
-                    capturedPlayer.transform.rotation,
+                _capturedPlayer.transform.position = Vector3.Lerp(_captureStartPosition, holdPoint.position, _captureProgress);
+                _capturedPlayer.transform.rotation = Quaternion.Slerp(
+                    _capturedPlayer.transform.rotation,
                     holdPoint.rotation,
                     rotationSpeed * Time.deltaTime
                 );
 
-                if (captureProgress >= 1f)
-                    isMovingToHoldPoint = false;
+                if (_captureProgress >= 1f)
+                    _isMovingToHoldPoint = false;
             }
             else
             {
-                capturedPlayer.transform.position = holdPoint.position;
-                capturedPlayer.transform.rotation = holdPoint.rotation;
+                _capturedPlayer.transform.position = holdPoint.position;
+                _capturedPlayer.transform.rotation = holdPoint.rotation;
             }
         }
     }

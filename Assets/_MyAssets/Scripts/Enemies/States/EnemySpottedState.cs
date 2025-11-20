@@ -13,12 +13,12 @@ namespace CorrentesDaNoite.Enemies
             base.Enter();
             _spottedTimer = 0f;
 
-            controller.CancelSoundRotation();
+            _controller.CancelSoundRotation();
 
-            controller.Movement.Stop();
-            controller.AnimationController.SetWalking(false);
-            controller.AnimationController.SetRunning(false);
-            controller.AnimationController.SetSpotted();
+            _controller.Movement.Stop();
+            _controller.AnimationController.SetWalking(false);
+            _controller.AnimationController.SetRunning(false);
+            _controller.AnimationController.SetSpotted();
         }
 
         public override void Update()
@@ -27,19 +27,19 @@ namespace CorrentesDaNoite.Enemies
             _spottedTimer += Time.deltaTime;
             RotateTowardsPlayer();
 
-            if (_spottedTimer >= controller.SpottedDelay)
-                stateMachine.ChangeState(new EnemyChaseState(controller, stateMachine));
+            if (_spottedTimer >= _controller.SpottedDelay)
+                _stateMachine.ChangeState(new EnemyChaseState(_controller, _stateMachine));
         }
 
         protected void RotateTowardsPlayer()
         {
-            if (controller.PlayerTransform == null) return;
-            Vector3 directionToPlayer = (controller.PlayerTransform.position - controller.transform.position).normalized;
+            if (_controller.PlayerTransform == null) return;
+            Vector3 directionToPlayer = (_controller.PlayerTransform.position - _controller.transform.position).normalized;
             directionToPlayer.y = 0f;
             if (directionToPlayer != Vector3.zero)
             {
                 Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
-                controller.transform.rotation = Quaternion.Slerp(controller.transform.rotation, targetRotation, controller.TurnSpeed * Time.deltaTime);
+                _controller.transform.rotation = Quaternion.Slerp(_controller.transform.rotation, targetRotation, _controller.TurnSpeed * Time.deltaTime);
             }
         }
     }

@@ -24,24 +24,12 @@ namespace CorrentesDaNoite.Enemies
         [SerializeField] protected bool showDebugLogs = false;
         [SerializeField] protected bool showDebugGizmos = false;
 
-        protected EnemyController enemyController;
-        protected SphereCollider detectionCollider;
-        protected Vector3 lastHeardSoundPosition;
-        protected SoundType lastHeardSoundType;
-        protected float lastHeardSoundTime;
+        protected EnemyController _enemyController;
+        protected Vector3 _lastHeardSoundPosition;
+        protected SoundType _lastHeardSoundType;
+        protected float _lastHeardSoundTime;
 
-        protected virtual void Awake()
-        {
-            enemyController = GetComponent<EnemyController>();
-
-            detectionCollider = GetComponent<SphereCollider>();
-            if (detectionCollider == null)
-            {
-                detectionCollider = gameObject.AddComponent<SphereCollider>();
-                detectionCollider.isTrigger = true;
-                detectionCollider.radius = hearingRange;
-            }
-        }
+        protected virtual void Awake() => _enemyController = GetComponent<EnemyController>();
 
         public virtual void OnSoundHeard(SoundData sound)
         {
@@ -67,9 +55,9 @@ namespace CorrentesDaNoite.Enemies
             if (distanceToSound > effectiveRange)
                 return;
 
-            lastHeardSoundPosition = sound.position;
-            lastHeardSoundType = sound.soundType;
-            lastHeardSoundTime = Time.time;
+            _lastHeardSoundPosition = sound.position;
+            _lastHeardSoundType = sound.soundType;
+            _lastHeardSoundTime = Time.time;
 
             if (showDebugLogs)
             {
@@ -77,8 +65,8 @@ namespace CorrentesDaNoite.Enemies
                           $"a {distanceToSound:F1}m (range efetivo: {effectiveRange:F1}m)");
             }
 
-            if (enemyController != null)
-                enemyController.OnSoundHeard(sound, distanceToSound);
+            if (_enemyController != null)
+                _enemyController.OnSoundHeard(sound, distanceToSound);
         }
 
         protected virtual float GetSensitivityMultiplier(SoundType soundType)
@@ -95,17 +83,9 @@ namespace CorrentesDaNoite.Enemies
             };
         }
 
-        public virtual void SetHearingRange(float range)
-        {
-            hearingRange = range;
-            if (detectionCollider != null)
-                detectionCollider.radius = range;
-        }
+        public virtual void SetHearingRange(float range) => hearingRange = range;
 
-        public virtual void EnableDetection(bool enable)
-        {
-            enableSoundDetection = enable;
-        }
+        public virtual void EnableDetection(bool enable) => enableSoundDetection = enable;
 
         protected virtual void OnDrawGizmosSelected()
         {
@@ -117,19 +97,19 @@ namespace CorrentesDaNoite.Enemies
             Gizmos.color = Color.green;
             Gizmos.DrawWireSphere(transform.position, hearingRange);
 
-            if (Application.isPlaying && lastHeardSoundPosition != Vector3.zero)
+            if (Application.isPlaying && _lastHeardSoundPosition != Vector3.zero)
             {
-                float timeSinceHeard = Time.time - lastHeardSoundTime;
+                float timeSinceHeard = Time.time - _lastHeardSoundTime;
                 if (timeSinceHeard < 2f)
                 {
                     Gizmos.color = Color.yellow;
-                    Gizmos.DrawLine(transform.position, lastHeardSoundPosition);
-                    Gizmos.DrawWireSphere(lastHeardSoundPosition, 0.5f);
+                    Gizmos.DrawLine(transform.position, _lastHeardSoundPosition);
+                    Gizmos.DrawWireSphere(_lastHeardSoundPosition, 0.5f);
 
                     #if UNITY_EDITOR
                     UnityEditor.Handles.Label(
-                        lastHeardSoundPosition + Vector3.up,
-                        $"{lastHeardSoundType}\n{timeSinceHeard:F1}s ago",
+                        _lastHeardSoundPosition + Vector3.up,
+                        $"{_lastHeardSoundType}\n{timeSinceHeard:F1}s ago",
                         new GUIStyle()
                         {
                             normal = new GUIStyleState() { textColor = Color.yellow },

@@ -22,19 +22,18 @@ namespace CorrentesDaNoite.Enemies
 
             if (_patrolPoints == null || _patrolPoints.Length == 0)
             {
-                stateMachine.ChangeState(new EnemyIdleState(controller, stateMachine));
+                _stateMachine.ChangeState(new EnemyIdleState(_controller, _stateMachine));
                 return;
             }
 
-            controller.AnimationController.ResetAllTriggers();
-            controller.AnimationController.SetRunning(false);
-            controller.Movement.SetSpeed(controller.PatrolSpeed);
-            controller.Movement.SetAcceleration(16f);
+            _controller.AnimationController.ResetAllTriggers();
+            _controller.AnimationController.SetRunning(false);
+            _controller.Movement.SetSpeed(_controller.PatrolSpeed);
+            _controller.Movement.SetAcceleration(16f);
 
-            // Rotate towards patrol point before starting to move
             RotateTowardsCurrentPoint();
 
-            controller.AnimationController.SetWalking(true);
+            _controller.AnimationController.SetWalking(true);
             MoveToCurrentPoint();
         }
 
@@ -44,23 +43,19 @@ namespace CorrentesDaNoite.Enemies
 
             if (_patrolPoints == null || _patrolPoints.Length == 0) return;
 
-            bool isAlertedNow = controller.IsAlertedBySound;
-            bool isRotatingBack = controller.IsRotatingBackToPatrol;
+            bool isAlertedNow = _controller.IsAlertedBySound;
+            bool isRotatingBack = _controller.IsRotatingBackToPatrol;
 
-            // Pause patrol during alert, but don't block external state transitions
             if (isAlertedNow || isRotatingBack)
             {
-                // Ensure animations are stopped while alerted
-                controller.AnimationController.SetWalking(false);
-                controller.AnimationController.SetRunning(false);
+                _controller.AnimationController.SetWalking(false);
+                _controller.AnimationController.SetRunning(false);
 
                 if (isAlertedNow)
                     _wasAlertedLastFrame = true;
-                // Don't return - allow base.Update() and state machine to continue
             }
             else
             {
-                // Only process patrol logic when not alerted
                 if (_wasAlertedLastFrame)
                 {
                     _wasAlertedLastFrame = false;
@@ -83,19 +78,19 @@ namespace CorrentesDaNoite.Enemies
         public override void Exit()
         {
             base.Exit();
-            controller.Movement.Stop();
-            controller.AnimationController.SetWalking(false);
+            _controller.Movement.Stop();
+            _controller.AnimationController.SetWalking(false);
         }
 
         protected bool HasReachedCurrentPoint()
         {
-            return controller.Movement.HasReachedDestination(_arrivalThreshold);
+            return _controller.Movement.HasReachedDestination(_arrivalThreshold);
         }
 
         protected void MoveToCurrentPoint()
         {
             if (_currentPointIndex < _patrolPoints.Length)
-                controller.Movement.MoveTo(_patrolPoints[_currentPointIndex].position);
+                _controller.Movement.MoveTo(_patrolPoints[_currentPointIndex].position);
         }
 
         protected void RotateTowardsCurrentPoint()
@@ -103,13 +98,13 @@ namespace CorrentesDaNoite.Enemies
             if (_currentPointIndex >= _patrolPoints.Length || _patrolPoints[_currentPointIndex] == null)
                 return;
 
-            Vector3 direction = (_patrolPoints[_currentPointIndex].position - controller.transform.position).normalized;
+            Vector3 direction = (_patrolPoints[_currentPointIndex].position - _controller.transform.position).normalized;
             direction.y = 0f;
 
             if (direction != Vector3.zero)
             {
                 Quaternion targetRotation = Quaternion.LookRotation(direction);
-                controller.transform.rotation = targetRotation;
+                _controller.transform.rotation = targetRotation;
             }
         }
     }

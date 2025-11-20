@@ -9,8 +9,8 @@ namespace CorrentesDaNoite.Enemies
         [SerializeField] protected bool checkLineOfSight = true;
         [SerializeField] protected Transform detectionPoint;
 
-        protected Transform playerInSphere;
-        protected bool hasDetected;
+        protected Transform _playerInSphere;
+        protected bool _hasDetected;
 
         protected override void Awake()
         {
@@ -34,19 +34,19 @@ namespace CorrentesDaNoite.Enemies
         {
             if (!detectionEnabled) return;
 
-            if (playerInSphere != null)
+            if (_playerInSphere != null)
             {
                 bool canSee = !checkLineOfSight || CheckLineOfSightToPlayer();
 
-                if (canSee && !hasDetected)
+                if (canSee && !_hasDetected)
                 {
-                    hasDetected = true;
-                    detectedTarget = playerInSphere;
+                    _hasDetected = true;
+                    _detectedTarget = _playerInSphere;
                 }
-                else if (!canSee && hasDetected)
+                else if (!canSee && _hasDetected)
                 {
-                    hasDetected = false;
-                    detectedTarget = null;
+                    _hasDetected = false;
+                    _detectedTarget = null;
                 }
             }
         }
@@ -57,12 +57,12 @@ namespace CorrentesDaNoite.Enemies
 
             if (IsPlayer(other))
             {
-                playerInSphere = other.transform;
+                _playerInSphere = other.transform;
 
                 if (!checkLineOfSight)
                 {
-                    hasDetected = true;
-                    detectedTarget = playerInSphere;
+                    _hasDetected = true;
+                    _detectedTarget = _playerInSphere;
                 }
             }
         }
@@ -73,22 +73,22 @@ namespace CorrentesDaNoite.Enemies
 
             if (IsPlayer(other))
             {
-                playerInSphere = null;
-                hasDetected = false;
-                detectedTarget = null;
+                _playerInSphere = null;
+                _hasDetected = false;
+                _detectedTarget = null;
             }
         }
 
         protected virtual bool CheckLineOfSightToPlayer()
         {
-            if (playerInSphere == null) return false;
+            if (_playerInSphere == null) return false;
 
-            Vector3 directionToPlayer = playerInSphere.position - detectionPoint.position;
+            Vector3 directionToPlayer = _playerInSphere.position - detectionPoint.position;
             float distanceToPlayer = directionToPlayer.magnitude;
 
             if (Physics.Raycast(detectionPoint.position, directionToPlayer.normalized, out RaycastHit hit, distanceToPlayer, obstacleLayer))
             {
-                if (hit.transform != playerInSphere)
+                if (hit.transform != _playerInSphere)
                 {
                     return false;
                 }
@@ -111,7 +111,7 @@ namespace CorrentesDaNoite.Enemies
 
         public override bool CheckForTarget()
         {
-            return hasDetected && detectedTarget != null;
+            return _hasDetected && _detectedTarget != null;
         }
 
         public void SetDetectionRadius(float radius)
@@ -123,14 +123,14 @@ namespace CorrentesDaNoite.Enemies
 
         void OnDrawGizmosSelected()
         {
-            Gizmos.color = hasDetected ? Color.red : Color.cyan;
+            Gizmos.color = _hasDetected ? Color.red : Color.cyan;
             Vector3 center = detectionPoint != null ? detectionPoint.position : transform.position;
             Gizmos.DrawWireSphere(center, detectionRadius);
 
-            if (playerInSphere != null)
+            if (_playerInSphere != null)
             {
-                Gizmos.color = hasDetected ? Color.green : Color.yellow;
-                Gizmos.DrawLine(center, playerInSphere.position);
+                Gizmos.color = _hasDetected ? Color.green : Color.yellow;
+                Gizmos.DrawLine(center, _playerInSphere.position);
             }
         }
     }

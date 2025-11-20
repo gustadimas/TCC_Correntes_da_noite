@@ -18,21 +18,21 @@ namespace CorrentesDaNoite.Enemies
             _captureTimer = 0f;
             _deathTriggered = false;
 
-            controller.Movement.Stop();
-            controller.AnimationController.SetRunning(false);
-            controller.AnimationController.SetWalking(false);
-            controller.AnimationController.SetCapture();
+            _controller.Movement.Stop();
+            _controller.AnimationController.SetRunning(false);
+            _controller.AnimationController.SetWalking(false);
+            _controller.AnimationController.SetCapture();
 
-            _captureHandler = controller.CaptureHandler;
-            if (_captureHandler != null && controller.PlayerTransform != null)
+            _captureHandler = _controller.CaptureHandler;
+            if (_captureHandler != null && _controller.PlayerTransform != null)
             {
-                PlayerController player = controller.Player;
+                PlayerController player = _controller.Player;
 
-                if (player != null && controller.PlayerHoldPoint != null)
-                    _captureHandler.CapturePlayer(player, controller.PlayerHoldPoint);
+                if (player != null && _controller.PlayerHoldPoint != null)
+                    _captureHandler.CapturePlayer(player, _controller.PlayerHoldPoint);
             }
 
-            controller.OnPlayerCaptured?.Invoke();
+            _controller.OnPlayerCaptured?.Invoke();
         }
 
         public override void Update()
@@ -50,7 +50,7 @@ namespace CorrentesDaNoite.Enemies
                 if (_captureHandler != null)
                     _captureHandler.ReleasePlayer();
 
-                PlayerDeath playerDeath = controller.Player?.GetComponent<PlayerDeath>();
+                PlayerDeath playerDeath = _controller.Player?.GetComponent<PlayerDeath>();
 
                 if (playerDeath != null)
                     playerDeath.DieFromCapture();
@@ -58,8 +58,8 @@ namespace CorrentesDaNoite.Enemies
                 return;
             }
 
-            if (_captureHandler != null && controller.PlayerHoldPoint != null)
-                _captureHandler.UpdatePlayerPosition(controller.PlayerHoldPoint);
+            if (_captureHandler != null && _controller.PlayerHoldPoint != null)
+                _captureHandler.UpdatePlayerPosition(_controller.PlayerHoldPoint);
         }
 
         public override void Exit()
@@ -69,9 +69,9 @@ namespace CorrentesDaNoite.Enemies
             if (_captureHandler != null)
                 _captureHandler.ReleasePlayer();
 
-            controller.AnimationController.SetWalking(false);
-            controller.AnimationController.SetRunning(false);
-            controller.AnimationController.ResetAllTriggers();
+            _controller.AnimationController.SetWalking(false);
+            _controller.AnimationController.SetRunning(false);
+            _controller.AnimationController.ResetAllTriggers();
         }
     }
 }

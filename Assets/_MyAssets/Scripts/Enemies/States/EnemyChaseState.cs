@@ -13,13 +13,12 @@ namespace CorrentesDaNoite.Enemies
         {
             base.Enter();
 
-            // Clear any sound alert flags - chase has priority
-            controller.CancelSoundRotation();
+            _controller.CancelSoundRotation();
 
-            controller.Movement.SetSpeed(controller.ChaseSpeed);
-            controller.Movement.SetAcceleration(32f);
-            controller.AnimationController.SetRunning(true);
-            controller.SetLanternVisible(false);
+            _controller.Movement.SetSpeed(_controller.ChaseSpeed);
+            _controller.Movement.SetAcceleration(32f);
+            _controller.AnimationController.SetRunning(true);
+            _controller.SetLanternVisible(false);
 
             _pathUpdateTimer = 0f;
         }
@@ -28,30 +27,30 @@ namespace CorrentesDaNoite.Enemies
         {
             base.Update();
 
-            if (controller.PlayerTransform == null) return;
+            if (_controller.PlayerTransform == null) return;
 
             _pathUpdateTimer += Time.deltaTime;
             if (_pathUpdateTimer >= _updatePathInterval)
             {
-                controller.Movement.MoveTo(controller.PlayerTransform.position);
+                _controller.Movement.MoveTo(_controller.PlayerTransform.position);
                 _pathUpdateTimer = 0f;
             }
 
             float distanceToPlayer = Vector3.Distance(
-                controller.transform.position,
-                controller.PlayerTransform.position
+                _controller.transform.position,
+                _controller.PlayerTransform.position
             );
 
-            if (distanceToPlayer <= controller.CaptureDistance)
-                stateMachine.ChangeState(new EnemyCaptureState(controller, stateMachine));
+            if (distanceToPlayer <= _controller.CaptureDistance)
+                _stateMachine.ChangeState(new EnemyCaptureState(_controller, _stateMachine));
         }
 
         public override void Exit()
         {
             base.Exit();
 
-            controller.Movement.SetAcceleration(16f);
-            controller.AnimationController.SetRunning(false);
+            _controller.Movement.SetAcceleration(16f);
+            _controller.AnimationController.SetRunning(false);
         }
     }
 }

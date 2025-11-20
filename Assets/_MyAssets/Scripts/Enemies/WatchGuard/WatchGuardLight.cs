@@ -26,14 +26,14 @@ namespace CorrentesDaNoite.Enemies
         [Header("Debug")]
         [SerializeField] protected bool drawGizmos = false;
 
-        protected Collider trigger;
-        protected bool isKilling;
-        protected bool isActive = true;
+        protected Collider _trigger;
+        protected bool _isKilling;
+        protected bool _isActive = true;
 
         void Awake()
         {
-            trigger = GetComponent<Collider>();
-            trigger.isTrigger = true;
+            _trigger = GetComponent<Collider>();
+            _trigger.isTrigger = true;
 
             if (spotLight == null)
                 spotLight = GetComponentInChildren<Light>();
@@ -70,7 +70,7 @@ namespace CorrentesDaNoite.Enemies
 
         public void SetLightActive(bool enabled)
         {
-            isActive = enabled;
+            _isActive = enabled;
 
             if (spotLight != null)
             {
@@ -84,7 +84,7 @@ namespace CorrentesDaNoite.Enemies
             if (!IsPlayer(other))
                 return;
 
-            if (!isActive)
+            if (!_isActive)
                 return;
 
             Vector3 targetPosition = other.transform.position;
@@ -94,19 +94,19 @@ namespace CorrentesDaNoite.Enemies
             if (checkLineOfSight && !HasLineOfSight(targetPosition, other))
                 return;
 
-            if (!isKilling)
+            if (!_isKilling)
                 StartCoroutine(KillRoutine(other.gameObject));
         }
 
         IEnumerator KillRoutine(GameObject player)
         {
-            isKilling = true;
+            _isKilling = true;
 
             if (killDelay > 0f)
                 yield return new WaitForSeconds(killDelay);
 
             KillPlayer(player);
-            isKilling = false;
+            _isKilling = false;
         }
 
         bool IsPlayer(Collider other)
@@ -167,7 +167,7 @@ namespace CorrentesDaNoite.Enemies
 
         void OnDisable()
         {
-            isKilling = false;
+            _isKilling = false;
         }
 
         void OnDrawGizmosSelected()

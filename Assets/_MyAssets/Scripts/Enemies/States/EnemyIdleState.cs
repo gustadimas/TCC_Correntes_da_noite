@@ -19,22 +19,20 @@ namespace CorrentesDaNoite.Enemies
             _currentIdleTime = Random.Range(_idleTimeMin, _idleTimeMax);
             _idleTimer = 0f;
 
-            controller.Movement.Stop();
-            controller.AnimationController.ResetAllTriggers();
-            controller.AnimationController.SetRunning(false);
-            controller.AnimationController.SetWalking(false);
+            _controller.Movement.Stop();
+            _controller.AnimationController.ResetAllTriggers();
+            _controller.AnimationController.SetRunning(false);
+            _controller.AnimationController.SetWalking(false);
         }
 
         public override void Update()
         {
             base.Update();
 
-            // Pause idle timer during alert, but don't block state machine
-            if (controller.IsAlertedBySound || controller.IsRotatingBackToPatrol)
+            if (_controller.IsAlertedBySound || _controller.IsRotatingBackToPatrol)
             {
-                // Ensure animations are stopped while alerted (should already be idle, but enforce)
-                controller.AnimationController.SetWalking(false);
-                controller.AnimationController.SetRunning(false);
+                _controller.AnimationController.SetWalking(false);
+                _controller.AnimationController.SetRunning(false);
             }
             else
             {
@@ -42,8 +40,8 @@ namespace CorrentesDaNoite.Enemies
 
                 if (_idleTimer >= _currentIdleTime)
                 {
-                    if (controller.PatrolPoints != null && controller.PatrolPoints.Length > 0)
-                        stateMachine.ChangeState(new EnemyPatrolState(controller, stateMachine));
+                    if (_controller.PatrolPoints != null && _controller.PatrolPoints.Length > 0)
+                        _stateMachine.ChangeState(new EnemyPatrolState(_controller, _stateMachine));
                 }
             }
         }

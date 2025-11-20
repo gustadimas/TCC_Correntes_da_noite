@@ -419,11 +419,5 @@ namespace CorrentesDaNoite.Enemies
 
             return -1;
         }
-
-        protected virtual void OnValidate()
-        {
-            if (playerHoldPoint == null)
-                Debug.LogWarning($"[{gameObject.name}] PlayerHoldPoint não está configurado! Crie um Empty GameObject filho e atribua.", this);
-        }
     }
 }

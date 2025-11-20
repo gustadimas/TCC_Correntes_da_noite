@@ -4,25 +4,25 @@ namespace CorrentesDaNoite.Enemies
 {
     public class EnemyStateMachine
     {
-        EnemyState currentState;
+        EnemyState _currentState;
 
-        public EnemyState CurrentState => currentState;
+        public EnemyState CurrentState => _currentState;
 
         public void Initialize(EnemyState startingState)
         {
-            currentState = startingState;
-            currentState.Enter();
+            _currentState = startingState;
+            _currentState.Enter();
         }
 
         public void ChangeState(EnemyState newState)
         {
-            currentState?.Exit();
-            currentState = newState;
-            currentState?.Enter();
+            _currentState?.Exit();
+            _currentState = newState;
+            _currentState?.Enter();
         }
 
-        public void Update() => currentState?.Update();
+        public void Update() => _currentState?.Update();
 
-        public void FixedUpdate() => currentState?.FixedUpdate();
+        public void FixedUpdate() => _currentState?.FixedUpdate();
     }
 }

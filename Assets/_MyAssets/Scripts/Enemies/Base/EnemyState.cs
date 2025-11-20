@@ -4,13 +4,13 @@ namespace CorrentesDaNoite.Enemies
 {
     public abstract class EnemyState
     {
-        protected EnemyController controller;
-        protected EnemyStateMachine stateMachine;
+        protected EnemyController _controller;
+        protected EnemyStateMachine _stateMachine;
 
         protected EnemyState(EnemyController controller, EnemyStateMachine stateMachine)
         {
-            this.controller = controller;
-            this.stateMachine = stateMachine;
+            _controller = controller;
+            _stateMachine = stateMachine;
         }
 
         public virtual void Enter() { }

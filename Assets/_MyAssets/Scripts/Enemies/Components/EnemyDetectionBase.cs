@@ -10,19 +10,19 @@ namespace CorrentesDaNoite.Enemies
         [SerializeField] protected LayerMask obstacleLayer;
         [SerializeField] protected bool detectionEnabled = true;
 
-        protected Transform detectedTarget;
-        protected EnemyController enemyController;
+        protected Transform _detectedTarget;
+        protected EnemyController _enemyController;
 
         public float DetectionRadius => detectionRadius;
-        public Transform DetectedTarget => detectedTarget;
-        public bool HasDetectedTarget => detectedTarget != null;
+        public Transform DetectedTarget => _detectedTarget;
+        public bool HasDetectedTarget => _detectedTarget != null;
         public bool DetectionEnabled => detectionEnabled;
 
         protected virtual void Awake()
         {
-            enemyController = GetComponentInParent<EnemyController>();
-            if (enemyController == null)
-                enemyController = GetComponent<EnemyController>();
+            _enemyController = GetComponentInParent<EnemyController>();
+            if (_enemyController == null)
+                _enemyController = GetComponent<EnemyController>();
         }
 
         public virtual bool CheckForTarget()
@@ -30,7 +30,7 @@ namespace CorrentesDaNoite.Enemies
             return false;
         }
 
-        public virtual void ClearDetection() => detectedTarget = null;
+        public virtual void ClearDetection() => _detectedTarget = null;
 
         public abstract void EnableDetection(bool enable);
     }
