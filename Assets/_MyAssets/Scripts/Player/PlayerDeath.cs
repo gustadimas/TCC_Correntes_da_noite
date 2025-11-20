@@ -14,10 +14,9 @@ namespace CorrentesDaNoite.Player
                 Die();
         }
 
-        public void Die()
-        {
-            CheckpointManager.Instance?.RespawnPlayer(gameObject, false);
-        }
+        public void Die() => CheckpointManager.Instance?.RespawnPlayer(gameObject, false);
+
+        public void DieFromLight() => CheckpointManager.Instance?.RespawnPlayer(gameObject, true);
 
         public void DieFromCapture()
         {

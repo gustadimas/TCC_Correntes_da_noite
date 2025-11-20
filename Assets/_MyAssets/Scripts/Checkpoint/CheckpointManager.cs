@@ -16,9 +16,10 @@ namespace CorrentesDaNoite.Checkpoint
         [SerializeField] float delayBeforeRespawn = 0.5f;
         [SerializeField] bool resetAnimatorOnRespawn = true;
         [SerializeField] string deathAnimationTrigger = "";
-        [SerializeField] string capturedAnimationTrigger = "Struggling";
+        [SerializeField] string capturedAnimationTrigger = "";
+        [SerializeField] string defaultDeathReactionTrigger = "";
         [SerializeField] string respawnAnimationState = "";
-        [SerializeField] string idleAnimationState = "Idle";
+        [SerializeField] string idleAnimationState = "";
         [SerializeField] bool waitForRespawnAnimation = false;
         [SerializeField] bool usePersistentSave = false;
 
@@ -99,13 +100,13 @@ namespace CorrentesDaNoite.Checkpoint
             return _checkpoints.TryGetValue(checkpointId, out Checkpoint checkpoint) ? checkpoint : null;
         }
 
-        public void RespawnPlayer(GameObject player, bool fromCapture = false)
+        public void RespawnPlayer(GameObject player, bool fromCapture = false, string reactionTrigger = "")
         {
             if (_isRespawning || _currentCheckpoint == null) return;
-            StartCoroutine(RespawnSequence(player, fromCapture));
+            StartCoroutine(RespawnSequence(player, fromCapture, reactionTrigger));
         }
 
-        IEnumerator RespawnSequence(GameObject player, bool fromCapture)
+        IEnumerator RespawnSequence(GameObject player, bool fromCapture, string reactionTrigger)
         {
             _isRespawning = true;
 
@@ -129,9 +130,11 @@ namespace CorrentesDaNoite.Checkpoint
                 }
                 else
                 {
-                    string triggerToUse = deathAnimationTrigger;
-                    if (!string.IsNullOrEmpty(triggerToUse))
-                        animator.SetTrigger(triggerToUse);
+                    string reactionToUse = !string.IsNullOrEmpty(reactionTrigger) ? reactionTrigger : defaultDeathReactionTrigger;
+                    if (!string.IsNullOrEmpty(reactionToUse))
+                        animator.SetTrigger(reactionToUse);
+                    else if (!string.IsNullOrEmpty(deathAnimationTrigger))
+                        animator.SetTrigger(deathAnimationTrigger);
                 }
             }
 
@@ -186,10 +189,9 @@ namespace CorrentesDaNoite.Checkpoint
             if (_currentCheckpoint == null) return;
 
             var playerController = player.GetComponent<Player.PlayerController>();
+
             if (playerController != null)
-            {
                 playerController.SetCapturedState(false);
-            }
 
             CharacterController charController = player.GetComponent<CharacterController>();
             if (charController != null)

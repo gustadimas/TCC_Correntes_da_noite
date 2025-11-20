@@ -19,25 +19,25 @@ namespace CorrentesDaNoite.Enemies
 
         public virtual void SetWalking(bool isWalking)
         {
-            if (animator != null)
+            if (animator != null && HasParameter(walkingParameterName, AnimatorControllerParameterType.Bool))
                 animator.SetBool(walkingParameterName, isWalking);
         }
 
         public virtual void SetSpotted()
         {
-            if (animator != null)
+            if (animator != null && HasParameter(spottedTriggerName, AnimatorControllerParameterType.Trigger))
                 animator.SetTrigger(spottedTriggerName);
         }
 
         public virtual void SetRunning(bool isRunning)
         {
-            if (animator != null)
+            if (animator != null && HasParameter(isRunningParamName, AnimatorControllerParameterType.Bool))
                 animator.SetBool(isRunningParamName, isRunning);
         }
 
         public virtual void SetCapture()
         {
-            if (animator != null)
+            if (animator != null && HasParameter(captureTriggerName, AnimatorControllerParameterType.Trigger))
                 animator.SetTrigger(captureTriggerName);
         }
 
@@ -45,8 +45,10 @@ namespace CorrentesDaNoite.Enemies
         {
             if (animator != null)
             {
-                animator.ResetTrigger(spottedTriggerName);
-                animator.ResetTrigger(captureTriggerName);
+                if (HasParameter(spottedTriggerName, AnimatorControllerParameterType.Trigger))
+                    animator.ResetTrigger(spottedTriggerName);
+                if (HasParameter(captureTriggerName, AnimatorControllerParameterType.Trigger))
+                    animator.ResetTrigger(captureTriggerName);
             }
         }
 
@@ -54,13 +56,31 @@ namespace CorrentesDaNoite.Enemies
         {
             if (animator != null)
             {
-                animator.SetBool(walkingParameterName, false);
-                animator.SetBool(isRunningParamName, false);
-                animator.ResetTrigger(spottedTriggerName);
-                animator.ResetTrigger(captureTriggerName);
+                if (HasParameter(walkingParameterName, AnimatorControllerParameterType.Bool))
+                    animator.SetBool(walkingParameterName, false);
+                if (HasParameter(isRunningParamName, AnimatorControllerParameterType.Bool))
+                    animator.SetBool(isRunningParamName, false);
+                if (HasParameter(spottedTriggerName, AnimatorControllerParameterType.Trigger))
+                    animator.ResetTrigger(spottedTriggerName);
+                if (HasParameter(captureTriggerName, AnimatorControllerParameterType.Trigger))
+                    animator.ResetTrigger(captureTriggerName);
                 animator.Rebind();
                 animator.Update(0f);
             }
+        }
+
+        protected bool HasParameter(string paramName, AnimatorControllerParameterType type)
+        {
+            if (animator == null || string.IsNullOrEmpty(paramName))
+                return false;
+
+            foreach (var param in animator.parameters)
+            {
+                if (param.name == paramName && param.type == type)
+                    return true;
+            }
+
+            return false;
         }
     }
 }

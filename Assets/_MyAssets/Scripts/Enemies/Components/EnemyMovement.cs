@@ -87,9 +87,7 @@ namespace CorrentesDaNoite.Enemies
                 navMeshAgent.ResetPath();
             }
             else
-            {
                 transform.position = position;
-            }
         }
 
         public void SetSpeed(float speed)
@@ -102,8 +100,10 @@ namespace CorrentesDaNoite.Enemies
 
         public bool HasReachedDestination(float threshold = 0.5f)
         {
-            if (navMeshAgent == null || navMeshAgent.pathPending) return false;
-            if (!navMeshAgent.hasPath) return true;
+            if (navMeshAgent == null) return false;
+            if (navMeshAgent.pathPending) return false;
+            if (!navMeshAgent.hasPath) return false;
+            if (navMeshAgent.pathStatus == NavMeshPathStatus.PathInvalid) return false;
 
             float checkDistance = Mathf.Max(navMeshAgent.stoppingDistance, threshold);
             return navMeshAgent.remainingDistance <= checkDistance;
