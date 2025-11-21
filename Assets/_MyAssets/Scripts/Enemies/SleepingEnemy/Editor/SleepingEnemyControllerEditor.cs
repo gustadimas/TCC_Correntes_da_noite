@@ -7,6 +7,7 @@ namespace CorrentesDaNoite.Enemies
     [CanEditMultipleObjects]
     public class SleepingEnemyControllerEditor : Editor
     {
+        SerializedProperty sleepingEnemyConfig;
         SerializedProperty movement;
         SerializedProperty animationController;
         SerializedProperty sleepingAnimationController;
@@ -26,6 +27,7 @@ namespace CorrentesDaNoite.Enemies
             if (serializedObject == null || serializedObject.targetObject == null)
                 return;
 
+            sleepingEnemyConfig = serializedObject.FindProperty("sleepingEnemyConfig");
             movement = serializedObject.FindProperty("movement");
             animationController = serializedObject.FindProperty("animationController");
             sleepingAnimationController = serializedObject.FindProperty("sleepingAnimationController");
@@ -49,6 +51,7 @@ namespace CorrentesDaNoite.Enemies
             serializedObject.Update();
 
             EditorGUILayout.LabelField("Components", EditorStyles.boldLabel);
+            EditorGUILayout.PropertyField(sleepingEnemyConfig);
             EditorGUILayout.PropertyField(movement);
             EditorGUILayout.PropertyField(animationController);
             EditorGUILayout.PropertyField(sleepingAnimationController);

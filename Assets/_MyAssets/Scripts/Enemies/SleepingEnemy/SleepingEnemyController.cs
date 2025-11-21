@@ -4,6 +4,9 @@ namespace CorrentesDaNoite.Enemies
 {
     public class SleepingEnemyController : EnemyController
     {
+        [Header("Config")]
+        [SerializeField] protected SleepingEnemyConfig sleepingEnemyConfig;
+
         [Header("Sleeping Animations")]
         [SerializeField] protected SleepingEnemyAnimationController sleepingAnimationController;
         [SerializeField] protected string sleepingBoolParam = "isSleeping";
@@ -52,6 +55,45 @@ namespace CorrentesDaNoite.Enemies
         public void GoToSleeping() => _stateMachine.ChangeState(new SleepingEnemySleepingState(this, _stateMachine));
         public void GoToStartled() => _stateMachine.ChangeState(new SleepingEnemyStartledState(this, _stateMachine));
         public void GoToIdleReady() => _stateMachine.ChangeState(new SleepingEnemyIdleReadyState(this, _stateMachine));
+
+        protected override void ApplyConfig()
+        {
+            if (sleepingEnemyConfig != null) enemyConfig = sleepingEnemyConfig;
+
+            if (enemyConfig is SleepingEnemyConfig cfg)
+            {
+                patrolSpeed = cfg.patrolSpeed;
+                chaseSpeed = cfg.chaseSpeed;
+                turnSpeed = cfg.turnSpeed;
+                captureDistance = cfg.captureDistance;
+
+                startledDuration = cfg.startledDuration;
+
+                minSoundDistanceToReact = cfg.minSoundDistanceToReact;
+                soundsToTriggerChase = cfg.soundsToTriggerChase;
+                soundAlertDuration = cfg.soundAlertDuration;
+                soundRotationSpeed = cfg.soundRotationSpeed;
+                enableSoundReactions = cfg.enableSoundReactions;
+                reactToWalkingSounds = cfg.reactToWalkingSounds;
+                reactToRunningSounds = cfg.reactToRunningSounds;
+                reactToJumpingSounds = cfg.reactToJumpingSounds;
+
+                if (soundListener is SleepingEnemySoundListener sleepingListener)
+                {
+                    sleepingListener.ApplySleepingConfig(
+                        cfg.extraHearingRadius,
+                        cfg.sensitivityMultiplier,
+                        cfg.silenceTimeToSleep
+                    );
+                }
+
+                if (lightDetector != null)
+                    lightDetector.SetLightRadius(cfg.lightRadius);
+
+                if (soundListener != null)
+                    soundListener.SetHearingRange(cfg.hearingRange);
+            }
+        }
 
         protected void RecordInitialTransform()
         {

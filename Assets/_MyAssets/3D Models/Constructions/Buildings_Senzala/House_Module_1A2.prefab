@@ -445,6 +445,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4900749915421080}
+  - component: {fileID: 6292957769741957298}
   m_Layer: 0
   m_Name: House_Module_1A2
   m_TagString: Untagged
@@ -485,6 +486,27 @@ Transform:
   - {fileID: 4815729890175342}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &6292957769741957298
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1320280388174432}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 13.4, y: 8.5, z: 18.3}
+  m_Center: {x: 6, y: 1.41, z: 6.03}
 --- !u!1 &1332770249265902
 GameObject:
   m_ObjectHideFlags: 0
@@ -1259,7 +1281,6 @@ GameObject:
   - component: {fileID: 4092540241421562}
   - component: {fileID: 33409437341555250}
   - component: {fileID: 23285483321838866}
-  - component: {fileID: 64922551963803206}
   m_Layer: 0
   m_Name: Foundation_2nd_Floor_1B6
   m_TagString: Untagged
@@ -1335,28 +1356,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &64922551963803206
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1691953181258972}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300054, guid: 96e10b818c260c0449b598abcdc0c394, type: 3}
 --- !u!1 &1746172206451388
 GameObject:
   m_ObjectHideFlags: 0
@@ -1368,7 +1367,6 @@ GameObject:
   - component: {fileID: 4901059174337402}
   - component: {fileID: 33473236542749554}
   - component: {fileID: 23661343951993704}
-  - component: {fileID: 64384987342024934}
   m_Layer: 0
   m_Name: Floor_1B2
   m_TagString: Untagged
@@ -1444,28 +1442,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &64384987342024934
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1746172206451388}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300008, guid: 96e10b818c260c0449b598abcdc0c394, type: 3}
 --- !u!1 &1749860789504294
 GameObject:
   m_ObjectHideFlags: 0
@@ -1804,7 +1780,6 @@ GameObject:
   - component: {fileID: 4861240495939256}
   - component: {fileID: 33834560151999084}
   - component: {fileID: 23636896468455708}
-  - component: {fileID: 64471211481486696}
   m_Layer: 8
   m_Name: Foundation_1st_Floor_1B1
   m_TagString: Untagged
@@ -1880,28 +1855,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &64471211481486696
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1892630342646890}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300092, guid: 96e10b818c260c0449b598abcdc0c394, type: 3}
 --- !u!1 &1992632467406424
 GameObject:
   m_ObjectHideFlags: 0

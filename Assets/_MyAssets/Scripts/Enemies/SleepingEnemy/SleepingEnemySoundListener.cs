@@ -64,5 +64,12 @@ namespace CorrentesDaNoite.Enemies
             if (currentState is SleepingEnemyStartledState)
                 SleepingController.GoToIdleReady();
         }
+
+        public void ApplySleepingConfig(float extraRadius, float sensitivity, float silenceTime)
+        {
+            extraHearingRadius = extraRadius;
+            sensitivityMultiplier = sensitivity;
+            startledSilenceTime = silenceTime;
+        }
     }
 }

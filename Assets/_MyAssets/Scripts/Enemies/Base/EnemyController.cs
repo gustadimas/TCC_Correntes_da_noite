@@ -5,6 +5,9 @@ namespace CorrentesDaNoite.Enemies
 {
     public class EnemyController : MonoBehaviour
     {
+        [Header("Config")]
+        [SerializeField] protected EnemyConfig enemyConfig;
+
         [Header("Components")]
         [SerializeField] protected EnemyMovement movement;
         [SerializeField] protected EnemyAnimationController animationController;
@@ -68,6 +71,7 @@ namespace CorrentesDaNoite.Enemies
         public LightDetector LightDetector => lightDetector;
         public EnemySoundListener SoundListener => soundListener;
         public CaptureHandler CaptureHandler => captureHandler;
+        public EnemyConfig EnemyConfig => enemyConfig;
         public EnemyStateMachine StateMachine => _stateMachine;
         public Transform[] PatrolPoints => patrolPoints;
         public float PatrolSpeed => patrolSpeed;
@@ -86,6 +90,7 @@ namespace CorrentesDaNoite.Enemies
         {
             _stateMachine = new EnemyStateMachine();
             InitializeComponents();
+            ApplyConfig();
         }
 
         protected virtual void Start()
@@ -229,6 +234,32 @@ namespace CorrentesDaNoite.Enemies
             if (lightDetector == null) lightDetector = GetComponent<LightDetector>();
             if (soundListener == null) soundListener = GetComponent<EnemySoundListener>();
             if (captureHandler == null) captureHandler = GetComponent<CaptureHandler>();
+        }
+
+        protected virtual void ApplyConfig()
+        {
+            if (enemyConfig == null) return;
+
+            patrolSpeed = enemyConfig.patrolSpeed;
+            chaseSpeed = enemyConfig.chaseSpeed;
+            turnSpeed = enemyConfig.turnSpeed;
+            captureDistance = enemyConfig.captureDistance;
+            spottedDelay = enemyConfig.spottedDelay;
+
+            minSoundDistanceToReact = enemyConfig.minSoundDistanceToReact;
+            soundsToTriggerChase = enemyConfig.soundsToTriggerChase;
+            soundAlertDuration = enemyConfig.soundAlertDuration;
+            soundRotationSpeed = enemyConfig.soundRotationSpeed;
+            enableSoundReactions = enemyConfig.enableSoundReactions;
+            reactToWalkingSounds = enemyConfig.reactToWalkingSounds;
+            reactToRunningSounds = enemyConfig.reactToRunningSounds;
+            reactToJumpingSounds = enemyConfig.reactToJumpingSounds;
+
+            if (lightDetector != null)
+                lightDetector.SetLightRadius(enemyConfig.lightRadius);
+
+            if (soundListener != null)
+                soundListener.SetHearingRange(enemyConfig.hearingRange);
         }
 
         protected virtual void InitializeStateMachine()

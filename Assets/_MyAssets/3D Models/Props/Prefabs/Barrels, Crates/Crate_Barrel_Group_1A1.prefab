@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4370474876899316}
   - component: {fileID: 33944532878885826}
   - component: {fileID: 23214176291853080}
-  - component: {fileID: 64290922960058010}
+  - component: {fileID: 3452030225423353476}
   - component: {fileID: 7062512074451214103}
   m_Layer: 0
   m_Name: Crate_Barrel_Group_1A1
@@ -88,8 +88,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &64290922960058010
-MeshCollider:
+--- !u!65 &3452030225423353476
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -106,10 +106,9 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300004, guid: a8b7dc87a190c1d4bbf904a4cd16bb27, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 2.3068483, y: 2.9409244, z: 2.211823}
+  m_Center: {x: -0.07919073, y: 1.4697231, z: 0.03257716}
 --- !u!114 &7062512074451214103
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -4,6 +4,9 @@ namespace CorrentesDaNoite.Enemies
 {
     public class WatchGuardController : EnemyController
     {
+        [Header("Config")]
+        [SerializeField] protected WatchGuardConfig watchGuardConfig;
+
         [Header("Watch Guard Settings")]
         [SerializeField] protected Transform[] guardPoints;
         [SerializeField] protected Transform[] lookTargets;
@@ -26,6 +29,20 @@ namespace CorrentesDaNoite.Enemies
         public bool LoopGuardPoints => loopGuardPoints;
         public WatchGuardAnimationController WatchAnimation => animationController as WatchGuardAnimationController;
         public WatchGuardLight GuardLight => _guardLight;
+
+        protected override void ApplyConfig()
+        {
+            enableSoundReactions = false;
+            if (watchGuardConfig != null)
+            {
+                guardMoveSpeed = watchGuardConfig.guardMoveSpeed;
+                arrivalThreshold = watchGuardConfig.guardArrivalThreshold;
+                lookRotationSpeed = watchGuardConfig.guardLookRotationSpeed;
+                lookDuration = watchGuardConfig.guardLookDuration;
+                lookAlignmentTolerance = watchGuardConfig.guardLookAlignmentTolerance;
+                loopGuardPoints = watchGuardConfig.guardLoopPoints;
+            }
+        }
 
         protected override void InitializeStateMachine()
         {

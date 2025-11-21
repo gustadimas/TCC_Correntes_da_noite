@@ -9,6 +9,7 @@ namespace CorrentesDaNoite.Enemies
     {
         SerializedProperty movement;
         SerializedProperty animationController;
+        SerializedProperty watchGuardConfig;
         SerializedProperty guardPoints;
         SerializedProperty lookTargets;
         SerializedProperty guardMoveSpeed;
@@ -25,6 +26,7 @@ namespace CorrentesDaNoite.Enemies
 
             movement = serializedObject.FindProperty("movement");
             animationController = serializedObject.FindProperty("animationController");
+            watchGuardConfig = serializedObject.FindProperty("watchGuardConfig");
             guardPoints = serializedObject.FindProperty("guardPoints");
             lookTargets = serializedObject.FindProperty("lookTargets");
             guardMoveSpeed = serializedObject.FindProperty("guardMoveSpeed");
@@ -43,6 +45,7 @@ namespace CorrentesDaNoite.Enemies
             serializedObject.Update();
 
             EditorGUILayout.LabelField("Components", EditorStyles.boldLabel);
+            EditorGUILayout.PropertyField(watchGuardConfig);
             EditorGUILayout.PropertyField(movement);
             EditorGUILayout.PropertyField(animationController);
 
