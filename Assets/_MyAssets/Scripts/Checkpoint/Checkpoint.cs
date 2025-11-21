@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using CorrentesDaNoite.Camera;
 
 namespace CorrentesDaNoite.Checkpoint
@@ -71,7 +71,7 @@ namespace CorrentesDaNoite.Checkpoint
 
             UnityEditor.Handles.Label(
                 transform.position + Vector3.up * 2f,
-                $"💾 {checkpointName}\n[{checkpointId}]\n{cameraDirection} ({(int)cameraDirection}°)",
+                $"Checkpoint: {checkpointName}\n[{checkpointId}]\n{cameraDirection} ({(int)cameraDirection} deg)",
                 new GUIStyle()
                 {
                     normal = { textColor = _isActive ? Color.green : gizmoColor },

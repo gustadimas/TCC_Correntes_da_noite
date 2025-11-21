@@ -93,8 +93,20 @@ namespace CorrentesDaNoite.Enemies
                 return false;
 
             float distance = Mathf.Sqrt(toPlayer.sqrMagnitude);
-            if (Physics.Raycast(origin, toPlayer.normalized, out RaycastHit hit, distance, obstructionMask))
-                return hit.transform == playerTransform;
+            if (Physics.Raycast(
+                    origin,
+                    toPlayer.normalized,
+                    out RaycastHit hit,
+                    distance,
+                    obstructionMask,
+                    QueryTriggerInteraction.Ignore))
+            {
+                bool hitSelf = hit.transform == transform || hit.transform.IsChildOf(transform);
+                if (hitSelf)
+                    return true;
+
+                return hit.transform == playerTransform || hit.transform.IsChildOf(playerTransform);
+            }
 
             return true;
         }

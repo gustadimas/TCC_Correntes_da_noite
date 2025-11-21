@@ -165,13 +165,18 @@ namespace CorrentesDaNoite.Checkpoint
                 yield return null;
                 AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 
-                while (!stateInfo.IsName(respawnAnimationState))
+                float safetyTimer = 0f;
+                const float maxWait = 3f;
+
+                while (!stateInfo.IsName(respawnAnimationState) && safetyTimer < maxWait)
                 {
                     yield return null;
+                    safetyTimer += Time.deltaTime;
                     stateInfo = animator.GetCurrentAnimatorStateInfo(0);
                 }
 
-                yield return new WaitForSeconds(stateInfo.length);
+                if (stateInfo.IsName(respawnAnimationState))
+                    yield return new WaitForSeconds(stateInfo.length);
             }
 
             if (animator != null && !string.IsNullOrEmpty(idleAnimationState))

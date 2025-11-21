@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using CorrentesDaNoite.Camera;
 
 namespace CorrentesDaNoite.Teleport
@@ -59,7 +59,7 @@ namespace CorrentesDaNoite.Teleport
 
             UnityEditor.Handles.Label(
                 transform.position + Vector3.up * 2f,
-                $"🎯 {destinationName}\n{cameraDirection} ({(int)cameraDirection}°)",
+                $"Destino: {destinationName}\n{cameraDirection} ({(int)cameraDirection} deg)",
                 new GUIStyle()
                 {
                     normal = { textColor = gizmoColor },

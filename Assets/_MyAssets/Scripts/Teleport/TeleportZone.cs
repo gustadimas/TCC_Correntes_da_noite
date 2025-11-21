@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using CorrentesDaNoite.UI;
 
@@ -195,7 +195,7 @@ namespace CorrentesDaNoite.Teleport
 
             UnityEditor.Handles.Label(
                 transform.position + Vector3.up * 2f,
-                $"🌀 {gameObject.name} {status}\n→ {destName}",
+                $"Teleport: {gameObject.name} {status}\nDestino: {destName}",
                 new GUIStyle()
                 {
                     normal = { textColor = color },

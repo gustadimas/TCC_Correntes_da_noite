@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using CorrentesDaNoite.Audio;
 
 namespace CorrentesDaNoite.Enemies
@@ -46,11 +46,8 @@ namespace CorrentesDaNoite.Enemies
             }
 
             float distanceToSound = Vector3.Distance(transform.position, sound.position);
-
-            if (distanceToSound > hearingRange)
-                return;
-
-            float effectiveRange = sound.range * GetSensitivityMultiplier(sound.soundType);
+            float baseRange = Mathf.Max(hearingRange, sound.range);
+            float effectiveRange = baseRange * GetSensitivityMultiplier(sound.soundType);
 
             if (distanceToSound > effectiveRange)
                 return;
@@ -124,3 +121,7 @@ namespace CorrentesDaNoite.Enemies
         }
     }
 }
+
+
+
+

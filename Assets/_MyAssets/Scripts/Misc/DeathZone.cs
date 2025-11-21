@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace CorrentesDaNoite
 {
@@ -45,7 +45,7 @@ namespace CorrentesDaNoite
 
             UnityEditor.Handles.Label(
                 transform.position + Vector3.up,
-                "☠️ DEATH ZONE",
+                "DEATH ZONE",
                 new GUIStyle()
                 {
                     normal = { textColor = gizmoColor },

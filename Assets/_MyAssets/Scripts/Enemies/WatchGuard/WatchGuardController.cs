@@ -32,16 +32,19 @@ namespace CorrentesDaNoite.Enemies
 
         protected override void ApplyConfig()
         {
+            base.ApplyConfig();
+
             enableSoundReactions = false;
-            if (watchGuardConfig != null)
-            {
-                guardMoveSpeed = watchGuardConfig.guardMoveSpeed;
-                arrivalThreshold = watchGuardConfig.guardArrivalThreshold;
-                lookRotationSpeed = watchGuardConfig.guardLookRotationSpeed;
-                lookDuration = watchGuardConfig.guardLookDuration;
-                lookAlignmentTolerance = watchGuardConfig.guardLookAlignmentTolerance;
-                loopGuardPoints = watchGuardConfig.guardLoopPoints;
-            }
+
+            if (watchGuardConfig == null)
+                return;
+
+            guardMoveSpeed = watchGuardConfig.guardMoveSpeed;
+            arrivalThreshold = watchGuardConfig.guardArrivalThreshold;
+            lookRotationSpeed = watchGuardConfig.guardLookRotationSpeed;
+            lookDuration = watchGuardConfig.guardLookDuration;
+            lookAlignmentTolerance = watchGuardConfig.guardLookAlignmentTolerance;
+            loopGuardPoints = watchGuardConfig.guardLoopPoints;
         }
 
         protected override void InitializeStateMachine()

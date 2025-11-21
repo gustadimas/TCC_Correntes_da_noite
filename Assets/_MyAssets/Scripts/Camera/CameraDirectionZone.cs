@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using Unity.Cinemachine;
 
 namespace CorrentesDaNoite.Camera
@@ -100,7 +100,7 @@ namespace CorrentesDaNoite.Camera
 
             UnityEditor.Handles.Label(
                 transform.position + Vector3.up * 2f,
-                $"📹 {gameObject.name}\n{cameraDirection} ({(int)cameraDirection}°)",
+                $"Camera Zone: {gameObject.name}\n{cameraDirection} ({(int)cameraDirection} deg)",
                 new GUIStyle()
                 {
                     normal = { textColor = gizmoColor },
