@@ -282,6 +282,21 @@ namespace CorrentesDaNoite.Enemies
 
         public virtual void OnPlayerLostFromLight() { }
 
+        public virtual void OnVisionAggro()
+        {
+            if (_stateMachine == null)
+                return;
+
+            if (_playerTransform == null)
+                CachePlayerReference();
+
+            if (_stateMachine.CurrentState is EnemyChaseState or EnemyCaptureState or EnemySpottedState)
+                return;
+
+            CancelSoundRotation();
+            _stateMachine.ChangeState(new EnemySpottedState(this, _stateMachine));
+        }
+
         public virtual void OnSoundHeard(Audio.SoundData sound, float distanceToSound)
         {
             if (!enableSoundReactions) return;
