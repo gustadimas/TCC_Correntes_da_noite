@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using CorrentesDaNoite.UI;
+using CorrentesDaNoite;
 
 namespace CorrentesDaNoite.Teleport
 {
@@ -27,6 +28,9 @@ namespace CorrentesDaNoite.Teleport
         [Header("Debug")]
         [SerializeField] Color gizmoColor = Color.magenta;
         [SerializeField] bool showGizmo = true;
+        [Header("Map")]
+        [SerializeField] string targetMapId = "";
+        [SerializeField] MapActivationManager mapManager;
 
         bool _hasBeenUsed;
         bool _isTeleporting;
@@ -41,6 +45,9 @@ namespace CorrentesDaNoite.Teleport
                 audioSource = gameObject.AddComponent<AudioSource>();
                 audioSource.playOnAwake = false;
             }
+
+            if (mapManager == null)
+                mapManager = FindFirstObjectByType<MapActivationManager>();
         }
 
         void OnTriggerEnter(Collider other)
@@ -137,6 +144,8 @@ namespace CorrentesDaNoite.Teleport
             }
 
             destination.ActivateCamera(player.transform);
+            if (mapManager != null && !string.IsNullOrEmpty(targetMapId))
+                mapManager.ActivateMap(targetMapId);
 
             if (animator != null)
             {

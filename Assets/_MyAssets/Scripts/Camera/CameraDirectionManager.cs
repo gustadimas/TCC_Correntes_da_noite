@@ -39,7 +39,7 @@ namespace CorrentesDaNoite.Camera
         public Vector3 GetCurrentForwardDirection() => GetCurrentRotationQuaternion() * Vector3.forward;
         public Vector3 GetCurrentRightDirection() => GetCurrentRotationQuaternion() * Vector3.right;
 
-        public Vector3 ConvertInputToWorldDirection(Vector2 input)
+        public Vector3 ConvertInputToWorldDirection(Vector2 input, bool invertHorizontal = false)
         {
             Vector3 forward = GetCurrentForwardDirection();
             Vector3 right = GetCurrentRightDirection();
@@ -49,7 +49,39 @@ namespace CorrentesDaNoite.Camera
             forward.Normalize();
             right.Normalize();
 
-            return (right * input.x + forward * input.y).normalized;
+            float x = invertHorizontal ? -input.x : input.x;
+            return (right * x + forward * input.y).normalized;
+        }
+
+        public void SetDirectionFromCamera(Transform cameraTransform, bool invertForward = false)
+        {
+            if (cameraTransform == null) return;
+
+            Vector3 forward = invertForward ? -cameraTransform.forward : cameraTransform.forward;
+            forward.y = 0f;
+
+            if (forward.sqrMagnitude < 0.0001f)
+                return;
+
+            forward.Normalize();
+            float angle = Mathf.Atan2(forward.x, forward.z) * Mathf.Rad2Deg;
+            float snapped = Mathf.Round(angle / 90f) * 90f;
+
+            // Normaliza para -180..180
+            if (snapped > 180f) snapped -= 360f;
+            if (snapped <= -180f) snapped += 360f;
+
+            CameraDirection newDir = CameraDirection.North;
+            if (Mathf.Approximately(snapped, 180f) || Mathf.Approximately(snapped, -180f))
+                newDir = CameraDirection.South;
+            else if (Mathf.Approximately(snapped, 90f))
+                newDir = CameraDirection.West;
+            else if (Mathf.Approximately(snapped, -90f))
+                newDir = CameraDirection.East;
+            else
+                newDir = CameraDirection.North;
+
+            OnCameraDirectionChanged(newDir);
         }
     }
 }
