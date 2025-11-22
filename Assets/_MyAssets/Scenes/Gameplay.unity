@@ -6563,7 +6563,7 @@ MonoBehaviour:
   walkingSensitivity: 1
   runningSensitivity: 1
   jumpingSensitivity: 1
-  landingSensitivity: 1
+  landingSensitivity: 0
   showDebugLogs: 0
   showDebugGizmos: 1
 --- !u!114 &155376106
@@ -10118,7 +10118,7 @@ MonoBehaviour:
   walkingSensitivity: 1
   runningSensitivity: 1
   jumpingSensitivity: 1
-  landingSensitivity: 1
+  landingSensitivity: 0
   showDebugLogs: 1
   showDebugGizmos: 1
   extraHearingRadius: 2
@@ -27156,7 +27156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 442d487e4d10f2a45bb601a1f9cdabbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveToHoldPointSpeed: 1.5
+  moveToHoldPointSpeed: 1
   rotationSpeed: 8
 --- !u!136 &601350502
 CapsuleCollider:
@@ -48571,7 +48571,7 @@ MonoBehaviour:
   walkingSensitivity: 1
   runningSensitivity: 1
   jumpingSensitivity: 1
-  landingSensitivity: 1
+  landingSensitivity: 0
   showDebugLogs: 1
   showDebugGizmos: 1
   extraHearingRadius: 2
@@ -58649,7 +58649,7 @@ MonoBehaviour:
   walkingSensitivity: 1
   runningSensitivity: 1
   jumpingSensitivity: 1
-  landingSensitivity: 1
+  landingSensitivity: 0
   showDebugLogs: 0
   showDebugGizmos: 1
 --- !u!114 &1385633287
@@ -64953,7 +64953,7 @@ MonoBehaviour:
   walkingSensitivity: 1
   runningSensitivity: 1
   jumpingSensitivity: 1
-  landingSensitivity: 1
+  landingSensitivity: 0
   showDebugLogs: 0
   showDebugGizmos: 1
 --- !u!114 &1526537952
@@ -91481,7 +91481,7 @@ MonoBehaviour:
   walkingSensitivity: 1
   runningSensitivity: 1
   jumpingSensitivity: 1
-  landingSensitivity: 1
+  landingSensitivity: 0
   showDebugLogs: 1
   showDebugGizmos: 1
   extraHearingRadius: 2
@@ -91991,7 +91991,7 @@ MonoBehaviour:
   walkingSensitivity: 1
   runningSensitivity: 1
   jumpingSensitivity: 1
-  landingSensitivity: 1
+  landingSensitivity: 0
   showDebugLogs: 0
   showDebugGizmos: 1
 --- !u!114 &9192132949333104924
