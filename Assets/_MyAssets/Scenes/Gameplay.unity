@@ -17760,6 +17760,7 @@ Transform:
   m_Children:
   - {fileID: 1252236800}
   - {fileID: 1837554021}
+  - {fileID: 1450836635}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &364063904
@@ -50004,7 +50005,7 @@ MonoBehaviour:
   slowMoDuration: 2
   tutorialUI: {fileID: 574493082}
   slowMotionRunPrompt: "N\xC3O PARE DE CORRER!"
-  slowMotionPromptDelay: 0.2
+  slowMotionPromptDelay: 0.7
   respawnResetDelay: 2
 --- !u!1001 &1111980123
 PrefabInstance:
@@ -59102,7 +59103,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1293546419
 Transform:
   m_ObjectHideFlags: 0
@@ -66364,6 +66365,92 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.38997105, y: 14.33, z: 2.4999995}
   m_Center: {x: -0.000015258789, y: 0.48647094, z: 0}
+--- !u!1 &1450836634
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1450836635}
+  - component: {fileID: 1450836636}
+  - component: {fileID: 1450836637}
+  m_Layer: 0
+  m_Name: EndChaseTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1450836635
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1450836634}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -31.5, y: -0.70000005, z: -130.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 363736555}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!65 &1450836636
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1450836634}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 30.47, y: 16.97, z: 0.2}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1450836637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1450836634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: daa1dfff7f6442c41be56adf1353df8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sequenceController: {fileID: 1107958646}
+  playerOverride: {fileID: 279207451}
+  playerAnimatorOverride: {fileID: 279207453}
+  endRunTarget: {fileID: 1896077117}
+  endRunSpeed: 6
+  stopDistance: 1
+  maxRunDuration: 8.5
+  triggerOnce: 1
+  endCamera: {fileID: 1293546421}
+  nextSceneName: Final
+  fadeDuration: 1.5
+  fadeColor: {r: 0, g: 0, b: 0, a: 1}
+  tutorialUI: {fileID: 574493082}
+  runPrompt: Apenas Corra!
+  promptDelay: 0.1
+  stopEnemyChase: 1
+  disableEnemyOnEnd: 1
+  runStateName: Running
+  runBoolName: IsRunning
+  speedFloatName: Speed
 --- !u!4 &1452274959 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4429213976148150, guid: 198c888ec537ea64f9c88fbedf6d05aa, type: 3}
@@ -85454,7 +85541,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1896077117}
   - component: {fileID: 1896077119}
-  - component: {fileID: 1896077118}
   m_Layer: 0
   m_Name: TP_Zone_End
   m_TagString: Untagged
@@ -85477,34 +85563,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 991749835}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1896077118
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1896077116}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 607bd22fbe8047b419f990059b904808, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  destination: {fileID: 237592936}
-  oneTimeUse: 1
-  triggerDelay: 0
-  fadeDuration: 5
-  fadeColor: {r: 0, g: 0, b: 0, a: 1}
-  enterAnimationTrigger: IsTeleporting
-  teleportAnimationState: Getting Up
-  idleAnimationState: Idle
-  resetAnimatorOnTeleport: 1
-  waitForTeleportAnimation: 0
-  teleportSound: {fileID: 0}
-  audioSource: {fileID: 0}
-  gizmoColor: {r: 1, g: 0, b: 1, a: 1}
-  showGizmo: 1
-  targetMapId: mata
-  mapManager: {fileID: 1032885174}
 --- !u!65 &1896077119
 BoxCollider:
   m_ObjectHideFlags: 0
