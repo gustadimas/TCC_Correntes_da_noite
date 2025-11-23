@@ -1462,7 +1462,7 @@ GameObject:
   - component: {fileID: 38277021}
   - component: {fileID: 38277022}
   m_Layer: 0
-  m_Name: CM_PlayerFace
+  m_Name: CMPlayerFace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2833,7 +2833,7 @@ GameObject:
   m_Component:
   - component: {fileID: 72486935}
   m_Layer: 0
-  m_Name: Enemies_Casa
+  m_Name: EnemiesCasa
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4021,7 +4021,7 @@ GameObject:
   m_Component:
   - component: {fileID: 106662069}
   m_Layer: 0
-  m_Name: Enemies_Senzala
+  m_Name: EnemiesSenzala
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6117,7 +6117,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 45
+  field of view: 55
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -6143,8 +6143,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 135168779}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.09229593, y: -0.7010574, z: 0.09229593, w: 0.7010574}
-  m_LocalPosition: {x: -151.1, y: 3.02, z: -139.90001}
+  m_LocalRotation: {x: 0.22436826, y: -0.6705661, z: 0.22436826, w: 0.6705661}
+  m_LocalPosition: {x: -156, y: 2.2, z: -140}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6162,7 +6162,7 @@ GameObject:
   - component: {fileID: 138725348}
   - component: {fileID: 138725347}
   m_Layer: 0
-  m_Name: TP_Zone_Casa
+  m_Name: TPZone_Casa
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11282,7 +11282,7 @@ GameObject:
   - component: {fileID: 237592937}
   - component: {fileID: 237592936}
   m_Layer: 0
-  m_Name: TP_Destination_Mata
+  m_Name: TPDestination_Mata
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12512,7 +12512,7 @@ GameObject:
   - component: {fileID: 265790530}
   - component: {fileID: 265790529}
   m_Layer: 0
-  m_Name: TP_Zone_Patio
+  m_Name: TPZone_Patio
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13276,7 +13276,7 @@ GameObject:
   - component: {fileID: 274679248}
   - component: {fileID: 274679250}
   m_Layer: 0
-  m_Name: TP_Zone_Senzala
+  m_Name: TPZone_Senzala
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13461,7 +13461,7 @@ GameObject:
   - component: {fileID: 279207457}
   - component: {fileID: 279207459}
   m_Layer: 3
-  m_Name: Player_Amara
+  m_Name: PlayerAmara
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23866,7 +23866,7 @@ GameObject:
   - component: {fileID: 486153037}
   - component: {fileID: 486153038}
   m_Layer: 0
-  m_Name: CM_GameplayChaseCamera
+  m_Name: CMGameplayChaseCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25506,7 +25506,7 @@ GameObject:
   - component: {fileID: 513597356}
   - component: {fileID: 513597357}
   m_Layer: 0
-  m_Name: CM_vcam_SemiIsometric
+  m_Name: CMvcamSemiIsometric
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32391,7 +32391,7 @@ GameObject:
   m_Component:
   - component: {fileID: 681952706}
   m_Layer: 0
-  m_Name: Enemies_Mata
+  m_Name: EnemiesMata
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33060,7 +33060,7 @@ GameObject:
   m_Component:
   - component: {fileID: 700392054}
   m_Layer: 0
-  m_Name: Enemies_Patio
+  m_Name: EnemiesPatio
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47937,7 +47937,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1042327025
 Transform:
   m_ObjectHideFlags: 0
@@ -57195,12 +57195,12 @@ GameObject:
   - component: {fileID: 1261752097}
   - component: {fileID: 1261752100}
   m_Layer: 0
-  m_Name: CM_vcam_StartSequence
+  m_Name: CMvcamStartSequence
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1261752097
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59130,7 +59130,7 @@ GameObject:
   - component: {fileID: 1293546421}
   - component: {fileID: 1293546420}
   m_Layer: 0
-  m_Name: CM_FinalChaseCamera
+  m_Name: CMFinalChaseCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -65858,7 +65858,7 @@ GameObject:
   - component: {fileID: 1439522748}
   - component: {fileID: 1439522749}
   m_Layer: 0
-  m_Name: CM_JungleIntro
+  m_Name: CMJungleIntro
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -68640,8 +68640,8 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1510059256}
   - {fileID: 574493081}
+  - {fileID: 1510059256}
   - {fileID: 1674081897}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -68862,8 +68862,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 193574292}
   - {fileID: 1650847872}
+  - {fileID: 193574292}
   - {fileID: 1660466974}
   - {fileID: 616275004}
   - {fileID: 338028097}
@@ -72642,7 +72642,7 @@ GameObject:
   - component: {fileID: 1571821495}
   - component: {fileID: 1571821494}
   m_Layer: 0
-  m_Name: Amara_RimLight
+  m_Name: AmaraRimLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -72824,7 +72824,7 @@ GameObject:
   - component: {fileID: 1575549857}
   - component: {fileID: 1575549856}
   m_Layer: 0
-  m_Name: TP_Destination_Casa
+  m_Name: TPDestination_Casa
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -74791,7 +74791,7 @@ GameObject:
   - component: {fileID: 1637192563}
   - component: {fileID: 1637192564}
   m_Layer: 0
-  m_Name: 'CM_EnemyReveal '
+  m_Name: 'CMEnemyReveal '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -84625,7 +84625,7 @@ GameObject:
   - component: {fileID: 1881867076}
   - component: {fileID: 1881867075}
   m_Layer: 0
-  m_Name: Amara_FillLight
+  m_Name: AmaraFillLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -85780,7 +85780,7 @@ GameObject:
   - component: {fileID: 1900871372}
   - component: {fileID: 1900871373}
   m_Layer: 0
-  m_Name: TP_Destination_Patio
+  m_Name: TPDestination_Patio
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -98418,6 +98418,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 608367464}
+  - {fileID: 363736555}
   - {fileID: 1831332925}
   - {fileID: 373196739}
   - {fileID: 280299621}
@@ -98428,4 +98429,3 @@ SceneRoots:
   - {fileID: 187621287}
   - {fileID: 733368467}
   - {fileID: 1499742809}
-  - {fileID: 363736555}

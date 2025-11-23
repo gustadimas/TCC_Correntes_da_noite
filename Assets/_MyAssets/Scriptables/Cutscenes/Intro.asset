@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36bfd4d25eb14214c8023b4e09305419, type: 3}
+  m_Name: Intro
+  m_EditorClassIdentifier: 
+  slides:
+  - image: {fileID: 21300000, guid: c4989eb3e5e9d614686db4f364e95392, type: 3}
+    text: "\"Na escurid\xE3o silenciosa da noite, a senzala respira tristeza e esperan\xE7a
+      contida.\""
+    minDisplayTime: 0.5
+    autoAdvanceTime: 6
+  - image: {fileID: 21300000, guid: 14cb9421a715ff84faf832df38ac765c, type: 3}
+    text: "\"Entre sombras, uma pequena menina observa o mundo al\xE9m das paredes
+      que a cercam.\""
+    minDisplayTime: 0.5
+    autoAdvanceTime: 6
+  - image: {fileID: 21300000, guid: 0a99f3bb814f624499c1952b147bbb63, type: 3}
+    text: "\"O velho gri\xF4 a encontra em sil\xEAncio. Seus passos carregam hist\xF3rias
+      que o tempo n\xE3o apagou.\""
+    minDisplayTime: 0.5
+    autoAdvanceTime: 6
+  - image: {fileID: 21300000, guid: 0f652a6cf54f14e478f4d2791b427f43, type: 3}
+    text: "\"Ele lhe oferece um colar de sementes. Dentro dele, mem\xF3rias de quem
+      tentou fugir antes.\""
+    minDisplayTime: 0.5
+    autoAdvanceTime: 6
+  - image: {fileID: 21300000, guid: 46d1c8cecb94f0d439f0a155cc781875, type: 3}
+    text: "\"Com o colar junto ao peito, Amara entende: esta \xE9 a noite em que
+      precisa encontrar seu pr\xF3prio caminho.\""
+    minDisplayTime: 0.5
+    autoAdvanceTime: 6
+  defaultMinDisplayTime: 0.5
+  defaultAutoAdvanceTime: 6

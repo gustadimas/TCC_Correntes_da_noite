@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36bfd4d25eb14214c8023b4e09305419, type: 3}
+  m_Name: Final
+  m_EditorClassIdentifier: 
+  slides:
+  - image: {fileID: 21300000, guid: 86e6fb8111a3f9d449d90fd54dda47a8, type: 3}
+    text: "\u201CAp\xF3s sua fuga, Amara corre pela mata escura. Cada passo ecoa
+      coragem e medo.\u201D"
+    minDisplayTime: 0.5
+    autoAdvanceTime: 6
+  - image: {fileID: 21300000, guid: c619393650915c64db84266cd1b3cbfe, type: 3}
+    text: "\u201CO engenho j\xE1 n\xE3o est\xE1 \xE0 vista\u2026 mas ainda vive em
+      suas lembran\xE7as.\u201D"
+    minDisplayTime: 0.5
+    autoAdvanceTime: 6
+  - image: {fileID: 21300000, guid: 61807775f4684bd4fa75984267f7da64, type: 3}
+    text: "\u201CEntre as \xE1rvores, surgem luzes. Um brilho quente que ela nunca
+      viu t\xE3o de perto.\u201D"
+    minDisplayTime: 0.5
+    autoAdvanceTime: 6
+  - image: {fileID: 21300000, guid: f83bde701606038438360118e0249799, type: 3}
+    text: "\u201CEla segue adiante. Pela primeira vez, o medo d\xE1 lugar ao al\xEDvio.\u201D"
+    minDisplayTime: 0.5
+    autoAdvanceTime: 6
+  - image: {fileID: 21300000, guid: beeb336cca8285c4e90a0146deb14e6c, type: 3}
+    text: "\u201CAo alcan\xE7ar o quilombo, Amara descobre algo que sempre foi seu
+      direito: a liberdade.\u201D"
+    minDisplayTime: 0.5
+    autoAdvanceTime: 6
+  defaultMinDisplayTime: 0.5
+  defaultAutoAdvanceTime: 6
