@@ -1,6 +1,6 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 
 namespace CorrentesDaNoite.UI
 {
@@ -16,7 +16,7 @@ namespace CorrentesDaNoite.UI
         bool _isFading;
         public bool IsFading => _isFading;
 
-        void Awake()
+        private void Awake()
         {
             if (Instance != null && Instance != this)
             {
@@ -42,8 +42,14 @@ namespace CorrentesDaNoite.UI
                 CanvasScaler scaler = canvasObj.AddComponent<CanvasScaler>();
                 scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
                 scaler.referenceResolution = new Vector2(1920, 1080);
-
-                canvasObj.AddComponent<GraphicRaycaster>();
+            }
+            else
+            {
+                GraphicRaycaster raycaster = fadeCanvas.GetComponent<GraphicRaycaster>();
+                if (raycaster != null)
+                {
+                    Destroy(raycaster);
+                }
             }
 
             if (fadeImage == null)
@@ -53,11 +59,16 @@ namespace CorrentesDaNoite.UI
 
                 fadeImage = imageObj.AddComponent<Image>();
                 fadeImage.color = fadeColor;
+                fadeImage.raycastTarget = false;
 
                 RectTransform rect = fadeImage.rectTransform;
                 rect.anchorMin = Vector2.zero;
                 rect.anchorMax = Vector2.one;
                 rect.sizeDelta = Vector2.zero;
+            }
+            else
+            {
+                fadeImage.raycastTarget = false;
             }
 
             Color c = fadeImage.color;
@@ -82,7 +93,10 @@ namespace CorrentesDaNoite.UI
 
         IEnumerator FadeInOutCoroutine(System.Action onFadeOutComplete, float duration)
         {
-            if (_isFading) yield break;
+            if (_isFading)
+            {
+                yield break;
+            }
 
             _isFading = true;
             yield return FadeCoroutine(0f, 1f, duration, null);
@@ -95,6 +109,11 @@ namespace CorrentesDaNoite.UI
         IEnumerator FadeCoroutine(float startAlpha, float targetAlpha, float duration, System.Action onComplete)
         {
             _isFading = true;
+
+            if (fadeImage != null)
+            {
+                fadeImage.raycastTarget = false;
+            }
 
             float elapsedTime = 0f;
             Color color = fadeImage.color;
@@ -126,6 +145,7 @@ namespace CorrentesDaNoite.UI
                 Color c = fadeImage.color;
                 fadeColor.a = c.a;
                 fadeImage.color = fadeColor;
+                fadeImage.raycastTarget = false;
             }
         }
 
@@ -136,6 +156,7 @@ namespace CorrentesDaNoite.UI
                 Color c = fadeImage.color;
                 c.a = Mathf.Clamp01(alpha);
                 fadeImage.color = c;
+                fadeImage.raycastTarget = false;
             }
         }
     }

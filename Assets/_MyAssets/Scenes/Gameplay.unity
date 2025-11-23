@@ -1402,7 +1402,7 @@ Transform:
   m_GameObject: {fileID: 38277018}
   serializedVersion: 2
   m_LocalRotation: {x: 0.1106159, y: 0.69840115, z: -0.1106159, w: 0.69840115}
-  m_LocalPosition: {x: -134.8, y: 1.02, z: -37.2}
+  m_LocalPosition: {x: -161.4, y: 1.02, z: -140.00002}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5795,7 +5795,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 45
+  field of view: 55
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -5821,8 +5821,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 135168779}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.09229593, y: -0.7010574, z: 0.09229593, w: 0.7010574}
-  m_LocalPosition: {x: -124.600006, y: 3.02, z: -37.100002}
+  m_LocalRotation: {x: 0.22436826, y: -0.6705661, z: 0.22436826, w: 0.6705661}
+  m_LocalPosition: {x: -156, y: 2.2, z: -140}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -12982,7 +12982,7 @@ Transform:
   m_GameObject: {fileID: 279207448}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -132.6, y: -0.98, z: -37.100002}
+  m_LocalPosition: {x: -159.2, y: -0.98, z: -139.90001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -17345,7 +17345,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 608367464}
   - {fileID: 1107958645}
   - {fileID: 1593265156}
   m_Father: {fileID: 0}
@@ -22188,7 +22187,7 @@ Transform:
   m_GameObject: {fileID: 486153034}
   serializedVersion: 2
   m_LocalRotation: {x: 0.1106159, y: 0.69840115, z: -0.1106159, w: 0.69840115}
-  m_LocalPosition: {x: -138.6, y: 2.02, z: -37.100002}
+  m_LocalPosition: {x: -165.2, y: 2.02, z: -139.90001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -23706,7 +23705,7 @@ Transform:
   m_GameObject: {fileID: 513597351}
   serializedVersion: 2
   m_LocalRotation: {x: 0.09229593, y: -0.7010574, z: 0.09229593, w: 0.7010574}
-  m_LocalPosition: {x: -124.600006, y: 3.02, z: -37.100002}
+  m_LocalPosition: {x: -151.2, y: 3.02, z: -139.90001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -27477,7 +27476,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 373196739}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &608699996
 GameObject:
@@ -44492,7 +44491,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1042327025
 Transform:
   m_ObjectHideFlags: 0
@@ -53280,7 +53279,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1261752097
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53350,7 +53349,7 @@ Transform:
   m_GameObject: {fileID: 1261752096}
   serializedVersion: 2
   m_LocalRotation: {x: 0.22436826, y: -0.6705661, z: 0.22436826, w: 0.6705661}
-  m_LocalPosition: {x: -157, y: 2.2, z: -139}
+  m_LocalPosition: {x: -156, y: 2.2, z: -140}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -61277,7 +61276,7 @@ Transform:
   m_GameObject: {fileID: 1439522746}
   serializedVersion: 2
   m_LocalRotation: {x: 0.04048824, y: 0.9540337, z: -0.15110414, w: 0.2556326}
-  m_LocalPosition: {x: -134.6, y: 1.02, z: -35.100002}
+  m_LocalPosition: {x: -161.2, y: 1.02, z: -137.90001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -67542,7 +67541,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99457c5ba638fc44a8686de9236e8cd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialCheckpoint: {fileID: 397861235}
+  initialCheckpoint: {fileID: 238866887}
   fadeDuration: 1
   fadeColor: {r: 0, g: 0, b: 0, a: 1}
   delayBeforeRespawn: 0.5
@@ -67553,7 +67552,7 @@ MonoBehaviour:
   respawnAnimationState: Getting Up
   idleAnimationState: Idle
   waitForRespawnAnimation: 1
-  usePersistentSave: 0
+  usePersistentSave: 1
 --- !u!114 &1570259677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92019,6 +92018,7 @@ MonoBehaviour:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 608367464}
   - {fileID: 1831332925}
   - {fileID: 373196739}
   - {fileID: 280299621}

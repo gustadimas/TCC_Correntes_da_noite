@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 883d9000cb823504cb647b154213df1b
+guid: d5f9cc77522f2914f9426faefbaa03bf
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -69,7 +69,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 4096
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -95,34 +95,12 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: Logo_0
-      rect:
-        serializedVersion: 2
-        x: 377
-        y: 159
-        width: 541
-        height: 405
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4d54336355128d644a7d7d01c4819831
-      internalID: 1814247145
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
+    sprites: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 38d3a73a7531cb146ba800de3bc5e8ba
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -131,37 +109,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      Logo_0: 1814247145
-      Logo_1: -596848007
-      Logo_10: 1510812176
-      Logo_11: -560176405
-      Logo_12: -635804776
-      Logo_13: -1008760396
-      Logo_14: -850520115
-      Logo_15: 2143097365
-      Logo_16: 1247903549
-      Logo_17: -1761194328
-      Logo_18: -332886124
-      Logo_19: 1534515538
-      Logo_2: -1053794528
-      Logo_20: -1962848500
-      Logo_21: 57794603
-      Logo_22: 1481440873
-      Logo_23: 1740281931
-      Logo_24: -1003478027
-      Logo_25: -1914107804
-      Logo_26: -1304309383
-      Logo_27: 422205452
-      Logo_28: 1612894264
-      Logo_29: 385758636
-      Logo_3: -1219844286
-      Logo_4: 1935181392
-      Logo_5: 764188401
-      Logo_6: 834080209
-      Logo_7: 1241356927
-      Logo_8: 1603829510
-      Logo_9: -1248273237
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
