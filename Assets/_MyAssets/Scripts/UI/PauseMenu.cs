@@ -174,6 +174,7 @@ namespace CorrentesDaNoite.UI
             _isPaused = true;
             Time.timeScale = 0f;
             ShowPanelImmediate();
+            UpdateRestartButtonVisibility();
             FocusDefaultButton();
         }
 
@@ -251,6 +252,8 @@ namespace CorrentesDaNoite.UI
             {
                 panelRoot.SetActive(true);
             }
+
+            UpdateRestartButtonVisibility();
         }
 
         public bool IsPaused()
@@ -378,6 +381,17 @@ namespace CorrentesDaNoite.UI
 #else
             Application.Quit();
 #endif
+        }
+
+        void UpdateRestartButtonVisibility()
+        {
+            if (restartCheckpointButton == null)
+            {
+                return;
+            }
+
+            bool canRestart = !IsBlockingRespawn();
+            restartCheckpointButton.gameObject.SetActive(canRestart);
         }
 
         bool IsBlockingRespawn()

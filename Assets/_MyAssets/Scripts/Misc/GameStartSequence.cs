@@ -17,6 +17,11 @@ namespace CorrentesDaNoite
         [SerializeField] Unity.Cinemachine.CinemachineCamera startCamera;
         [SerializeField] Unity.Cinemachine.CinemachineCamera gameplayCamera;
         [SerializeField] int gameplayCameraPriority = 15;
+        [Header("Tutorial")]
+        [SerializeField] TutorialPromptUI tutorialUI;
+        [SerializeField] bool showMovementTutorialAfterSequence = true;
+        [SerializeField] string movementPromptText = "Use WASD para se mover";
+        [SerializeField] float movementPromptDelay = 0.3f;
 
         PlayerController _playerController;
 
@@ -76,12 +81,34 @@ namespace CorrentesDaNoite
             }
 
             if (_playerController != null) _playerController.enabled = true;
+
+            TryShowMovementTutorial();
         }
 
         void PlayWakeUpAnimation()
         {
             if (playerAnimator != null && !string.IsNullOrEmpty(wakeUpAnimationState))
                 playerAnimator.Play(wakeUpAnimationState, 0, 0f);
+        }
+
+        IEnumerator DelayedMovementTutorial()
+        {
+            if (movementPromptDelay > 0f)
+                yield return new WaitForSeconds(movementPromptDelay);
+
+            tutorialUI?.ShowPrompt(movementPromptText);
+        }
+
+        void TryShowMovementTutorial()
+        {
+            if (!showMovementTutorialAfterSequence)
+                return;
+
+            if (tutorialUI == null)
+                tutorialUI = FindFirstObjectByType<TutorialPromptUI>();
+
+            if (tutorialUI != null)
+                StartCoroutine(DelayedMovementTutorial());
         }
     }
 }

@@ -3,6 +3,7 @@ using UnityEngine;
 using Unity.Cinemachine;
 using CorrentesDaNoite.Chase.States;
 using CorrentesDaNoite.Camera;
+using CorrentesDaNoite.UI;
 
 namespace CorrentesDaNoite.Chase
 {
@@ -95,6 +96,11 @@ namespace CorrentesDaNoite.Chase
         [SerializeField] bool enableSlowMoCue = true;
         [SerializeField] float slowMoScale = 0.5f;
         [SerializeField] float slowMoDuration = 0.75f;
+
+        [Header("Tutorial/Prompts")]
+        [SerializeField] TutorialPromptUI tutorialUI;
+        [SerializeField] string slowMotionRunPrompt = "Segure Shift para correr!";
+        [SerializeField] float slowMotionPromptDelay = 0.2f;
 
         [Header("Respawn Reset")]
         [SerializeField, Tooltip("Delay extra apos respawn antes de reativar o chase")] float respawnResetDelay = 1f;
@@ -421,12 +427,36 @@ namespace CorrentesDaNoite.Chase
             Time.timeScale = slowMoScale;
             Time.fixedDeltaTime = originalFixedDelta * slowMoScale;
 
+            ShowSlowMoPrompt();
+
             yield return new WaitForSecondsRealtime(slowMoDuration);
 
             Time.timeScale = originalScale;
             Time.fixedDeltaTime = originalFixedDelta;
             OnSlowMoEnded?.Invoke();
             slowMoRoutine = null;
+        }
+
+        void ShowSlowMoPrompt()
+        {
+            if (tutorialUI == null)
+            {
+                tutorialUI = FindFirstObjectByType<TutorialPromptUI>();
+            }
+
+            if (tutorialUI == null)
+                return;
+
+            if (slowMotionPromptDelay > 0f)
+                StartCoroutine(DelayedPrompt());
+            else
+                tutorialUI.ShowPrompt(slowMotionRunPrompt);
+        }
+
+        IEnumerator DelayedPrompt()
+        {
+            yield return new WaitForSecondsRealtime(slowMotionPromptDelay);
+            tutorialUI?.ShowPrompt(slowMotionRunPrompt);
         }
 
         void ResetTimeScale()
