@@ -1,5 +1,7 @@
 using System.Collections;
-using TMPro;
+using System.Collections.Generic;
+using CorrentesDaNoite.Checkpoint;
+using CorrentesDaNoite.Chase;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -14,6 +16,7 @@ namespace CorrentesDaNoite.UI
         [SerializeField] GameObject panelRoot;
         [SerializeField] CanvasGroup canvasGroup;
         [SerializeField] InputActionReference pauseAction;
+        [SerializeField] InputActionReference escapeAction;
         [SerializeField] bool useCanvasGroup = true;
 
         [Header("Click Blocking")]
@@ -21,28 +24,42 @@ namespace CorrentesDaNoite.UI
 
         [Header("UI References")]
         [SerializeField] GameObject buttonsContainer;
+        [SerializeField] Image logoImage;
+        [SerializeField] MenuTransitionManager menuManager;
         [SerializeField] MenuGameStarter menuStarter;
+        [SerializeField] GameObject playerObject;
+        [SerializeField] GameStartSequence gameStartSequence;
+        [SerializeField] JungleChaseSequenceController jungleChaseSequence;
 
         [Header("Menu Buttons")]
-        [SerializeField] Button mainMenuButton;
-
-        [Header("Header")]
-        [SerializeField] TextMeshProUGUI headerText;
+        [SerializeField] Button resumeButton;
+        [SerializeField] Button restartCheckpointButton;
+        [SerializeField] Button settingsButton;
+        [SerializeField] Button exitToMainMenuButton;
+        [SerializeField] Button exitToDesktopButton;
+        [SerializeField] Button defaultSelectedButton;
 
         [Header("Scene Names")]
         [SerializeField] string mainMenuSceneName = "MainMenu";
+        [SerializeField] string settingsMenuName = "SettingsScreen";
 
         [Header("Input Protection")]
         [SerializeField] float inputDelayAfterResume = 0.15f;
 
         bool _isPaused;
         bool _isConsumingInput;
+        readonly HashSet<InputAction> _enabledActions = new HashSet<InputAction>();
 
         private void Start()
         {
             if (panelRoot == null)
             {
                 panelRoot = gameObject;
+            }
+
+            if (menuManager == null)
+            {
+                menuManager = FindFirstObjectByType<MenuTransitionManager>();
             }
 
             if (useCanvasGroup && canvasGroup == null)
@@ -55,44 +72,31 @@ namespace CorrentesDaNoite.UI
                 }
             }
 
-            if (headerText != null && headerText.font == null)
-            {
-                Debug.LogWarning("[PauseMenu] headerText nao tem Font Asset atribuido! Use Tools > TextMeshPro Diagnostic para corrigir.");
-            }
-
-            if (mainMenuButton != null)
-            {
-                mainMenuButton.onClick.AddListener(LoadMainMenu);
-            }
+            SetupButtons();
 
             if (blockClicksWhenOpen)
             {
                 SetupClickBlocker();
             }
 
-            if (pauseAction != null)
-            {
-                pauseAction.action.Enable();
-                pauseAction.action.performed += OnPausePressed;
-            }
-            else
-            {
-                Debug.LogWarning("[PauseMenu] pauseAction e NULL! Configure no Inspector: Player > Pause");
-            }
+            EnableInputAction(pauseAction, "[PauseMenu] pauseAction e NULL! Configure no Inspector: Player > Pause");
+            EnableInputAction(escapeAction, null);
 
             HidePanelImmediate();
         }
 
         private void OnDestroy()
         {
-            if (pauseAction != null)
-            {
-                pauseAction.action.performed -= OnPausePressed;
-                pauseAction.action.Disable();
-            }
+            DisableInputAction(pauseAction);
+            DisableInputAction(escapeAction);
         }
 
-        void OnPausePressed(InputAction.CallbackContext context)
+        void OnPausePerformed(InputAction.CallbackContext context)
+        {
+            TogglePause();
+        }
+
+        void TogglePause()
         {
             if (IsInMainMenu())
             {
@@ -107,6 +111,42 @@ namespace CorrentesDaNoite.UI
             {
                 Pause();
             }
+        }
+
+        void EnableInputAction(InputActionReference actionRef, string warningMessage)
+        {
+            if (actionRef == null || actionRef.action == null)
+            {
+                if (!string.IsNullOrEmpty(warningMessage))
+                {
+                    Debug.LogWarning(warningMessage);
+                }
+                return;
+            }
+
+            if (_enabledActions.Contains(actionRef.action))
+            {
+                return;
+            }
+
+            actionRef.action.Enable();
+            actionRef.action.performed += OnPausePerformed;
+            _enabledActions.Add(actionRef.action);
+        }
+
+        void DisableInputAction(InputActionReference actionRef)
+        {
+            if (actionRef == null || actionRef.action == null)
+            {
+                return;
+            }
+
+            if (_enabledActions.Remove(actionRef.action))
+            {
+                actionRef.action.performed -= OnPausePerformed;
+            }
+
+            actionRef.action.Disable();
         }
 
         bool IsInMainMenu()
@@ -134,6 +174,7 @@ namespace CorrentesDaNoite.UI
             _isPaused = true;
             Time.timeScale = 0f;
             ShowPanelImmediate();
+            FocusDefaultButton();
         }
 
         public void Resume()
@@ -178,6 +219,7 @@ namespace CorrentesDaNoite.UI
 
             Time.timeScale = 1f;
             _isPaused = false;
+            HidePanelImmediate();
             SceneManager.LoadScene(mainMenuSceneName);
         }
 
@@ -189,7 +231,8 @@ namespace CorrentesDaNoite.UI
                 canvasGroup.interactable = false;
                 canvasGroup.blocksRaycasts = false;
             }
-            else if (panelRoot != null)
+
+            if (panelRoot != null)
             {
                 panelRoot.SetActive(false);
             }
@@ -213,6 +256,84 @@ namespace CorrentesDaNoite.UI
         public bool IsPaused()
         {
             return _isPaused;
+        }
+
+        void SetupButtons()
+        {
+            if (resumeButton != null)
+                resumeButton.onClick.AddListener(Resume);
+
+            if (restartCheckpointButton != null)
+                restartCheckpointButton.onClick.AddListener(RestartFromCheckpoint);
+
+            if (settingsButton != null)
+                settingsButton.onClick.AddListener(OpenSettingsMenu);
+
+            if (exitToMainMenuButton != null)
+                exitToMainMenuButton.onClick.AddListener(LoadMainMenu);
+
+            if (exitToDesktopButton != null)
+                exitToDesktopButton.onClick.AddListener(ExitToDesktop);
+        }
+
+        void FocusDefaultButton()
+        {
+            if (EventSystem.current == null)
+                return;
+
+            var target = defaultSelectedButton != null ? defaultSelectedButton.gameObject : (resumeButton != null ? resumeButton.gameObject : null);
+            if (target != null)
+                EventSystem.current.SetSelectedGameObject(target);
+        }
+
+        void RestartFromCheckpoint()
+        {
+            var checkpointManager = CheckpointManager.Instance;
+            var player = GetPlayerObject();
+
+            if (IsBlockingRespawn())
+            {
+                if (restartCheckpointButton != null)
+                {
+                    restartCheckpointButton.gameObject.SetActive(false);
+                }
+                Debug.LogWarning("[PauseMenu] Restart do checkpoint bloqueado durante sequencias (GameStart ou JungleChase).");
+                return;
+            }
+
+            if (checkpointManager == null || player == null)
+            {
+                Debug.LogWarning("[PauseMenu] Nao foi possivel reiniciar do checkpoint (CheckpointManager ou Player nao encontrados). Recarregando cena.");
+                ReloadCurrentScene();
+                return;
+            }
+
+            Time.timeScale = 1f;
+            _isPaused = false;
+            HidePanelImmediate();
+            checkpointManager.RespawnPlayer(player, true);
+            FocusDefaultButton();
+        }
+
+        void OpenSettingsMenu()
+        {
+            if (!string.IsNullOrEmpty(settingsMenuName))
+            {
+                var targetManager = menuManager != null ? menuManager : FindFirstObjectByType<MenuTransitionManager>();
+                if (targetManager != null)
+                {
+                    targetManager.ShowMenu(settingsMenuName);
+                    HidePanelImmediate();
+                }
+                else
+                {
+                    Debug.LogWarning("[PauseMenu] MenuTransitionManager nao encontrado; nao foi possivel abrir configuracoes.");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("[PauseMenu] settingsMenuName nao definido; nao foi possivel abrir configuracoes.");
+            }
         }
 
         void SetupClickBlocker()
@@ -247,6 +368,56 @@ namespace CorrentesDaNoite.UI
                 rect.offsetMin = Vector2.zero;
                 rect.offsetMax = Vector2.zero;
             }
+        }
+
+        void ExitToDesktop()
+        {
+            Time.timeScale = 1f;
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
+        }
+
+        bool IsBlockingRespawn()
+        {
+            if (gameStartSequence != null && gameStartSequence.isActiveAndEnabled)
+            {
+                return true;
+            }
+
+            if (jungleChaseSequence != null && jungleChaseSequence.isActiveAndEnabled)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        GameObject GetPlayerObject()
+        {
+            if (playerObject != null)
+            {
+                return playerObject;
+            }
+
+            var playerController = FindFirstObjectByType<Player.PlayerController>();
+            if (playerController != null)
+            {
+                playerObject = playerController.gameObject;
+                return playerObject;
+            }
+
+            playerObject = GameObject.FindGameObjectWithTag("Player");
+            return playerObject;
+        }
+
+        private void ReloadCurrentScene()
+        {
+            HidePanelImmediate();
+            var scene = SceneManager.GetActiveScene();
+            SceneManager.LoadScene(scene.name);
         }
     }
 }

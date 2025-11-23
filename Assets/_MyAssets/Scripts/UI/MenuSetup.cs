@@ -36,6 +36,7 @@ namespace CorrentesDaNoite.UI
         public void GoToLevelSelectionMenu() => ShowMenuSafe("LevelSelectionScreen");
         public void GoToLoadingMenu() => ShowMenuSafe("LoadingScreen");
         public void ExitToMainMenu() => ShowMenuSafe("MainMenuScreen");
+        public void GoToPauseMenu() => ShowMenuSafe("PauseMenuScreen");
 
         public void HideAllMenus()
         {

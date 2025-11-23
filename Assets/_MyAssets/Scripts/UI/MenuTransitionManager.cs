@@ -60,12 +60,12 @@ namespace CorrentesDaNoite.UI
 
         private void Update()
         {
-            if (Time.time < _nextAutoFixTime)
+            if (Time.unscaledTime < _nextAutoFixTime)
             {
                 return;
             }
 
-            _nextAutoFixTime = Time.time + 0.5f;
+            _nextAutoFixTime = Time.unscaledTime + 0.5f;
 
             if (transitionBlocker != null && !transitionBlocker.gameObject.activeInHierarchy)
             {
@@ -244,7 +244,7 @@ namespace CorrentesDaNoite.UI
                     currentMenu.canvasGroup.blocksRaycasts = false;
                 }
 
-                elapsed += Time.deltaTime;
+                elapsed += Time.unscaledDeltaTime;
                 yield return null;
             }
 
@@ -258,13 +258,13 @@ namespace CorrentesDaNoite.UI
                 while (elapsed < logoTime)
                 {
                     blockerBackground.alpha = fadeCurve.Evaluate(elapsed / logoTime);
-                    elapsed += Time.deltaTime;
+                    elapsed += Time.unscaledDeltaTime;
                     yield return null;
                 }
                 blockerBackground.alpha = 1f;
             }
 
-            yield return new WaitForSeconds(logoHoldTime);
+            yield return new WaitForSecondsRealtime(logoHoldTime);
 
             if (blockerBackground != null)
             {
@@ -273,7 +273,7 @@ namespace CorrentesDaNoite.UI
                 while (elapsed < logoTime)
                 {
                     blockerBackground.alpha = fadeCurve.Evaluate(1 - (elapsed / logoTime));
-                    elapsed += Time.deltaTime;
+                    elapsed += Time.unscaledDeltaTime;
                     yield return null;
                 }
                 blockerBackground.alpha = 0f;
@@ -297,10 +297,9 @@ namespace CorrentesDaNoite.UI
                     targetMenu.canvasGroup.interactable = true;
                 }
 
-                elapsed += Time.deltaTime;
+                elapsed += Time.unscaledDeltaTime;
                 yield return null;
             }
-
             SetCanvasGroupState(targetMenu.canvasGroup, true, true);
             targetMenu.OnShowComplete?.Invoke();
 
@@ -310,7 +309,7 @@ namespace CorrentesDaNoite.UI
                 while (elapsed < fadeTime)
                 {
                     blockerLogo.alpha = fadeCurve.Evaluate(1 - (elapsed / fadeTime));
-                    elapsed += Time.deltaTime;
+                    elapsed += Time.unscaledDeltaTime;
                     yield return null;
                 }
                 blockerLogo.alpha = 0f;
@@ -336,7 +335,7 @@ namespace CorrentesDaNoite.UI
             SetCanvasGroupState(menu.canvasGroup, true, false);
             menu.OnShowBegin?.Invoke();
 
-            float elapsedTime = 0f;
+            float elapsedTime = 0;
             while (elapsedTime < fadeTime)
             {
                 float alpha = fadeCurve.Evaluate(elapsedTime / fadeTime);
@@ -348,7 +347,7 @@ namespace CorrentesDaNoite.UI
                     menu.canvasGroup.interactable = true;
                 }
 
-                elapsedTime += Time.deltaTime;
+                elapsedTime += Time.unscaledDeltaTime;
                 yield return null;
             }
 
@@ -371,7 +370,7 @@ namespace CorrentesDaNoite.UI
                 float alpha = fadeCurve.Evaluate(1 - (elapsedTime / fadeTime));
                 SetCanvasGroupAlpha(menu.canvasGroup, alpha);
 
-                elapsedTime += Time.deltaTime;
+                elapsedTime += Time.unscaledDeltaTime;
                 yield return null;
             }
 
