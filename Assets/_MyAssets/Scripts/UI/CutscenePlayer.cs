@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.InputSystem.Controls;
 
 namespace CorrentesDaNoite.UI
 {
@@ -16,6 +17,7 @@ namespace CorrentesDaNoite.UI
         public CutsceneFadeController fadeController;
         public bool playOnStart = true;
         public Key advanceKey = Key.Space;
+        public GamepadButton advanceGamepadButton = GamepadButton.South;
         public float minAdvanceTime = 0.5f;
         public float holdSkipTime = 0.8f;
         public bool useTypewriter = true;
@@ -114,14 +116,10 @@ namespace CorrentesDaNoite.UI
 
         protected void HandleInput()
         {
-            if (Keyboard.current == null)
-                return;
+            bool pressed = WasAdvancePressedThisFrame();
+            bool held = IsAdvanceHeld();
 
-            var keyControl = Keyboard.current[advanceKey];
-            if (keyControl == null)
-                return;
-
-            if (keyControl.wasPressedThisFrame)
+            if (pressed)
             {
                 if (useTypewriter && !typingComplete)
                 {
@@ -131,13 +129,66 @@ namespace CorrentesDaNoite.UI
                 advanceQueued = true;
             }
 
-            if (keyControl.isPressed)
+            if (held)
                 holdTimer += Time.deltaTime;
             else
                 holdTimer = 0f;
 
             if (holdTimer >= holdSkipTime && CanAdvanceSlide())
                 skipAll = true;
+        }
+
+        protected bool WasAdvancePressedThisFrame()
+        {
+            bool keyboardPressed = Keyboard.current != null && advanceKey != Key.None && Keyboard.current[advanceKey] != null && Keyboard.current[advanceKey].wasPressedThisFrame;
+            bool gamepadPressed = false;
+
+            if (Gamepad.current != null && advanceGamepadButton != GamepadButton.None)
+            {
+                ButtonControl button = GetGamepadButton(Gamepad.current, advanceGamepadButton);
+                gamepadPressed = button != null && button.wasPressedThisFrame;
+            }
+
+            return keyboardPressed || gamepadPressed;
+        }
+
+        protected bool IsAdvanceHeld()
+        {
+            bool keyboardHeld = Keyboard.current != null && advanceKey != Key.None && Keyboard.current[advanceKey] != null && Keyboard.current[advanceKey].isPressed;
+            bool gamepadHeld = false;
+
+            if (Gamepad.current != null && advanceGamepadButton != GamepadButton.None)
+            {
+                ButtonControl button = GetGamepadButton(Gamepad.current, advanceGamepadButton);
+                gamepadHeld = button != null && button.isPressed;
+            }
+
+            return keyboardHeld || gamepadHeld;
+        }
+
+        protected ButtonControl GetGamepadButton(Gamepad gamepad, GamepadButton button)
+        {
+            if (gamepad == null)
+                return null;
+
+            switch (button)
+            {
+                case GamepadButton.South: return gamepad.buttonSouth;
+                case GamepadButton.North: return gamepad.buttonNorth;
+                case GamepadButton.East: return gamepad.buttonEast;
+                case GamepadButton.West: return gamepad.buttonWest;
+                case GamepadButton.Start: return gamepad.startButton;
+                case GamepadButton.Select: return gamepad.selectButton;
+                case GamepadButton.LeftStick: return gamepad.leftStickButton;
+                case GamepadButton.RightStick: return gamepad.rightStickButton;
+                case GamepadButton.LeftShoulder: return gamepad.leftShoulder;
+                case GamepadButton.RightShoulder: return gamepad.rightShoulder;
+                case GamepadButton.DpadUp: return gamepad.dpad.up;
+                case GamepadButton.DpadDown: return gamepad.dpad.down;
+                case GamepadButton.DpadLeft: return gamepad.dpad.left;
+                case GamepadButton.DpadRight: return gamepad.dpad.right;
+                default: return null;
+            }
         }
 
         protected bool CanAdvanceSlide()
