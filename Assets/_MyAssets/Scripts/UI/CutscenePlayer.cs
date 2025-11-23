@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.InputSystem.Controls;
+using UnityEngine.InputSystem.LowLevel;
 
 namespace CorrentesDaNoite.UI
 {
@@ -143,7 +144,7 @@ namespace CorrentesDaNoite.UI
             bool keyboardPressed = Keyboard.current != null && advanceKey != Key.None && Keyboard.current[advanceKey] != null && Keyboard.current[advanceKey].wasPressedThisFrame;
             bool gamepadPressed = false;
 
-            if (Gamepad.current != null && advanceGamepadButton != GamepadButton.None)
+            if (Gamepad.current != null)
             {
                 ButtonControl button = GetGamepadButton(Gamepad.current, advanceGamepadButton);
                 gamepadPressed = button != null && button.wasPressedThisFrame;
@@ -157,7 +158,7 @@ namespace CorrentesDaNoite.UI
             bool keyboardHeld = Keyboard.current != null && advanceKey != Key.None && Keyboard.current[advanceKey] != null && Keyboard.current[advanceKey].isPressed;
             bool gamepadHeld = false;
 
-            if (Gamepad.current != null && advanceGamepadButton != GamepadButton.None)
+            if (Gamepad.current != null)
             {
                 ButtonControl button = GetGamepadButton(Gamepad.current, advanceGamepadButton);
                 gamepadHeld = button != null && button.isPressed;
