@@ -6925,6 +6925,8 @@ MonoBehaviour:
   reactToWalkingSounds: 1
   reactToRunningSounds: 1
   reactToJumpingSounds: 0
+  playerDetectedAudioEvent: 11
+  playerDetectedCooldown: 1.5
 --- !u!114 &155376107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10498,6 +10500,8 @@ MonoBehaviour:
   reactToWalkingSounds: 1
   reactToRunningSounds: 1
   reactToJumpingSounds: 0
+  playerDetectedAudioEvent: 10
+  playerDetectedCooldown: 1.5
   sleepingEnemyConfig: {fileID: 0}
   sleepingAnimationController: {fileID: 231980737}
   sleepingBoolParam: isSleeping
@@ -13460,6 +13464,9 @@ GameObject:
   - component: {fileID: 279207456}
   - component: {fileID: 279207457}
   - component: {fileID: 279207459}
+  - component: {fileID: 279207461}
+  - component: {fileID: 279207460}
+  - component: {fileID: 279207462}
   m_Layer: 3
   m_Name: PlayerAmara
   m_TagString: Player
@@ -13754,6 +13761,138 @@ MonoBehaviour:
   defaultStumbleSpeedMultiplier: 0.3
   defaultStumbleDuration: 2
   debugMode: 0
+--- !u!114 &279207460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 279207448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3661eeae1ef10c54484dbd6394a3389f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  feetTransform: {fileID: 279207449}
+  characterController: {fileID: 279207452}
+  surfaceTracker: {fileID: 279207461}
+  movementThreshold: 0.5
+  useAnimationEvents: 1
+  usePositionalAudio: 1
+  defaultConfig:
+    clips:
+    - {fileID: 8300000, guid: fab25b7b0b98c6e4f8a0eaf72c1b2067, type: 3}
+    - {fileID: 8300000, guid: ec37cf8cbe7924644a7a3d8de454807a, type: 3}
+    type: 0
+    spatialAudio: 1
+    baseVolume: 0.9
+    usePitchVariation: 1
+    minPitch: 0.95
+    maxPitch: 1.05
+    minTimeBetweenSteps: 0.17
+  calcadaConfig:
+    clips:
+    - {fileID: 8300000, guid: fab25b7b0b98c6e4f8a0eaf72c1b2067, type: 3}
+    - {fileID: 8300000, guid: ec37cf8cbe7924644a7a3d8de454807a, type: 3}
+    type: 0
+    spatialAudio: 1
+    baseVolume: 0.9
+    usePitchVariation: 1
+    minPitch: 0.95
+    maxPitch: 1.05
+    minTimeBetweenSteps: 0.17
+  metalConfig:
+    clips: []
+    type: 0
+    spatialAudio: 0
+    baseVolume: 0
+    usePitchVariation: 0
+    minPitch: 0
+    maxPitch: 0
+    minTimeBetweenSteps: 0
+  normalConfig:
+    clips: []
+    type: 0
+    spatialAudio: 0
+    baseVolume: 0
+    usePitchVariation: 0
+    minPitch: 0
+    maxPitch: 0
+    minTimeBetweenSteps: 0
+  tetoBarracaConfig:
+    clips: []
+    type: 0
+    spatialAudio: 0
+    baseVolume: 0
+    usePitchVariation: 0
+    minPitch: 0
+    maxPitch: 0
+    minTimeBetweenSteps: 0
+  gramaConfig:
+    clips:
+    - {fileID: 8300000, guid: 7d9e788f7cd9b6544a33bcc245e0e257, type: 3}
+    - {fileID: 8300000, guid: c8a4780fa06de814592975fe655b72de, type: 3}
+    type: 0
+    spatialAudio: 1
+    baseVolume: 0.9
+    usePitchVariation: 1
+    minPitch: 0.95
+    maxPitch: 1.05
+    minTimeBetweenSteps: 0.17
+  terraConfig:
+    clips:
+    - {fileID: 8300000, guid: 68ab3630d4ad01349b90517e75e7d527, type: 3}
+    type: 0
+    spatialAudio: 1
+    baseVolume: 0.9
+    usePitchVariation: 1
+    minPitch: 0.95
+    maxPitch: 1.05
+    minTimeBetweenSteps: 0.17
+  pedraConfig:
+    clips:
+    - {fileID: 8300000, guid: e95139be60d70ad4e95912b52f536217, type: 3}
+    type: 0
+    spatialAudio: 1
+    baseVolume: 0.9
+    usePitchVariation: 1
+    minPitch: 0.95
+    maxPitch: 1.05
+    minTimeBetweenSteps: 0.17
+--- !u!114 &279207461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 279207448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6cab603476af624782b7f16f9abed74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultSurface: 5
+  useRaycastFallback: 1
+  raycastDistance: 1
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  useTerrainDetection: 1
+  terrainTextureDetector: {fileID: 279207462}
+--- !u!114 &279207462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 279207448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b733867824ab954392519963929c584, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrain: {fileID: 1650847871}
+  surfaceByLayer: 040000000500000001000000
 --- !u!1001 &279435017
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13877,6 +14016,7 @@ Transform:
   - {fileID: 913997834}
   - {fileID: 1570259675}
   - {fileID: 1032885173}
+  - {fileID: 924619517}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &283580156
@@ -16256,6 +16396,8 @@ MonoBehaviour:
   hoverColor: {r: 1, g: 1, b: 1, a: 1}
   clickColor: {r: 1, g: 1, b: 1, a: 1}
   selectColor: {r: 1, g: 1, b: 1, a: 1}
+  hoverAudioEvent: 1
+  clickAudioEvent: 0
   useScaling: 0
   normalScale: {x: 1, y: 1, z: 1}
   hoverScale: {x: 1.1, y: 1.1, z: 1.1}
@@ -18832,6 +18974,8 @@ MonoBehaviour:
   reactToWalkingSounds: 1
   reactToRunningSounds: 1
   reactToJumpingSounds: 0
+  playerDetectedAudioEvent: 10
+  playerDetectedCooldown: 1.5
   watchGuardConfig: {fileID: 0}
   guardPoints:
   - {fileID: 1223538139}
@@ -19969,6 +20113,8 @@ MonoBehaviour:
   reactToWalkingSounds: 1
   reactToRunningSounds: 1
   reactToJumpingSounds: 0
+  playerDetectedAudioEvent: 10
+  playerDetectedCooldown: 1.5
   watchGuardConfig: {fileID: 0}
   guardPoints:
   - {fileID: 1569011318}
@@ -20460,6 +20606,8 @@ MonoBehaviour:
   hoverColor: {r: 1, g: 1, b: 1, a: 1}
   clickColor: {r: 1, g: 1, b: 1, a: 1}
   selectColor: {r: 1, g: 1, b: 1, a: 1}
+  hoverAudioEvent: 1
+  clickAudioEvent: 0
   useScaling: 0
   normalScale: {x: 1, y: 1, z: 1}
   hoverScale: {x: 1.1, y: 1.1, z: 1.1}
@@ -38511,6 +38659,8 @@ MonoBehaviour:
   hoverColor: {r: 1, g: 1, b: 1, a: 1}
   clickColor: {r: 1, g: 1, b: 1, a: 1}
   selectColor: {r: 1, g: 1, b: 1, a: 1}
+  hoverAudioEvent: 1
+  clickAudioEvent: 0
   useScaling: 0
   normalScale: {x: 1, y: 1, z: 1}
   hoverScale: {x: 1.1, y: 1.1, z: 1.1}
@@ -43427,6 +43577,55 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 482272, guid: 95041be6697fe3f4d806b1fd11868cb3, type: 3}
   m_PrefabInstance: {fileID: 924016995}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &924619516
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 924619517}
+  - component: {fileID: 924619518}
+  m_Layer: 0
+  m_Name: AudioStateManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &924619517
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 924619516}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 280299621}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &924619518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 924619516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e01fd2fe6fffef45a074f554dec43b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioMixer: {fileID: 24100000, guid: 000fec4452533fd4e898f5f2dabc58a1, type: 2}
+  explorationSnapshot: {fileID: 2574746914320575645, guid: 000fec4452533fd4e898f5f2dabc58a1, type: 2}
+  chaseSnapshot: {fileID: -8653279304286879416, guid: 000fec4452533fd4e898f5f2dabc58a1, type: 2}
+  menuSnapshot: {fileID: 8277866363808911416, guid: 000fec4452533fd4e898f5f2dabc58a1, type: 2}
+  defaultTransitionTime: 0.6
 --- !u!1001 &924841419
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -50023,6 +50222,11 @@ MonoBehaviour:
   soundBehindClip: {fileID: 0}
   enemyRoarSound: {fileID: 0}
   audioSource: {fileID: 0}
+  audioStateController: {fileID: 924619518}
+  chaseMusicKey: chase
+  explorationMusicKey: game
+  menuMusicKey: menu
+  musicFadeTime: 1.5
   endSequenceDuration: 5
   enemyStopDelay: 0.5
   playerStopDelay: 1
@@ -51272,6 +51476,8 @@ MonoBehaviour:
   hoverColor: {r: 1, g: 1, b: 1, a: 1}
   clickColor: {r: 1, g: 1, b: 1, a: 1}
   selectColor: {r: 1, g: 1, b: 1, a: 1}
+  hoverAudioEvent: 1
+  clickAudioEvent: 0
   useScaling: 0
   normalScale: {x: 1, y: 1, z: 1}
   hoverScale: {x: 1.1, y: 1.1, z: 1.1}
@@ -52447,6 +52653,8 @@ MonoBehaviour:
   reactToWalkingSounds: 1
   reactToRunningSounds: 1
   reactToJumpingSounds: 0
+  playerDetectedAudioEvent: 10
+  playerDetectedCooldown: 1.5
   sleepingEnemyConfig: {fileID: 0}
   sleepingAnimationController: {fileID: 1166217040}
   sleepingBoolParam: isSleeping
@@ -58428,6 +58636,8 @@ MonoBehaviour:
   hoverColor: {r: 1, g: 1, b: 1, a: 1}
   clickColor: {r: 1, g: 1, b: 1, a: 1}
   selectColor: {r: 1, g: 1, b: 1, a: 1}
+  hoverAudioEvent: 1
+  clickAudioEvent: 0
   useScaling: 0
   normalScale: {x: 1, y: 1, z: 1}
   hoverScale: {x: 1.1, y: 1.1, z: 1.1}
@@ -63285,6 +63495,8 @@ MonoBehaviour:
   reactToWalkingSounds: 1
   reactToRunningSounds: 1
   reactToJumpingSounds: 0
+  playerDetectedAudioEvent: 11
+  playerDetectedCooldown: 1.5
 --- !u!114 &1385633288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69019,6 +69231,7 @@ GameObject:
   - component: {fileID: 1510059257}
   - component: {fileID: 1510059258}
   - component: {fileID: 1510059259}
+  - component: {fileID: 1510059260}
   m_Layer: 5
   m_Name: PauseUIPanelManager
   m_TagString: Untagged
@@ -69172,6 +69385,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuManager: {fileID: 1510059258}
+--- !u!114 &1510059260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1510059255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74b9803b3cddb424dae0bb94e2d5e28a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioMixer: {fileID: 24100000, guid: 000fec4452533fd4e898f5f2dabc58a1, type: 2}
+  masterParameter: MasterVolume
+  musicParameter: MusicVolume
+  sfxParameter: SfxVolume
+  masterSlider: {fileID: 807746369}
+  musicSlider: {fileID: 1013235274}
+  sfxSlider: {fileID: 624308744}
+  sliderMin: 0
+  sliderMax: 1
+  defaultValue: 1
+  masterKey: Audio.MasterVolume
+  musicKey: Audio.MusicVolume
+  sfxKey: Audio.SfxVolume
+  minDb: -80
+  maxDb: 0
 --- !u!1 &1512824839
 GameObject:
   m_ObjectHideFlags: 0
@@ -69946,6 +70186,8 @@ MonoBehaviour:
   reactToWalkingSounds: 1
   reactToRunningSounds: 1
   reactToJumpingSounds: 0
+  playerDetectedAudioEvent: 11
+  playerDetectedCooldown: 1.5
 --- !u!114 &1526537953
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95216,6 +95458,8 @@ MonoBehaviour:
   hoverColor: {r: 1, g: 1, b: 1, a: 1}
   clickColor: {r: 1, g: 1, b: 1, a: 1}
   selectColor: {r: 1, g: 1, b: 1, a: 1}
+  hoverAudioEvent: 1
+  clickAudioEvent: 0
   useScaling: 0
   normalScale: {x: 1, y: 1, z: 1}
   hoverScale: {x: 1.1, y: 1.1, z: 1.1}
@@ -97937,6 +98181,8 @@ MonoBehaviour:
   reactToWalkingSounds: 1
   reactToRunningSounds: 1
   reactToJumpingSounds: 0
+  playerDetectedAudioEvent: 10
+  playerDetectedCooldown: 1.5
   sleepingEnemyConfig: {fileID: 0}
   sleepingAnimationController: {fileID: 7927414841405893834}
   sleepingBoolParam: isSleeping
@@ -98301,6 +98547,8 @@ MonoBehaviour:
   reactToWalkingSounds: 1
   reactToRunningSounds: 1
   reactToJumpingSounds: 0
+  playerDetectedAudioEvent: 11
+  playerDetectedCooldown: 1.5
 --- !u!114 &9192132949333104919
 MonoBehaviour:
   m_ObjectHideFlags: 0

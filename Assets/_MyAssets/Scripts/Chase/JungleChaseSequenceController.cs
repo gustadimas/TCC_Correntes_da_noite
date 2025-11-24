@@ -4,6 +4,7 @@ using Unity.Cinemachine;
 using CorrentesDaNoite.Chase.States;
 using CorrentesDaNoite.Camera;
 using CorrentesDaNoite.UI;
+using CorrentesDaNoite.Audio;
 
 namespace CorrentesDaNoite.Chase
 {
@@ -76,6 +77,11 @@ namespace CorrentesDaNoite.Chase
         [SerializeField] AudioClip soundBehindClip;
         [SerializeField] AudioClip enemyRoarSound;
         [SerializeField] AudioSource audioSource;
+        [SerializeField] AudioStateController audioStateController;
+        [SerializeField] string chaseMusicKey = "Chase";
+        [SerializeField] string explorationMusicKey = "Game";
+        [SerializeField] string menuMusicKey = "Menu";
+        [SerializeField] float musicFadeTime = 1.5f;
 
         [Header("End Sequence Settings")]
         [SerializeField] float endSequenceDuration = 5f;
@@ -170,6 +176,9 @@ namespace CorrentesDaNoite.Chase
         public AudioClip VictorySound => victorySound;
         public Teleport.TeleportZone EndSequenceTeleportZone => endSequenceTeleportZone;
         public float TeleportStartDelay => teleportStartDelay;
+        public string ChaseMusicKey => chaseMusicKey;
+        public string ExplorationMusicKey => explorationMusicKey;
+        public string MenuMusicKey => menuMusicKey;
 
         void Awake()
         {
@@ -277,12 +286,37 @@ namespace CorrentesDaNoite.Chase
             }
         }
 
+        void ApplyExplorationAudio()
+        {
+            if (audioStateController != null)
+                audioStateController.SetExplorationState();
+
+            MusicManager.GetOrCreate().PlayMusic(explorationMusicKey, musicFadeTime);
+        }
+
+        void ApplyChaseAudio()
+        {
+            if (audioStateController != null)
+                audioStateController.SetChaseState();
+
+            MusicManager.GetOrCreate().PlayMusic(chaseMusicKey, musicFadeTime);
+        }
+
+        public void ApplyMenuAudio()
+        {
+            if (audioStateController != null)
+                audioStateController.SetMenuState();
+
+            MusicManager.GetOrCreate().PlayMusic(menuMusicKey, musicFadeTime);
+        }
+
         public void StartSequence()
         {
             if (debugMode)
                 Debug.Log("[JungleChaseSequence] Sequencia iniciada");
 
             ResetAllCameras();
+            ApplyChaseAudio();
             ChangeState(new JungleChaseIntroState(this));
         }
 
@@ -347,6 +381,7 @@ namespace CorrentesDaNoite.Chase
                 Debug.Log("[JungleChaseSequence] Sequencia interrompida");
 
             ResetTimeScale();
+            ApplyExplorationAudio();
         }
 
         public void TriggerEndSequence()
@@ -362,6 +397,8 @@ namespace CorrentesDaNoite.Chase
 
             if (debugMode)
                 Debug.Log("[JungleChaseSequence] Sequencia de fim acionada");
+
+            ApplyExplorationAudio();
         }
 
         public void TriggerSequenceAfterTeleport(float? customDelay = null)

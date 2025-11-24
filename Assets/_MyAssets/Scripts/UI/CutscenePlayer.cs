@@ -1,12 +1,13 @@
+using CorrentesDaNoite.Audio;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using TMPro;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.InputSystem.LowLevel;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace CorrentesDaNoite.UI
 {
@@ -48,6 +49,10 @@ namespace CorrentesDaNoite.UI
         {
             if (playOnStart)
                 StartCutscene();
+
+            MusicManager.GetOrCreate().PlayMusic("Menu", 1.5f);
+            var asc = FindFirstObjectByType<AudioStateController>();
+            asc?.SetMenuState();
         }
 
         public void StartCutscene()

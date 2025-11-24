@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using CorrentesDaNoite.Audio;
 
 namespace CorrentesDaNoite.UI
 {
@@ -28,6 +29,7 @@ namespace CorrentesDaNoite.UI
         [SerializeField] private AudioSource audioSource;
         [SerializeField] private AudioClip hoverSound;
         [SerializeField] private AudioClip selectSound;
+        [SerializeField] private AudioEvent hoverAudioEvent = AudioEvent.UIHover;
 
         private bool _isSelected;
         private bool _isHovered;
@@ -211,9 +213,16 @@ namespace CorrentesDaNoite.UI
 
         private void PlayHoverSound()
         {
+            bool played = false;
             if (audioSource != null && hoverSound != null)
             {
                 audioSource.PlayOneShot(hoverSound);
+                played = true;
+            }
+
+            if (!played && hoverAudioEvent != default)
+            {
+                AudioManager.Instance?.PlayEvent(hoverAudioEvent, null);
             }
         }
 

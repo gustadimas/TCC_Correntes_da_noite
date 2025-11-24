@@ -1,7 +1,8 @@
-using UnityEngine;
-using UnityEngine.InputSystem;
+using CorrentesDaNoite.Audio;
 using CorrentesDaNoite.Camera;
 using CorrentesDaNoite.Chase;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace CorrentesDaNoite.Player
 {
@@ -88,6 +89,10 @@ namespace CorrentesDaNoite.Player
                     useCameraRelativeMovement = false;
                 }
             }
+
+            MusicManager.GetOrCreate().PlayMusic("Game", 1.5f);
+            var asc = FindFirstObjectByType<AudioStateController>();
+            asc?.SetExplorationState();
         }
 
         void Update()

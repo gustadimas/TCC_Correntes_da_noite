@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using CorrentesDaNoite.Audio;
 
 namespace CorrentesDaNoite.UI
 {
@@ -27,6 +28,10 @@ namespace CorrentesDaNoite.UI
         [SerializeField] Color hoverColor = Color.gray;
         [SerializeField] Color clickColor = Color.green;
         [SerializeField] Color selectColor = Color.blue;
+
+        [Header("Audio")]
+        [SerializeField] AudioEvent hoverAudioEvent = AudioEvent.UIHover;
+        [SerializeField] AudioEvent clickAudioEvent = AudioEvent.UIClick;
 
         [Header("Scaling Settings")]
         [SerializeField] private bool useScaling;
@@ -63,6 +68,7 @@ namespace CorrentesDaNoite.UI
         public void OnPointerEnter(PointerEventData eventData)
         {
             ApplyHoverState();
+            PlayHoverAudio();
         }
 
         public void OnPointerExit(PointerEventData eventData)
@@ -80,12 +86,14 @@ namespace CorrentesDaNoite.UI
         public void OnPointerClick(PointerEventData eventData)
         {
             ApplyClickState();
+            PlayClickAudio();
         }
 
         public void OnSelect(BaseEventData eventData)
         {
             _isSelected = true;
             ApplySelectState();
+            PlayHoverAudio();
         }
 
         public void OnDeselect(BaseEventData eventData)
@@ -212,6 +220,18 @@ namespace CorrentesDaNoite.UI
             {
                 imageToToggle.enabled = true;
             }
+        }
+
+        void PlayHoverAudio()
+        {
+            if (hoverAudioEvent != default)
+                AudioManager.Instance?.PlayEvent(hoverAudioEvent, null);
+        }
+
+        void PlayClickAudio()
+        {
+            if (clickAudioEvent != default)
+                AudioManager.Instance?.PlayEvent(clickAudioEvent, null);
         }
     }
 }

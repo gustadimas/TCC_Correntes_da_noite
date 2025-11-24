@@ -1,4 +1,5 @@
 using UnityEngine;
+using CorrentesDaNoite.Audio;
 using CorrentesDaNoite.Checkpoint;
 
 namespace CorrentesDaNoite.Enemies
@@ -46,6 +47,10 @@ namespace CorrentesDaNoite.Enemies
         [SerializeField] protected bool reactToRunningSounds = true;
         [SerializeField] protected bool reactToJumpingSounds = false;
 
+        [Header("Audio Events")]
+        [SerializeField] protected AudioEvent playerDetectedAudioEvent = AudioEvent.EnemyCapture;
+        [SerializeField] protected float playerDetectedCooldown = 1.5f;
+
         protected EnemyStateMachine _stateMachine;
         protected Transform _playerTransform;
         protected CorrentesDaNoite.Player.PlayerController _cachedPlayerController;
@@ -62,6 +67,7 @@ namespace CorrentesDaNoite.Enemies
         protected bool _isRotatingBackToPatrol;
         protected Vector3 _patrolReturnTarget;
         protected float _patrolRotationTimer;
+        protected float _lastDetectionSoundTime;
 
         public System.Action OnPlayerCaptured;
 
@@ -276,6 +282,7 @@ namespace CorrentesDaNoite.Enemies
                 _stateMachine.CurrentState is EnemyIdleState)
             {
                 CancelSoundRotation();
+                TryPlayDetectionSound();
                 _stateMachine.ChangeState(new EnemySpottedState(this, _stateMachine));
             }
         }
@@ -294,6 +301,7 @@ namespace CorrentesDaNoite.Enemies
                 return;
 
             CancelSoundRotation();
+            TryPlayDetectionSound();
             _stateMachine.ChangeState(new EnemySpottedState(this, _stateMachine));
         }
 
@@ -355,6 +363,18 @@ namespace CorrentesDaNoite.Enemies
             _targetSoundPosition = soundPosition;
             _isRotatingToSound = true;
             _soundRotationTimer = 0f;
+        }
+
+        protected virtual void TryPlayDetectionSound()
+        {
+            if (playerDetectedAudioEvent == default)
+                return;
+
+            if (Time.time - _lastDetectionSoundTime < playerDetectedCooldown)
+                return;
+
+            _lastDetectionSoundTime = Time.time;
+            AudioManager.Instance?.PlayEvent(playerDetectedAudioEvent, transform.position);
         }
 
         public virtual void CancelSoundRotation()

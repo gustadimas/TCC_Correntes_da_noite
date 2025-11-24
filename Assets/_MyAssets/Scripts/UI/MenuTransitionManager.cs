@@ -1,3 +1,4 @@
+using CorrentesDaNoite.Audio;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -56,6 +57,10 @@ namespace CorrentesDaNoite.UI
             {
                 _menuDictionary[menu.menuName] = menu;
             }
+
+            MusicManager.GetOrCreate().PlayMusic("Menu", 1.5f);
+            var asc = FindFirstObjectByType<AudioStateController>();
+            asc?.SetMenuState();
         }
 
         private void Update()

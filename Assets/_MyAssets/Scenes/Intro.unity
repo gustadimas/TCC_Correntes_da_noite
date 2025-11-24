@@ -228,6 +228,7 @@ MonoBehaviour:
   fadeController: {fileID: 138775697}
   playOnStart: 1
   advanceKey: 1
+  advanceGamepadButton: 6
   minAdvanceTime: 0.5
   holdSkipTime: 1
   useTypewriter: 1
@@ -240,6 +241,10 @@ MonoBehaviour:
   useScreenFadeOnExit: 1
   exitFadeDuration: 1
   exitFadeColor: {r: 0, g: 0, b: 0, a: 1}
+  showCreditsOnFinish: 0
+  creditsFadeController: {fileID: 0}
+  creditsCanvasGroup: {fileID: 0}
+  menuSceneName: 
 --- !u!1 &211006272
 GameObject:
   m_ObjectHideFlags: 0
@@ -349,7 +354,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeImage: {fileID: 0}
-  fadeDuration: 3
+  fadeDuration: 1.5
   fadeColor: {r: 0, g: 0, b: 0, a: 1}
   fadeCanvas: {fileID: 0}
 --- !u!4 &252137123
