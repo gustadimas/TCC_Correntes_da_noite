@@ -29,9 +29,7 @@ namespace CorrentesDaNoite.UI
 
         private void Start()
         {
-            _saveSystem = usePersistentSave
-                ? (ISaveSystem)new PlayerPrefsSaveSystem()
-                : new MemorySaveSystem();
+            _saveSystem = SaveSystemProvider.Get(usePersistentSave);
 
             SetupButtons();
             UpdateContinueButtonVisibility();

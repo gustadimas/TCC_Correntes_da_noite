@@ -65,6 +65,9 @@ namespace CorrentesDaNoite.Teleport
             var playerController = player.GetComponent<Player.PlayerController>();
             var animator = player.GetComponent<Animator>();
 
+            if (playerController != null)
+                playerController.StopMovementImmediate();
+
             if (animator != null)
             {
                 animator.ResetTrigger("Jump");

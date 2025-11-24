@@ -50,7 +50,11 @@ namespace CorrentesDaNoite.Enemies
         protected override void InitializeStateMachine()
         {
             if (HasValidGuardPoints())
-                _stateMachine.Initialize(new WatchGuardWalkingState(this, _stateMachine, 0));
+            {
+                int startIndex = GetClosestGuardPointIndex();
+                if (startIndex < 0) startIndex = 0;
+                _stateMachine.Initialize(new WatchGuardWalkingState(this, _stateMachine, startIndex));
+            }
             else
                 base.InitializeStateMachine();
 

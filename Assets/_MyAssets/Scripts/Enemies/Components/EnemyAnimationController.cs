@@ -11,10 +11,14 @@ namespace CorrentesDaNoite.Enemies
         [SerializeField] protected string isRunningParamName = "isRunning";
         [SerializeField] protected string captureTriggerName = "Capture";
 
+        EnemyFootstepEmitter _footstepEmitter;
+
         protected virtual void Awake()
         {
             if (animator == null)
                 animator = GetComponentInChildren<Animator>();
+
+            _footstepEmitter = GetComponent<EnemyFootstepEmitter>() ?? GetComponentInParent<EnemyFootstepEmitter>();
         }
 
         public virtual void SetWalking(bool isWalking)
@@ -82,5 +86,15 @@ namespace CorrentesDaNoite.Enemies
 
             return false;
         }
+
+        public void PlayStepAnimationEvent()
+        {
+            if (_footstepEmitter == null)
+                _footstepEmitter = GetComponent<EnemyFootstepEmitter>() ?? GetComponentInParent<EnemyFootstepEmitter>();
+
+            _footstepEmitter?.PlayFootstep();
+        }
+
+        public void NewEvent() { }
     }
 }

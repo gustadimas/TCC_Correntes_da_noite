@@ -4499,7 +4499,7 @@ MonoBehaviour:
   uiPoolSize: 6
   spatialPoolSize: 8
   audioEvents:
-  - audioEvent: 11
+  - audioEvent: 8
     audioConfig:
       clip: {fileID: 8300000, guid: 48a4c10849b5fe54aa23434b514a094e, type: 3}
       type: 0
@@ -4507,7 +4507,7 @@ MonoBehaviour:
       pitch: 1
       loop: 0
       spatialAudio: 1
-  - audioEvent: 0
+  - audioEvent: 1
     audioConfig:
       clip: {fileID: 8300000, guid: 01de830fbe65ea9408dae3ecc0d59c33, type: 3}
       type: 0
@@ -4515,6 +4515,14 @@ MonoBehaviour:
       pitch: 1
       loop: 0
       spatialAudio: 0
+  - audioEvent: 9
+    audioConfig:
+      clip: {fileID: 8300000, guid: 1b7297126babf934eb6457a515fbd850, type: 3}
+      type: 0
+      volume: 1
+      pitch: 1
+      loop: 0
+      spatialAudio: 1
 --- !u!114 &1510202146
 MonoBehaviour:
   m_ObjectHideFlags: 0

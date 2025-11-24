@@ -13,5 +13,6 @@ namespace CorrentesDaNoite.Audio
 
         EnemyCapture,
         EnemyDetectPlayer,
+        EnemyChaseRoar,
     }
 }

@@ -17,9 +17,24 @@ namespace CorrentesDaNoite.Enemies
         NavMeshAgent _navMeshAgent;
         Rigidbody _rigidbody;
         EnemyController _controller;
+        bool _lastMoveSucceeded;
 
         public float MoveSpeed => moveSpeed;
         public bool IsMoving => _navMeshAgent != null && _navMeshAgent.hasPath;
+        public bool LastMoveSucceeded => _lastMoveSucceeded;
+        public bool HasValidPath
+        {
+            get
+            {
+                if (_navMeshAgent == null)
+                    return false;
+                if (_navMeshAgent.pathPending)
+                    return true;
+                if (!_navMeshAgent.hasPath)
+                    return false;
+                return _navMeshAgent.pathStatus != NavMeshPathStatus.PathInvalid;
+            }
+        }
 
         void Awake()
         {
@@ -42,6 +57,8 @@ namespace CorrentesDaNoite.Enemies
 
             if (_rigidbody != null)
                 _rigidbody.isKinematic = true;
+
+            TrySnapAgentToNavMesh(transform.position, 5f);
         }
 
         void Update()
@@ -74,12 +91,31 @@ namespace CorrentesDaNoite.Enemies
             }
         }
 
-        public void MoveTo(Vector3 target)
+        public bool MoveTo(Vector3 target)
         {
-            if (_navMeshAgent == null || !_navMeshAgent.isOnNavMesh) return;
+            if (_navMeshAgent == null)
+            {
+                _lastMoveSucceeded = false;
+                return false;
+            }
 
-            _navMeshAgent.SetDestination(target);
+            if (!_navMeshAgent.isOnNavMesh && !TrySnapAgentToNavMesh(transform.position))
+            {
+                _lastMoveSucceeded = false;
+                return false;
+            }
+
+            if (!NavMesh.SamplePosition(target, out NavMeshHit hit, 5f, NavMesh.AllAreas))
+            {
+                Debug.LogWarning($"[EnemyMovement] Failed to find NavMesh near target for {gameObject.name}.");
+                _lastMoveSucceeded = false;
+                return false;
+            }
+
+            _navMeshAgent.SetDestination(hit.position);
             _navMeshAgent.isStopped = false;
+            _lastMoveSucceeded = true;
+            return true;
         }
 
         public void Stop()
@@ -88,17 +124,26 @@ namespace CorrentesDaNoite.Enemies
 
             _navMeshAgent.isStopped = true;
             _navMeshAgent.ResetPath();
+            _lastMoveSucceeded = false;
         }
 
         public void TeleportTo(Vector3 position)
         {
-            if (_navMeshAgent != null)
+            if (_navMeshAgent == null)
             {
-                _navMeshAgent.Warp(position);
-                _navMeshAgent.ResetPath();
-            }
-            else
                 transform.position = position;
+                _lastMoveSucceeded = false;
+                return;
+            }
+
+            if (!TrySnapAgentToNavMesh(position))
+            {
+                _lastMoveSucceeded = false;
+                return;
+            }
+
+            _navMeshAgent.ResetPath();
+            _lastMoveSucceeded = true;
         }
 
         public void SetSpeed(float speed)
@@ -126,6 +171,21 @@ namespace CorrentesDaNoite.Enemies
 
             if (_navMeshAgent != null)
                 _navMeshAgent.acceleration = accel;
+        }
+
+        bool TrySnapAgentToNavMesh(Vector3 desiredPosition, float maxDistance = 2f)
+        {
+            if (_navMeshAgent == null)
+                return false;
+
+            if (NavMesh.SamplePosition(desiredPosition, out NavMeshHit hit, maxDistance, NavMesh.AllAreas))
+            {
+                _navMeshAgent.Warp(hit.position);
+                return true;
+            }
+
+            Debug.LogWarning($"[EnemyMovement] No NavMesh found near {desiredPosition} for {gameObject.name}.");
+            return false;
         }
     }
 }

@@ -9,6 +9,8 @@ namespace CorrentesDaNoite.Enemies
         protected Transform[] _patrolPoints;
         protected int _currentPointIndex;
         protected bool _wasAlertedLastFrame;
+        protected float _pathCheckTimer;
+        protected const float PathCheckDelay = 0.4f;
 
         public EnemyPatrolState(EnemyController controller, EnemyStateMachine stateMachine, int startIndex = 0) : base(controller, stateMachine)
         {
@@ -35,6 +37,7 @@ namespace CorrentesDaNoite.Enemies
 
             _controller.AnimationController.SetWalking(true);
             MoveToCurrentPoint();
+            _pathCheckTimer = 0f;
         }
 
         public override void Update()
@@ -71,6 +74,23 @@ namespace CorrentesDaNoite.Enemies
                         _currentPointIndex = 0;
 
                     MoveToCurrentPoint();
+                    _pathCheckTimer = 0f;
+                }
+                else
+                {
+                    _pathCheckTimer += Time.deltaTime;
+                    if (_pathCheckTimer >= PathCheckDelay && !_controller.Movement.HasValidPath)
+                    {
+                        int nextIndex = GetNextValidPointIndex(_currentPointIndex);
+                        if (nextIndex >= 0)
+                        {
+                            _currentPointIndex = nextIndex;
+                            MoveToCurrentPoint();
+                            _pathCheckTimer = 0f;
+                        }
+                        else
+                            _stateMachine.ChangeState(new EnemyIdleState(_controller, _stateMachine));
+                    }
                 }
             }
         }
@@ -89,8 +109,29 @@ namespace CorrentesDaNoite.Enemies
 
         protected void MoveToCurrentPoint()
         {
-            if (_currentPointIndex < _patrolPoints.Length)
-                _controller.Movement.MoveTo(_patrolPoints[_currentPointIndex].position);
+            if (_currentPointIndex >= _patrolPoints.Length || _patrolPoints[_currentPointIndex] == null)
+                return;
+
+            bool success = _controller.Movement.MoveTo(_patrolPoints[_currentPointIndex].position);
+            _pathCheckTimer = 0f;
+
+            if (!success)
+            {
+                int nextIndex = GetNextValidPointIndex(_currentPointIndex);
+                if (nextIndex >= 0)
+                {
+                    _currentPointIndex = nextIndex;
+                    success = _controller.Movement.MoveTo(_patrolPoints[_currentPointIndex].position);
+                    _pathCheckTimer = 0f;
+
+                    if (!success)
+                        _stateMachine.ChangeState(new EnemyIdleState(_controller, _stateMachine));
+                }
+                else
+                {
+                    _stateMachine.ChangeState(new EnemyIdleState(_controller, _stateMachine));
+                }
+            }
         }
 
         protected void RotateTowardsCurrentPoint()
@@ -106,6 +147,22 @@ namespace CorrentesDaNoite.Enemies
                 Quaternion targetRotation = Quaternion.LookRotation(direction);
                 _controller.transform.rotation = targetRotation;
             }
+        }
+
+        int GetNextValidPointIndex(int currentIndex)
+        {
+            if (_patrolPoints == null || _patrolPoints.Length == 0)
+                return -1;
+
+            int total = _patrolPoints.Length;
+            for (int offset = 1; offset <= total; offset++)
+            {
+                int candidate = (currentIndex + offset) % total;
+                if (_patrolPoints[candidate] != null)
+                    return candidate;
+            }
+
+            return -1;
         }
     }
 }

@@ -49,6 +49,8 @@ namespace CorrentesDaNoite.Chase
         [SerializeField] AudioClip roarSound;
         [SerializeField] AudioSource audioSource;
         [SerializeField] float footstepInterval = 0.5f;
+        [SerializeField] Audio.AudioEvent roarAudioEvent;
+        [SerializeField, Range(0f, 1.5f)] float roarVolume = 1f;
 
         [Header("Debug")]
         [SerializeField] bool debugMode;
@@ -216,6 +218,13 @@ namespace CorrentesDaNoite.Chase
             }
         }
 
+        public void PlayStepAnimationEvent()
+        {
+            PlayFootstep();
+        }
+
+        public void NewEvent() { }
+
         void TryCapture()
         {
             if (hasCaptured || target == null) return;
@@ -264,7 +273,7 @@ namespace CorrentesDaNoite.Chase
             }
 
             if (captureHandler != null)
-                captureHandler.ReleasePlayer();
+                captureHandler.ReleasePlayer(detachFromHoldPoint: false, restoreController: false, clearCapturedState: false);
 
             captureRoutine = null;
         }
@@ -348,6 +357,9 @@ namespace CorrentesDaNoite.Chase
 
         public void PlayRoar()
         {
+            if (!roarAudioEvent.Equals(default(Audio.AudioEvent)))
+                Audio.AudioManager.Instance?.PlayEvent(roarAudioEvent, transform.position);
+
             if (animator != null && !string.IsNullOrEmpty(roarAnimationTrigger))
             {
                 animator.ResetTrigger(roarAnimationTrigger);
@@ -368,11 +380,14 @@ namespace CorrentesDaNoite.Chase
             }
 
             if (roarSound != null && audioSource != null)
-                audioSource.PlayOneShot(roarSound);
+                audioSource.PlayOneShot(roarSound, roarVolume);
 
             if (debugMode)
                 Debug.Log("[ChaseEnemyController] Rugido tocado");
         }
+
+        public void SetRoarClip(AudioClip clip) => roarSound = clip;
+        public void SetRoarEvent(Audio.AudioEvent audioEvent) => roarAudioEvent = audioEvent;
 
         public float GetDistanceToPlayer()
         {

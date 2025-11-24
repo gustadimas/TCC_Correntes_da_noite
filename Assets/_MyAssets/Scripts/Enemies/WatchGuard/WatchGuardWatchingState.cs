@@ -7,6 +7,7 @@ namespace CorrentesDaNoite.Enemies
         protected WatchGuardController _guardController;
         protected int _guardIndex;
         protected float _lookTimer;
+        bool _lightActivated;
 
         public WatchGuardWatchingState(WatchGuardController controller, EnemyStateMachine stateMachine, int guardIndex) : base(controller, stateMachine)
         {
@@ -22,12 +23,10 @@ namespace CorrentesDaNoite.Enemies
             _controller.AnimationController.SetWalking(false);
             _controller.AnimationController.SetRunning(false);
             _lookTimer = 0f;
+            _lightActivated = false;
 
             _guardController.WatchAnimation?.SetWatching(true);
             _guardController.WatchAnimation?.TriggerLook();
-
-            if (_guardController.GuardLight != null)
-                _guardController.GuardLight.SetLightActive(true);
         }
 
         public override void Update()
@@ -38,7 +37,15 @@ namespace CorrentesDaNoite.Enemies
             if (lookTarget != null)
                 RotateTowards(lookTarget.position);
 
-            if (IsAlignedWithTarget(lookTarget))
+            bool isAligned = IsAlignedWithTarget(lookTarget);
+
+            if (!_lightActivated && isAligned && _guardController.GuardLight != null)
+            {
+                _guardController.GuardLight.SetLightActive(true);
+                _lightActivated = true;
+            }
+
+            if (isAligned)
             {
                 _lookTimer += Time.deltaTime;
                 if (_lookTimer >= _guardController.LookDuration)

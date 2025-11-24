@@ -91,6 +91,7 @@ namespace CorrentesDaNoite.Enemies
         public bool IsAlertedBySound => _isAlertedBySound;
         public int SoundHeardCount => _soundHeardCount;
         public bool IsRotatingBackToPatrol => _isRotatingBackToPatrol;
+        public int ClosestPatrolPointIndex => GetClosestPatrolPointIndex();
 
         protected virtual void Awake()
         {
@@ -271,9 +272,15 @@ namespace CorrentesDaNoite.Enemies
         protected virtual void InitializeStateMachine()
         {
             if (patrolPoints != null && patrolPoints.Length > 0)
-                _stateMachine.Initialize(new EnemyPatrolState(this, _stateMachine));
+            {
+                int startIndex = GetClosestPatrolPointIndex();
+                if (startIndex < 0) startIndex = 0;
+                _stateMachine.Initialize(new EnemyPatrolState(this, _stateMachine, startIndex));
+            }
             else
+            {
                 _stateMachine.Initialize(new EnemyIdleState(this, _stateMachine));
+            }
         }
 
         public virtual void OnPlayerDetectedByLight()

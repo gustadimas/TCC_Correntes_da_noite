@@ -41,7 +41,11 @@ namespace CorrentesDaNoite.Enemies
                 if (_idleTimer >= _currentIdleTime)
                 {
                     if (_controller.PatrolPoints != null && _controller.PatrolPoints.Length > 0)
-                        _stateMachine.ChangeState(new EnemyPatrolState(_controller, _stateMachine));
+                    {
+                        int startIndex = _controller.ClosestPatrolPointIndex;
+                        if (startIndex < 0) startIndex = 0;
+                        _stateMachine.ChangeState(new EnemyPatrolState(_controller, _stateMachine, startIndex));
+                    }
                 }
             }
         }

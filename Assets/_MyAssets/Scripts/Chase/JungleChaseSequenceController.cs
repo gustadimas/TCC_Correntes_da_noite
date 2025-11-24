@@ -61,7 +61,7 @@ namespace CorrentesDaNoite.Chase
         [SerializeField] CinemachineCamera enemyRevealCamera;
         [SerializeField] CinemachineCamera playerFaceCamera;
         [SerializeField] CinemachineCamera gameplayChaseCamera;
-        [SerializeField, Tooltip("Camera padrao do jogador (usada durante fade/respawn)")] CinemachineCamera playerDefaultCamera;
+        [SerializeField] CinemachineCamera playerDefaultCamera;
 
         [Header("Camera Settings")]
         [SerializeField] int defaultCameraPriority = 10;
@@ -76,6 +76,7 @@ namespace CorrentesDaNoite.Chase
         [SerializeField] AudioClip introAmbientSound;
         [SerializeField] AudioClip soundBehindClip;
         [SerializeField] AudioClip enemyRoarSound;
+        [SerializeField] Audio.AudioEvent enemyRoarEvent;
         [SerializeField] AudioSource audioSource;
         [SerializeField] AudioStateController audioStateController;
         [SerializeField] string chaseMusicKey = "Chase";
@@ -109,7 +110,7 @@ namespace CorrentesDaNoite.Chase
         [SerializeField] float slowMotionPromptDelay = 0.2f;
 
         [Header("Respawn Reset")]
-        [SerializeField, Tooltip("Delay extra apos respawn antes de reativar o chase")] float respawnResetDelay = 1f;
+        [SerializeField] float respawnResetDelay = 1f;
 
         JungleChaseState currentState;
         bool sequenceStarted;
@@ -166,6 +167,7 @@ namespace CorrentesDaNoite.Chase
         public AudioClip IntroAmbientSound => introAmbientSound;
         public AudioClip SoundBehindClip => soundBehindClip;
         public AudioClip EnemyRoarSound => enemyRoarSound;
+        public Audio.AudioEvent EnemyRoarEvent => enemyRoarEvent;
         public AudioSource AudioSource => audioSource;
         public float EndSequenceDuration => endSequenceDuration;
         public float EnemyStopDelay => enemyStopDelay;

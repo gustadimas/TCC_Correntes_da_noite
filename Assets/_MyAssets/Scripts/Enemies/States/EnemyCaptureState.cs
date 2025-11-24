@@ -48,7 +48,7 @@ namespace CorrentesDaNoite.Enemies
                 _deathTriggered = true;
 
                 if (_captureHandler != null)
-                    _captureHandler.ReleasePlayer();
+                    _captureHandler.ReleasePlayer(detachFromHoldPoint: false, restoreController: false, clearCapturedState: false);
 
                 PlayerDeath playerDeath = _controller.Player?.GetComponent<PlayerDeath>();
 

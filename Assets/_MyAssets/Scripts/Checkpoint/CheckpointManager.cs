@@ -21,7 +21,7 @@ namespace CorrentesDaNoite.Checkpoint
         [SerializeField] string respawnAnimationState = "";
         [SerializeField] string idleAnimationState = "";
         [SerializeField] bool waitForRespawnAnimation = false;
-        [SerializeField] bool usePersistentSave = false;
+        [SerializeField] bool usePersistentSave = true;
 
         ISaveSystem _saveSystem;
         Checkpoint _currentCheckpoint;
@@ -41,10 +41,10 @@ namespace CorrentesDaNoite.Checkpoint
                 return;
             }
             Instance = this;
+            if (transform.parent == null)
+                DontDestroyOnLoad(gameObject);
 
-            _saveSystem = usePersistentSave
-                ? (ISaveSystem)new PlayerPrefsSaveSystem()
-                : new MemorySaveSystem();
+            _saveSystem = SaveSystemProvider.Get(usePersistentSave);
 
             RegisterAllCheckpoints();
         }
@@ -71,10 +71,16 @@ namespace CorrentesDaNoite.Checkpoint
                     SetCheckpoint(checkpoint);
                     return;
                 }
+                else if (!string.IsNullOrEmpty(savedId))
+                {
+                    Debug.LogWarning($"[CheckpointManager] Checkpoint salvo '{savedId}' não foi encontrado na cena. Usando checkpoint inicial.");
+                }
             }
 
             if (initialCheckpoint != null)
                 SetCheckpoint(initialCheckpoint);
+            else if (_checkpoints.Count > 0)
+                SetCheckpoint(_checkpoints.Values.First());
         }
 
         void OnDestroy()
@@ -84,6 +90,12 @@ namespace CorrentesDaNoite.Checkpoint
 
         public void SetCheckpoint(Checkpoint checkpoint)
         {
+            if (checkpoint == null)
+            {
+                Debug.LogWarning("[CheckpointManager] Tentou definir checkpoint nulo.");
+                return;
+            }
+
             if (_currentCheckpoint != null)
                 _currentCheckpoint.SetActive(false);
 
@@ -112,6 +124,9 @@ namespace CorrentesDaNoite.Checkpoint
 
             var playerController = player.GetComponent<Player.PlayerController>();
             var animator = player.GetComponent<Animator>();
+            Transform playerTransform = player.transform;
+            if (playerTransform.parent != null)
+                playerTransform.SetParent(null, true);
 
             if (playerController != null) playerController.enabled = false;
 

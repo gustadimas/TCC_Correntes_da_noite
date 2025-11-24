@@ -6,6 +6,8 @@ namespace CorrentesDaNoite.Enemies
     {
         protected WatchGuardController _guardController;
         protected int _guardIndex;
+        float _pathCheckTimer;
+        const float PathCheckDelay = 0.4f;
 
         public WatchGuardWalkingState(WatchGuardController controller, EnemyStateMachine stateMachine, int guardIndex) : base(controller, stateMachine)
         {
@@ -33,12 +35,37 @@ namespace CorrentesDaNoite.Enemies
 
             _controller.Movement.SetSpeed(_guardController.GuardMoveSpeed);
             _controller.Movement.SetAcceleration(16f);
-            _controller.Movement.MoveTo(_guardController.GetGuardPointPosition(_guardIndex));
+            bool success = _controller.Movement.MoveTo(_guardController.GetGuardPointPosition(_guardIndex));
+            _pathCheckTimer = 0f;
+
+            if (!success)
+            {
+                int nextIndex = _guardController.GetNextGuardIndex(_guardIndex);
+                if (nextIndex >= 0)
+                    _stateMachine.ChangeState(new WatchGuardWalkingState(_guardController, _stateMachine, nextIndex));
+                else
+                    _stateMachine.ChangeState(new EnemyIdleState(_controller, _stateMachine));
+            }
         }
 
         public override void Update()
         {
             base.Update();
+
+            _pathCheckTimer += Time.deltaTime;
+
+            if (_pathCheckTimer >= PathCheckDelay && !_controller.Movement.HasValidPath)
+            {
+                int nextIndex = _guardController.GetNextGuardIndex(_guardIndex);
+                if (nextIndex >= 0)
+                {
+                    _stateMachine.ChangeState(new WatchGuardWalkingState(_guardController, _stateMachine, nextIndex));
+                    return;
+                }
+
+                _stateMachine.ChangeState(new EnemyIdleState(_controller, _stateMachine));
+                return;
+            }
 
             if (_guardController.HasReachedGuardPoint())
             {

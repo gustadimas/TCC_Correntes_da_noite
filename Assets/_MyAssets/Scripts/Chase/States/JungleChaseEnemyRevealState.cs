@@ -34,6 +34,7 @@ namespace CorrentesDaNoite.Chase.States
             _roarPlayed = false;
 
             EnsureEnemyReady();
+            ConfigureEnemyAudio();
 
             if (controller.DebugMode)
                 Debug.Log("[JungleChaseEnemyReveal] Estado iniciado - olhar para tras e revelar inimigo");
@@ -107,6 +108,17 @@ namespace CorrentesDaNoite.Chase.States
                 controller.ChaseEnemyController.AlignBehindTarget();
                 controller.ChaseEnemyController.StopChase();
             }
+        }
+
+        void ConfigureEnemyAudio()
+        {
+            if (controller.ChaseEnemyController == null) return;
+
+            if (controller.EnemyRoarSound != null)
+                controller.ChaseEnemyController.SetRoarClip(controller.EnemyRoarSound);
+
+            if (!controller.EnemyRoarEvent.Equals(default(CorrentesDaNoite.Audio.AudioEvent)))
+                controller.ChaseEnemyController.SetRoarEvent(controller.EnemyRoarEvent);
         }
 
         void TriggerLookBack()
