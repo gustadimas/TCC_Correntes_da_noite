@@ -22,8 +22,14 @@ namespace CorrentesDaNoite
         [SerializeField] bool showMovementTutorialAfterSequence = true;
         [SerializeField] string movementPromptText = "Use WASD para se mover";
         [SerializeField] float movementPromptDelay = 0.3f;
+        [Header("Lifecycle")]
+        [SerializeField] bool disableAfterSequence = true;
+        [SerializeField] bool deactivateObjectAfterSequence = true;
+        [Header("Checkpoint Integration")]
+        [SerializeField] bool hideAfterFirstCheckpoint = true;
 
         PlayerController _playerController;
+        bool _checkpointReached;
 
         void Start()
         {
@@ -35,7 +41,13 @@ namespace CorrentesDaNoite
                 if (playerAnimator == null) playerAnimator = player.GetComponent<Animator>();
             }
 
+            SubscribeCheckpoint();
             StartCoroutine(StartSequence());
+        }
+
+        void OnDestroy()
+        {
+            UnsubscribeCheckpoint();
         }
 
         IEnumerator StartSequence()
@@ -83,6 +95,40 @@ namespace CorrentesDaNoite
             if (_playerController != null) _playerController.enabled = true;
 
             TryShowMovementTutorial();
+
+            if (deactivateObjectAfterSequence)
+            {
+                gameObject.SetActive(false);
+            }
+            else if (disableAfterSequence)
+            {
+                enabled = false;
+            }
+        }
+
+        void SubscribeCheckpoint()
+        {
+            if (!hideAfterFirstCheckpoint)
+                return;
+
+            Checkpoint.CheckpointManager.OnPlayerRespawned += OnCheckpointEvent;
+        }
+
+        void UnsubscribeCheckpoint()
+        {
+            if (!hideAfterFirstCheckpoint)
+                return;
+
+            Checkpoint.CheckpointManager.OnPlayerRespawned -= OnCheckpointEvent;
+        }
+
+        void OnCheckpointEvent()
+        {
+            if (_checkpointReached)
+                return;
+
+            _checkpointReached = true;
+            gameObject.SetActive(false);
         }
 
         void PlayWakeUpAnimation()

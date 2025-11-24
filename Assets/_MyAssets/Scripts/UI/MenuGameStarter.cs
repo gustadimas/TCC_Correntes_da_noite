@@ -12,7 +12,7 @@ namespace CorrentesDaNoite.UI
         [SerializeField] CanvasGroup fadeToBlackPanel;
 
         [Header("Configuracoes")]
-        [SerializeField] string gameplaySceneName = "Gameplay";
+        [SerializeField] string introSceneName = "Introducao";
 
         [Header("Configuracoes do Fade")]
         [SerializeField] float fadeOutDuration = 1f;
@@ -81,7 +81,7 @@ namespace CorrentesDaNoite.UI
                 yield return StartCoroutine(FadeToBlack());
             }
 
-            SceneManager.LoadScene(gameplaySceneName);
+            SceneManager.LoadScene(introSceneName);
 
             _isTransitioning = false;
             OnGameStarted();

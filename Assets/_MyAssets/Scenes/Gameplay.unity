@@ -6817,6 +6817,9 @@ GameObject:
   - component: {fileID: 155376106}
   - component: {fileID: 155376105}
   - component: {fileID: 155376104}
+  - component: {fileID: 155376116}
+  - component: {fileID: 155376115}
+  - component: {fileID: 155376117}
   m_Layer: 0
   m_Name: Chaser_02
   m_TagString: Untagged
@@ -7087,6 +7090,100 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &155376115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 155376102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae3b07d0ac9795043a95a49ca9a3be2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementThreshold: 0.2
+  stepInterval: 0.4
+  useAnimationEvents: 0
+  defaultConfig:
+    clips: []
+    type: 0
+    spatialAudio: 0
+    baseVolume: 0
+    usePitchVariation: 0
+    minPitch: 0
+    maxPitch: 0
+    minTimeBetweenSteps: 0
+  surfaceConfig:
+    clips: []
+    type: 0
+    spatialAudio: 0
+    baseVolume: 0
+    usePitchVariation: 0
+    minPitch: 0
+    maxPitch: 0
+    minTimeBetweenSteps: 0
+  surfaceTracker: {fileID: 0}
+  feetTransform: {fileID: 0}
+  usePositionalAudio: 1
+--- !u!114 &155376116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 155376102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae3b07d0ac9795043a95a49ca9a3be2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementThreshold: 0.2
+  stepInterval: 0.4
+  useAnimationEvents: 1
+  defaultConfig:
+    clips:
+    - {fileID: 8300000, guid: 68ab3630d4ad01349b90517e75e7d527, type: 3}
+    type: 0
+    spatialAudio: 1
+    baseVolume: 0.2
+    usePitchVariation: 1
+    minPitch: 0.95
+    maxPitch: 1.05
+    minTimeBetweenSteps: 0.5
+  surfaceConfig:
+    clips:
+    - {fileID: 8300000, guid: 68ab3630d4ad01349b90517e75e7d527, type: 3}
+    type: 0
+    spatialAudio: 1
+    baseVolume: 0.2
+    usePitchVariation: 0
+    minPitch: 0.95
+    maxPitch: 1.05
+    minTimeBetweenSteps: 0.5
+  surfaceTracker: {fileID: 155376117}
+  feetTransform: {fileID: 1116939640}
+  usePositionalAudio: 1
+--- !u!114 &155376117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 155376102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6cab603476af624782b7f16f9abed74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultSurface: 0
+  useRaycastFallback: 1
+  raycastDistance: 1
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  useTerrainDetection: 0
+  terrainTextureDetector: {fileID: 0}
 --- !u!1001 &156181191
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13796,7 +13893,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: ec37cf8cbe7924644a7a3d8de454807a, type: 3}
     type: 0
     spatialAudio: 1
-    baseVolume: 0.9
+    baseVolume: 0.5
     usePitchVariation: 1
     minPitch: 0.95
     maxPitch: 1.05
@@ -13844,7 +13941,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 68ab3630d4ad01349b90517e75e7d527, type: 3}
     type: 0
     spatialAudio: 1
-    baseVolume: 0.9
+    baseVolume: 0.5
     usePitchVariation: 1
     minPitch: 0.95
     maxPitch: 1.05
@@ -13854,7 +13951,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: e95139be60d70ad4e95912b52f536217, type: 3}
     type: 0
     spatialAudio: 1
-    baseVolume: 0.9
+    baseVolume: 0.5
     usePitchVariation: 1
     minPitch: 0.95
     maxPitch: 1.05
@@ -29391,6 +29488,9 @@ GameObject:
   - component: {fileID: 601350502}
   - component: {fileID: 601350498}
   - component: {fileID: 601350506}
+  - component: {fileID: 601350508}
+  - component: {fileID: 601350507}
+  - component: {fileID: 601350509}
   m_Layer: 0
   m_Name: Chaser
   m_TagString: Untagged
@@ -29560,6 +29660,81 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   footstepInterval: 0.5
   debugMode: 0
+--- !u!114 &601350507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 601350493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae3b07d0ac9795043a95a49ca9a3be2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementThreshold: 0.2
+  stepInterval: 0.4
+  useAnimationEvents: 1
+  defaultConfig:
+    clips:
+    - {fileID: 8300000, guid: 68ab3630d4ad01349b90517e75e7d527, type: 3}
+    type: 0
+    spatialAudio: 1
+    baseVolume: 0.2
+    usePitchVariation: 1
+    minPitch: 0.95
+    maxPitch: 1.05
+    minTimeBetweenSteps: 0.5
+  surfaceConfig:
+    clips:
+    - {fileID: 8300000, guid: 68ab3630d4ad01349b90517e75e7d527, type: 3}
+    type: 0
+    spatialAudio: 1
+    baseVolume: 0.2
+    usePitchVariation: 0
+    minPitch: 0.95
+    maxPitch: 1.05
+    minTimeBetweenSteps: 0.5
+  surfaceTracker: {fileID: 601350509}
+  feetTransform: {fileID: 1532486990}
+  usePositionalAudio: 1
+--- !u!114 &601350508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 601350493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b842e19338b2b5e4ea7956223264dcb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 3
+  rotationSpeed: 360
+  acceleration: 16
+  angularSpeed: 360
+  stoppingDistance: 0.2
+--- !u!114 &601350509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 601350493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6cab603476af624782b7f16f9abed74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultSurface: 0
+  useRaycastFallback: 1
+  raycastDistance: 1
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  useTerrainDetection: 0
+  terrainTextureDetector: {fileID: 0}
 --- !u!1 &602128206
 GameObject:
   m_ObjectHideFlags: 0
@@ -48178,6 +48353,9 @@ MonoBehaviour:
   showMovementTutorialAfterSequence: 1
   movementPromptText: Use as teclas WASD para se mover
   movementPromptDelay: 1.3
+  disableAfterSequence: 1
+  deactivateObjectAfterSequence: 1
+  hideAfterFirstCheckpoint: 1
 --- !u!1 &1044109788
 GameObject:
   m_ObjectHideFlags: 0
@@ -60954,8 +61132,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98b20b2396ff2dc4aae6bb27de482892, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  message: Utilize as teclas Ctrl Esq ou C para agachar.
-  displayTime: 3
+  message: 'Cuidado, fazer barulho atrai inimigos!
+
+    Utilize as teclas Ctrl Esq
+    ou C para agachar.'
+  displayTime: 6
   triggerOnce: 1
   hideOnExit: 0
   gizmoColor: {r: 0, g: 0.8, b: 1, a: 0.35}
@@ -63387,6 +63568,8 @@ GameObject:
   - component: {fileID: 1385633287}
   - component: {fileID: 1385633286}
   - component: {fileID: 1385633285}
+  - component: {fileID: 1385633296}
+  - component: {fileID: 1385633297}
   m_Layer: 0
   m_Name: Chaser_03
   m_TagString: Untagged
@@ -63657,6 +63840,64 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1385633296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1385633283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae3b07d0ac9795043a95a49ca9a3be2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementThreshold: 0.2
+  stepInterval: 0.4
+  useAnimationEvents: 1
+  defaultConfig:
+    clips:
+    - {fileID: 8300000, guid: 68ab3630d4ad01349b90517e75e7d527, type: 3}
+    type: 0
+    spatialAudio: 1
+    baseVolume: 0.2
+    usePitchVariation: 1
+    minPitch: 0.95
+    maxPitch: 1.05
+    minTimeBetweenSteps: 0.5
+  surfaceConfig:
+    clips:
+    - {fileID: 8300000, guid: 68ab3630d4ad01349b90517e75e7d527, type: 3}
+    type: 0
+    spatialAudio: 1
+    baseVolume: 0.2
+    usePitchVariation: 0
+    minPitch: 0.95
+    maxPitch: 1.05
+    minTimeBetweenSteps: 0.5
+  surfaceTracker: {fileID: 1385633297}
+  feetTransform: {fileID: 1539022075}
+  usePositionalAudio: 1
+--- !u!114 &1385633297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1385633283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6cab603476af624782b7f16f9abed74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultSurface: 0
+  useRaycastFallback: 1
+  raycastDistance: 1
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  useTerrainDetection: 0
+  terrainTextureDetector: {fileID: 0}
 --- !u!1 &1387566254
 GameObject:
   m_ObjectHideFlags: 0
@@ -70076,6 +70317,8 @@ GameObject:
   - component: {fileID: 1526537952}
   - component: {fileID: 1526537951}
   - component: {fileID: 1526537950}
+  - component: {fileID: 1526537961}
+  - component: {fileID: 1526537962}
   m_Layer: 0
   m_Name: Chaser_01
   m_TagString: Untagged
@@ -70348,6 +70591,64 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1526537961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1526537948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae3b07d0ac9795043a95a49ca9a3be2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementThreshold: 0.2
+  stepInterval: 0.4
+  useAnimationEvents: 1
+  defaultConfig:
+    clips:
+    - {fileID: 8300000, guid: 68ab3630d4ad01349b90517e75e7d527, type: 3}
+    type: 0
+    spatialAudio: 1
+    baseVolume: 0.2
+    usePitchVariation: 1
+    minPitch: 0.95
+    maxPitch: 1.05
+    minTimeBetweenSteps: 0.5
+  surfaceConfig:
+    clips:
+    - {fileID: 8300000, guid: 68ab3630d4ad01349b90517e75e7d527, type: 3}
+    type: 0
+    spatialAudio: 1
+    baseVolume: 0.2
+    usePitchVariation: 0
+    minPitch: 0.95
+    maxPitch: 1.05
+    minTimeBetweenSteps: 0.5
+  surfaceTracker: {fileID: 1526537962}
+  feetTransform: {fileID: 2105195131}
+  usePositionalAudio: 1
+--- !u!114 &1526537962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1526537948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6cab603476af624782b7f16f9abed74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultSurface: 0
+  useRaycastFallback: 1
+  raycastDistance: 1
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  useTerrainDetection: 0
+  terrainTextureDetector: {fileID: 0}
 --- !u!1001 &1526590786
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -88570,7 +88871,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98b20b2396ff2dc4aae6bb27de482892, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  message: "Fa\xE7a sil\xEAncio, eles te ouvem!"
+  message: "Fa\xE7a sil\xEAncio, eles te escutam!"
   displayTime: 3
   triggerOnce: 1
   hideOnExit: 0
@@ -97048,6 +97349,8 @@ GameObject:
   - component: {fileID: 9192132949333104918}
   - component: {fileID: 9192132949333104923}
   - component: {fileID: 9192132949333104924}
+  - component: {fileID: 9192132949333104926}
+  - component: {fileID: 9192132949333104925}
   m_Layer: 0
   m_Name: Chaser_01
   m_TagString: Untagged
@@ -97146,7 +97449,7 @@ Transform:
   m_GameObject: {fileID: 2466556765112916434}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -143.58, y: -1.0045795, z: -39.4}
+  m_LocalPosition: {x: -131.07912, y: -1.0045795, z: -34.16608}
   m_LocalScale: {x: 1.65, y: 1.65, z: 1.65}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -98661,6 +98964,64 @@ MonoBehaviour:
   eyeOrigin: {fileID: 928392837}
   detectionEnabled: 1
   visibilityResetDelay: 0.1
+--- !u!114 &9192132949333104925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2466556765112916434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6cab603476af624782b7f16f9abed74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultSurface: 0
+  useRaycastFallback: 1
+  raycastDistance: 1
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  useTerrainDetection: 0
+  terrainTextureDetector: {fileID: 0}
+--- !u!114 &9192132949333104926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2466556765112916434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae3b07d0ac9795043a95a49ca9a3be2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementThreshold: 0.2
+  stepInterval: 0.4
+  useAnimationEvents: 0
+  defaultConfig:
+    clips:
+    - {fileID: 8300000, guid: 68ab3630d4ad01349b90517e75e7d527, type: 3}
+    type: 0
+    spatialAudio: 1
+    baseVolume: 0.2
+    usePitchVariation: 1
+    minPitch: 0.95
+    maxPitch: 1.05
+    minTimeBetweenSteps: 0.5
+  surfaceConfig:
+    clips:
+    - {fileID: 8300000, guid: 68ab3630d4ad01349b90517e75e7d527, type: 3}
+    type: 0
+    spatialAudio: 1
+    baseVolume: 0.2
+    usePitchVariation: 0
+    minPitch: 0.95
+    maxPitch: 1.05
+    minTimeBetweenSteps: 0.5
+  surfaceTracker: {fileID: 9192132949333104925}
+  feetTransform: {fileID: 229237154}
+  usePositionalAudio: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -6,10 +6,11 @@ namespace CorrentesDaNoite.UI
 {
     public class CutsceneFadeController : MonoBehaviour
     {
-        public CanvasGroup canvasGroup;
-        public float fadeInDuration = 0.8f;
-        public float fadeOutDuration = 0.5f;
-        public AnimationCurve fadeCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
+        [SerializeField] public CanvasGroup canvasGroup;
+        [SerializeField] public float fadeInDuration = 0.8f;
+        [SerializeField] public float fadeOutDuration = 0.5f;
+        [SerializeField] public AnimationCurve fadeCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
+        [SerializeField] public int sortingOrder = 100;
 
         protected Coroutine currentFade;
 
@@ -17,6 +18,10 @@ namespace CorrentesDaNoite.UI
         {
             if (canvasGroup == null)
                 canvasGroup = GetComponent<CanvasGroup>();
+
+            Canvas canvas = GetComponentInParent<Canvas>();
+            if (canvas != null)
+                canvas.sortingOrder = sortingOrder;
         }
 
         public void SetAlpha(float alpha)

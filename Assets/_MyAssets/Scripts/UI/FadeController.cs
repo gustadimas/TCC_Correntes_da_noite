@@ -12,6 +12,7 @@ namespace CorrentesDaNoite.UI
         [SerializeField] float fadeDuration = 1f;
         [SerializeField] Color fadeColor = Color.black;
         [SerializeField] Canvas fadeCanvas;
+        [SerializeField] int sortingOrder = 9999;
 
         bool _isFading;
         public bool IsFading => _isFading;
@@ -37,7 +38,7 @@ namespace CorrentesDaNoite.UI
                 canvasObj.transform.SetParent(transform);
                 fadeCanvas = canvasObj.AddComponent<Canvas>();
                 fadeCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
-                fadeCanvas.sortingOrder = 9999;
+                fadeCanvas.sortingOrder = sortingOrder;
 
                 CanvasScaler scaler = canvasObj.AddComponent<CanvasScaler>();
                 scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;

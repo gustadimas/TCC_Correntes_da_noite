@@ -2924,7 +2924,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   menuCanvasGroup: {fileID: 1812496951}
   fadeToBlackPanel: {fileID: 361169230}
-  gameplaySceneName: Intro
+  introSceneName: Introducao
   fadeOutDuration: 1
   fadeToBlackDuration: 0.5
   fadeOutCurve:
@@ -5122,6 +5122,7 @@ MonoBehaviour:
   newGameButton: {fileID: 482017238}
   continueButtonObject: {fileID: 502925792}
   gameplaySceneName: Gameplay
+  introSceneName: Introducao
   usePersistentSave: 1
   askConfirmationIfHasSave: 1
   confirmationPanel: {fileID: 0}
@@ -5188,6 +5189,7 @@ MonoBehaviour:
   fadeDuration: 3
   fadeColor: {r: 0, g: 0, b: 0, a: 1}
   fadeCanvas: {fileID: 0}
+  sortingOrder: 50
 --- !u!4 &1678564409
 Transform:
   m_ObjectHideFlags: 0

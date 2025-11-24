@@ -14,6 +14,7 @@ namespace CorrentesDaNoite.UI
 
         [Header("Configuracoes")]
         [SerializeField] string gameplaySceneName = "Gameplay";
+        [SerializeField] string introSceneName = "Introducao";
         [SerializeField] bool usePersistentSave = true;
 
         [Header("Confirmacao de Novo Jogo")]
@@ -77,7 +78,7 @@ namespace CorrentesDaNoite.UI
             string checkpointId = _saveSystem.LoadCheckpoint();
             Debug.Log($"[MenuSaveIntegration] Continuando do checkpoint: {checkpointId}");
 
-            LoadGameplayScene();
+            LoadScene(gameplaySceneName);
         }
 
         void OnNewGameClicked()
@@ -97,21 +98,21 @@ namespace CorrentesDaNoite.UI
             Debug.Log("[MenuSaveIntegration] Iniciando novo jogo...");
 
             _saveSystem.ClearSaveData();
-            LoadGameplayScene();
+            LoadScene(introSceneName);
         }
 
-        void LoadGameplayScene()
+        void LoadScene(string sceneName)
         {
             if (fadeController != null)
             {
                 fadeController.FadeOut(() =>
                 {
-                    SceneManager.LoadScene(gameplaySceneName);
+                    SceneManager.LoadScene(sceneName);
                 }, fadeDuration);
             }
             else
             {
-                SceneManager.LoadScene(gameplaySceneName);
+                SceneManager.LoadScene(sceneName);
             }
         }
 

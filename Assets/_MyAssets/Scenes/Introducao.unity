@@ -210,6 +210,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  sortingOrder: 100
 --- !u!114 &138775698
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -357,6 +358,7 @@ MonoBehaviour:
   fadeDuration: 1.5
   fadeColor: {r: 0, g: 0, b: 0, a: 1}
   fadeCanvas: {fileID: 0}
+  sortingOrder: 50
 --- !u!4 &252137123
 Transform:
   m_ObjectHideFlags: 0

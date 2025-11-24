@@ -855,6 +855,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  sortingOrder: 100
 --- !u!225 &777486381
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -934,6 +935,8 @@ MonoBehaviour:
   hoverColor: {r: 1, g: 1, b: 1, a: 1}
   clickColor: {r: 1, g: 1, b: 1, a: 1}
   selectColor: {r: 1, g: 1, b: 1, a: 1}
+  hoverAudioEvent: 1
+  clickAudioEvent: 0
   useScaling: 0
   normalScale: {x: 1, y: 1, z: 1}
   hoverScale: {x: 1.1, y: 1.1, z: 1.1}
@@ -1260,6 +1263,7 @@ MonoBehaviour:
   fadeController: {fileID: 1166161863}
   playOnStart: 1
   advanceKey: 1
+  advanceGamepadButton: 6
   minAdvanceTime: 0.5
   holdSkipTime: 1
   useTypewriter: 1
@@ -1315,6 +1319,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  sortingOrder: 100
 --- !u!225 &1166161864
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -1609,6 +1614,7 @@ MonoBehaviour:
   fadeDuration: 3
   fadeColor: {r: 0, g: 0, b: 0, a: 1}
   fadeCanvas: {fileID: 0}
+  sortingOrder: 50
 --- !u!4 &1678083657
 Transform:
   m_ObjectHideFlags: 0
