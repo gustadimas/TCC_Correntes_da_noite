@@ -13893,11 +13893,11 @@ MonoBehaviour:
     - {fileID: 8300000, guid: ec37cf8cbe7924644a7a3d8de454807a, type: 3}
     type: 0
     spatialAudio: 1
-    baseVolume: 0.5
+    baseVolume: 0.1
     usePitchVariation: 1
     minPitch: 0.95
     maxPitch: 1.05
-    minTimeBetweenSteps: 0.17
+    minTimeBetweenSteps: 0.1
   metalConfig:
     clips: []
     type: 0
@@ -13931,31 +13931,31 @@ MonoBehaviour:
     - {fileID: 8300000, guid: c8a4780fa06de814592975fe655b72de, type: 3}
     type: 0
     spatialAudio: 1
-    baseVolume: 0.9
+    baseVolume: 0.1
     usePitchVariation: 1
     minPitch: 0.95
     maxPitch: 1.05
-    minTimeBetweenSteps: 0.17
+    minTimeBetweenSteps: 0.1
   terraConfig:
     clips:
     - {fileID: 8300000, guid: 68ab3630d4ad01349b90517e75e7d527, type: 3}
     type: 0
     spatialAudio: 1
-    baseVolume: 0.5
+    baseVolume: 0.1
     usePitchVariation: 1
     minPitch: 0.95
     maxPitch: 1.05
-    minTimeBetweenSteps: 0.17
+    minTimeBetweenSteps: 0.1
   pedraConfig:
     clips:
     - {fileID: 8300000, guid: e95139be60d70ad4e95912b52f536217, type: 3}
     type: 0
     spatialAudio: 1
-    baseVolume: 0.5
+    baseVolume: 0.1
     usePitchVariation: 1
     minPitch: 0.95
     maxPitch: 1.05
-    minTimeBetweenSteps: 0.17
+    minTimeBetweenSteps: 0.1
 --- !u!114 &279207461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29911,6 +29911,7 @@ MonoBehaviour:
   fadeDuration: 3
   fadeColor: {r: 0, g: 0, b: 0, a: 1}
   fadeCanvas: {fileID: 0}
+  sortingOrder: 9999
 --- !u!4 &608367464
 Transform:
   m_ObjectHideFlags: 0
@@ -61114,7 +61115,7 @@ Transform:
   m_GameObject: {fileID: 1319437498}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -140, y: 2, z: -58.4}
+  m_LocalPosition: {x: -140, y: 2, z: -62.600002}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -98850,7 +98851,7 @@ MonoBehaviour:
   reactToWalkingSounds: 1
   reactToRunningSounds: 1
   reactToJumpingSounds: 0
-  playerDetectedAudioEvent: 11
+  playerDetectedAudioEvent: 8
   playerDetectedCooldown: 1.5
 --- !u!114 &9192132949333104919
 MonoBehaviour:
@@ -98930,7 +98931,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83642021ef358804d8f884149b328272, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hearingRange: 9
+  hearingRange: 6
   enableSoundDetection: 1
   filterByLayer: 1
   soundLayerMask:
@@ -98955,7 +98956,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44f055be5ef792340a59bd3ca9b1c717, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewDistance: 6
+  viewDistance: 4
   viewAngle: 60
   timeToAggro: 0.75
   obstructionMask:
