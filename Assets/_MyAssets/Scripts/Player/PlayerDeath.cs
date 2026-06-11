@@ -17,6 +17,8 @@ namespace CorrentesDaNoite.Player
         bool _captureInProgress;
         float _captureTimer;
 
+        public bool IsCaptureInProgress => _captureInProgress;
+
         void Update()
         {
             if (checkFallDeath && transform.position.y < deathYThreshold)

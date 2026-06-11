@@ -33,6 +33,7 @@ namespace CorrentesDaNoite.Enemies
 
         [Header("Capture Settings")]
         [SerializeField] protected Transform playerHoldPoint;
+        [SerializeField] protected float postRespawnDetectionCooldown = 0.75f;
 
         [Header("Lantern Settings")]
         [SerializeField] protected GameObject lanternGameObject;
@@ -68,6 +69,7 @@ namespace CorrentesDaNoite.Enemies
         protected Vector3 _patrolReturnTarget;
         protected float _patrolRotationTimer;
         protected float _lastDetectionSoundTime;
+        protected float _suppressDetectionUntil;
 
         public System.Action OnPlayerCaptured;
 
@@ -92,6 +94,7 @@ namespace CorrentesDaNoite.Enemies
         public int SoundHeardCount => _soundHeardCount;
         public bool IsRotatingBackToPatrol => _isRotatingBackToPatrol;
         public int ClosestPatrolPointIndex => GetClosestPatrolPointIndex();
+        protected bool IsDetectionSuppressed => Time.time < _suppressDetectionUntil;
 
         protected virtual void Awake()
         {
@@ -108,7 +111,10 @@ namespace CorrentesDaNoite.Enemies
 
         protected virtual void OnEnable() => CheckpointManager.OnPlayerRespawned += ResetEnemy;
 
-        protected virtual void OnDisable() =>CheckpointManager.OnPlayerRespawned -= ResetEnemy;
+        protected virtual void OnDisable()
+        {
+            CheckpointManager.OnPlayerRespawned -= ResetEnemy;
+        }
 
         protected virtual void CachePlayerReference()
         {
@@ -285,6 +291,9 @@ namespace CorrentesDaNoite.Enemies
 
         public virtual void OnPlayerDetectedByLight()
         {
+            if (IsDetectionSuppressed)
+                return;
+
             if (_stateMachine.CurrentState is EnemyPatrolState ||
                 _stateMachine.CurrentState is EnemyIdleState)
             {
@@ -301,6 +310,9 @@ namespace CorrentesDaNoite.Enemies
             if (_stateMachine == null)
                 return;
 
+            if (IsDetectionSuppressed)
+                return;
+
             if (_playerTransform == null)
                 CachePlayerReference();
 
@@ -314,6 +326,9 @@ namespace CorrentesDaNoite.Enemies
 
         public virtual void OnSoundHeard(Audio.SoundData sound, float distanceToSound)
         {
+            if (IsDetectionSuppressed)
+                return;
+
             if (!enableSoundReactions) return;
 
             if (distanceToSound < minSoundDistanceToReact)
@@ -395,6 +410,18 @@ namespace CorrentesDaNoite.Enemies
             _patrolRotationTimer = 0f;
         }
 
+        protected virtual void ResetDetectionAfterRespawn()
+        {
+            _suppressDetectionUntil = Time.time + Mathf.Max(0f, postRespawnDetectionCooldown);
+
+            detection?.ResetDetectionState();
+            lightDetector?.ResetDetectionState(postRespawnDetectionCooldown);
+
+            var visionDetector = GetComponent<EnemyVisionDetector>();
+            if (visionDetector != null)
+                visionDetector.ResetDetectionState(postRespawnDetectionCooldown);
+        }
+
         public virtual void SetLanternVisible(bool visible)
         {
             if (lanternGameObject != null)
@@ -412,6 +439,7 @@ namespace CorrentesDaNoite.Enemies
                 captureHandler.ReleasePlayer();
 
             CancelSoundRotation();
+            ResetDetectionAfterRespawn();
             SetLanternVisible(true);
 
             if (_stateMachine == null)

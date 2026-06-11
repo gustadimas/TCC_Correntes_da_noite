@@ -76,6 +76,7 @@ namespace CorrentesDaNoite.Enemies
                 captureHandler.ReleasePlayer();
 
             CancelSoundRotation();
+            ResetDetectionAfterRespawn();
             SetLanternVisible(true);
 
             if (_stateMachine == null)

@@ -16,6 +16,7 @@ namespace CorrentesDaNoite.Enemies
         EnemyController _enemyController;
         Transform _playerTransform;
         bool _isDetectingPlayer;
+        float _suppressDetectionUntil;
 
         public bool IsDetectingPlayer => _isDetectingPlayer;
         public float LightRadius => lightRadius;
@@ -37,6 +38,9 @@ namespace CorrentesDaNoite.Enemies
 
         void Update()
         {
+            if (Time.time < _suppressDetectionUntil)
+                return;
+
             if (_playerTransform != null)
             {
                 bool canSeePlayer = !checkObstacles || HasLineOfSight();
@@ -94,6 +98,13 @@ namespace CorrentesDaNoite.Enemies
         {
             if (_detectionCollider != null)
                 _detectionCollider.enabled = enable;
+        }
+
+        public void ResetDetectionState(float suppressDuration = 0f)
+        {
+            _playerTransform = null;
+            _isDetectingPlayer = false;
+            _suppressDetectionUntil = suppressDuration > 0f ? Time.time + suppressDuration : 0f;
         }
 
         void OnDrawGizmosSelected()

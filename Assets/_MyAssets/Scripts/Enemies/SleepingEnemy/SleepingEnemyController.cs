@@ -110,6 +110,7 @@ namespace CorrentesDaNoite.Enemies
             if (captureHandler != null && captureHandler.IsHoldingPlayer) captureHandler.ReleasePlayer();
 
             CancelSoundRotation();
+            ResetDetectionAfterRespawn();
             SetLanternVisible(true);
 
             if (_hasInitialPose)

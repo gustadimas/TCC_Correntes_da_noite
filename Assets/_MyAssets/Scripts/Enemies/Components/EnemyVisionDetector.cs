@@ -20,6 +20,7 @@ namespace CorrentesDaNoite.Enemies
         protected float seeingTimer;
         protected float lossTimer;
         protected bool canSeePlayer;
+        float _suppressDetectionUntil;
 
         protected virtual void Awake()
         {
@@ -38,6 +39,9 @@ namespace CorrentesDaNoite.Enemies
         protected virtual void Update()
         {
             if (!detectionEnabled)
+                return;
+
+            if (Time.time < _suppressDetectionUntil)
                 return;
 
             EnsurePlayerReference();
@@ -136,6 +140,15 @@ namespace CorrentesDaNoite.Enemies
                 lossTimer = 0f;
                 canSeePlayer = false;
             }
+        }
+
+        public virtual void ResetDetectionState(float suppressDuration = 0f)
+        {
+            playerTransform = null;
+            seeingTimer = 0f;
+            lossTimer = 0f;
+            canSeePlayer = false;
+            _suppressDetectionUntil = suppressDuration > 0f ? Time.time + suppressDuration : 0f;
         }
 
         protected virtual void OnDrawGizmosSelected()

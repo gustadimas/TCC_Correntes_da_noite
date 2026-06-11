@@ -32,6 +32,8 @@ namespace CorrentesDaNoite.Enemies
 
         public virtual void ClearDetection() => _detectedTarget = null;
 
+        public virtual void ResetDetectionState() => ClearDetection();
+
         public abstract void EnableDetection(bool enable);
     }
 }

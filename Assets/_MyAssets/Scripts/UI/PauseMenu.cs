@@ -300,7 +300,7 @@ namespace CorrentesDaNoite.UI
                 {
                     restartCheckpointButton.gameObject.SetActive(false);
                 }
-                Debug.LogWarning("[PauseMenu] Restart do checkpoint bloqueado durante sequencias (GameStart ou JungleChase).");
+                Debug.LogWarning("[PauseMenu] Restart do checkpoint bloqueado durante sequencias ou captura do player.");
                 return;
             }
 
@@ -404,6 +404,22 @@ namespace CorrentesDaNoite.UI
             if (jungleChaseSequence != null && jungleChaseSequence.isActiveAndEnabled)
             {
                 return true;
+            }
+
+            var player = GetPlayerObject();
+            if (player != null)
+            {
+                var playerController = player.GetComponent<Player.PlayerController>();
+                if (playerController != null && playerController.IsCaptured)
+                {
+                    return true;
+                }
+
+                var playerDeath = player.GetComponent<Player.PlayerDeath>();
+                if (playerDeath != null && playerDeath.IsCaptureInProgress)
+                {
+                    return true;
+                }
             }
 
             return false;

@@ -109,6 +109,13 @@ namespace CorrentesDaNoite.Enemies
                 detectionSphere.enabled = enable;
         }
 
+        public override void ResetDetectionState()
+        {
+            base.ResetDetectionState();
+            _playerInSphere = null;
+            _hasDetected = false;
+        }
+
         public override bool CheckForTarget()
         {
             return _hasDetected && _detectedTarget != null;
