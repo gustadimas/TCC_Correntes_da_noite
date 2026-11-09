@@ -1,4 +1,4 @@
-namespace Utilities.BetterHierarchy
+namespace BetterHierarchy
 {
     public struct HierarchyObjectStatus
     {

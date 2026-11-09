@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Utilities.BetterHierarchy
+namespace BetterHierarchy
 {
     public static class UnityEditorBackgroundColor
     {
@@ -9,13 +9,10 @@ namespace Utilities.BetterHierarchy
         {
             public Color DarkColor { set; private get; }
             public Color LightColor { set; private get; }
-        
-            public static explicit operator Color(SystemColor systemColor)
-            {
-                return EditorGUIUtility.isProSkin ? systemColor.DarkColor : systemColor.LightColor;
-            }
+
+            public static explicit operator Color(SystemColor systemColor) =>
+                EditorGUIUtility.isProSkin ? systemColor.DarkColor : systemColor.LightColor;
         }
-        
 
         private static SystemColor Default => new SystemColor
         {
@@ -40,18 +37,14 @@ namespace Utilities.BetterHierarchy
             DarkColor = new Color(0.2706f, 0.2706f, 0.2706f),
             LightColor = new Color(0.698f, 0.698f, 0.698f)
         };
-        
-        
-        public static Color Get(HierarchyObjectStatus hierarchyObjectStatus, bool isWindowFocused, int selectedAmount = 0)
-        {
-            return (Color)GetSystemColor(hierarchyObjectStatus, isWindowFocused, selectedAmount);
-        }
 
-        
+        public static Color Get(HierarchyObjectStatus hierarchyObjectStatus, bool isWindowFocused, int selectedAmount = 0) =>
+            (Color)GetSystemColor(hierarchyObjectStatus, isWindowFocused, selectedAmount);
+
         private static SystemColor GetSystemColor(HierarchyObjectStatus obj, bool isWindowFocused, int selectedObjectsAmount = 0)
         {
             bool isMouseDown = MouseStatus.IsMouseDown;
-            
+
             if (obj.IsSelected)
             {
                 if (isMouseDown && !obj.IsDropDownHovered && !obj.IsHovered && selectedObjectsAmount == 1)
@@ -59,10 +52,11 @@ namespace Utilities.BetterHierarchy
 
                 return isWindowFocused ? Selected : SelectedUnfocused;
             }
-            else if (obj.IsHovered)
+
+            if (obj.IsHovered)
                 return isMouseDown && !obj.IsDropDownHovered ? Selected : Hovered;
-            else
-                return Default;
+
+            return Default;
         }
     }
 }

@@ -2,11 +2,13 @@ using System;
 using System.Text.RegularExpressions;
 using UnityEditor;
 
-namespace Utilities.BetterHierarchy
+namespace BetterHierarchy
 {
     public abstract class Preference<T>
     {
-        public event Action<T> OnValueChanged = delegate { };
+        private string label = "";
+        private T cachedValue;
+        private bool isCached;
 
         public string Label
         {
@@ -23,13 +25,12 @@ namespace Utilities.BetterHierarchy
         public T DefaultValue { get; set; }
         public string Key { get; set; }
 
-        private string label = "";
-        private T cachedValue;
-        private bool isCached;
+        public event Action<T> OnValueChanged = delegate { };
 
         public T Get()
         {
-            if (isCached) return cachedValue;
+            if (isCached)
+                return cachedValue;
 
             isCached = true;
 
@@ -48,21 +49,17 @@ namespace Utilities.BetterHierarchy
         {
             cachedValue = value;
             SetImpl(value);
-            OnValueChanged.Invoke(value);
+            OnValueChanged?.Invoke(value);
         }
 
-
-        public override string ToString()
-        {
-            return Label;
-        }
+        public override string ToString() => Label;
 
         private static string ConvertCamelCaseToWords(string input)
         {
             if (string.IsNullOrEmpty(input))
                 return input;
 
-            string[] words = Regex.Split(input, @"(?<!^)(?=[A-Z])");
+            var words = Regex.Split(input, @"(?<!^)(?=[A-Z])");
             string result = string.Join(" ", words);
             result = char.ToUpper(result[0]) + result.Substring(1);
 

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Utilities.BetterHierarchy
+namespace BetterHierarchy
 {
     public static class MouseStatus
     {
@@ -34,6 +34,7 @@ namespace Utilities.BetterHierarchy
 
             if (mouseEvent == EventType.MouseDrag)
                 isMouseDragged = true;
+
             if (mouseEvent == EventType.DragExited)
             {
                 isMouseDragged = false;
@@ -42,6 +43,7 @@ namespace Utilities.BetterHierarchy
 
             if (mouseEvent == EventType.MouseDown)
                 isMouseDown = true;
+
             if (mouseEvent == EventType.MouseUp)
                 isMouseDown = false;
         }

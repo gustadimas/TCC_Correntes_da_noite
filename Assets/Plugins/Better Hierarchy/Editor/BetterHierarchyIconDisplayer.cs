@@ -1,201 +1,183 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using static Utilities.BetterHierarchy.BetterHierarchyPreferences;
-using Type = System.Type;
+using static BetterHierarchy.BetterHierarchyPreferences;
+#if UNITY_6000_5_OR_NEWER
+using HierarchyObjectId = UnityEngine.EntityId;
+#else
+using HierarchyObjectId = System.Int32;
+#endif
 
-namespace Utilities.BetterHierarchy
+namespace BetterHierarchy
 {
     [InitializeOnLoad]
     public static class BetterHierarchyIconDisplayer
     {
         private static bool hierarchyHasFocus;
-        private static EditorWindow hierarchyEditorWindow;
-        private static readonly HashSet<int> additionalSelectedInstanceIDs;
+        private static int selectedObjectCount;
+        private static bool isTrackingHierarchy;
+        private static readonly List<EditorWindow> HIERARCHY_WINDOWS = new List<EditorWindow>();
+        private static readonly HashSet<HierarchyObjectId> ADDITIONAL_SELECTED_OBJECT_IDS = new HashSet<HierarchyObjectId>();
+        private static readonly HashSet<HierarchyObjectId> SELECTED_OBJECT_IDS = new HashSet<HierarchyObjectId>();
+        private static readonly GUIContent ICON_CONTENT = new GUIContent();
+        private static readonly GUIContent TOOLTIP_CONTENT = new GUIContent();
         private const float HIERARCHY_ICON_WIDTH = 18.5f;
 
         static BetterHierarchyIconDisplayer()
         {
-			additionalSelectedInstanceIDs = new HashSet<int>();
-            EditorApplication.hierarchyWindowItemOnGUI -= OnHierarchyWindowItemOnGUI;
+#if UNITY_6000_5_OR_NEWER
+            EditorApplication.hierarchyWindowItemByEntityIdOnGUI += OnHierarchyWindowItemOnGUI;
+#else
             EditorApplication.hierarchyWindowItemOnGUI += OnHierarchyWindowItemOnGUI;
-            EditorApplication.update -= OnEditorUpdate;
+#endif
+            AssemblyReloadEvents.beforeAssemblyReload += Shutdown;
+            OnSettingsChangedEvents += OnSettingsChanged;
+        }
+
+        private static bool StartBookkeeping()
+        {
+            if (isTrackingHierarchy)
+                return true;
+
+            // Discover windows only when the IMGUI Hierarchy actually draws a row.
+            foreach (var window in Resources.FindObjectsOfTypeAll<EditorWindow>())
+                if (window.GetType().Name == "SceneHierarchyWindow")
+                    HIERARCHY_WINDOWS.Add(window);
+
+            if (HIERARCHY_WINDOWS.Count == 0)
+                return false;
+
+            isTrackingHierarchy = true;
             EditorApplication.update += OnEditorUpdate;
-            OnSettingsChangedEvents -= EditorApplication.RepaintHierarchyWindow;
-            OnSettingsChangedEvents += EditorApplication.RepaintHierarchyWindow;
+            Selection.selectionChanged += UpdateSelection;
+            hierarchyHasFocus = IsHierarchyWindowFocused();
+            UpdateSelection();
+            return true;
+        }
+
+        private static void StopBookkeeping()
+        {
+            if (!isTrackingHierarchy)
+                return;
+
+            EditorApplication.update -= OnEditorUpdate;
+            Selection.selectionChanged -= UpdateSelection;
+            isTrackingHierarchy = false;
+            hierarchyHasFocus = false;
+            selectedObjectCount = 0;
+            HIERARCHY_WINDOWS.Clear();
+            ADDITIONAL_SELECTED_OBJECT_IDS.Clear();
+            SELECTED_OBJECT_IDS.Clear();
+        }
+
+        private static void OnSettingsChanged()
+        {
+            if (!IsEnabled)
+                StopBookkeeping();
+
+            // A repaint wakes an open IMGUI Hierarchy when the plugin is re-enabled.
+            EditorApplication.RepaintHierarchyWindow();
         }
 
         private static void OnEditorUpdate()
         {
-            if (!hierarchyEditorWindow && IsHierarchyWindowFocused())
+            for (int i = HIERARCHY_WINDOWS.Count - 1; i >= 0; i--)
+                if (!HIERARCHY_WINDOWS[i])
+                    HIERARCHY_WINDOWS.RemoveAt(i);
+
+            if (!IsEnabled || HIERARCHY_WINDOWS.Count == 0)
             {
-                hierarchyEditorWindow = EditorWindow.GetWindow(
-                    Type.GetType($"{nameof(UnityEditor)}.SceneHierarchyWindow,{nameof(UnityEditor)}"));
+                StopBookkeeping();
+                return;
             }
 
-            hierarchyHasFocus = EditorWindow.focusedWindow
-                && EditorWindow.focusedWindow == hierarchyEditorWindow;
-            
-			additionalSelectedInstanceIDs.Clear();
+            hierarchyHasFocus = IsHierarchyWindowFocused();
+            ADDITIONAL_SELECTED_OBJECT_IDS.Clear();
         }
-        
+
         private static bool IsHierarchyWindowFocused()
         {
-            EditorWindow focusedWindow = EditorWindow.focusedWindow;
-            
+            var focusedWindow = EditorWindow.focusedWindow;
+
             return focusedWindow != null && focusedWindow.GetType().Name == "SceneHierarchyWindow";
         }
 
-        private static void OnHierarchyWindowItemOnGUI(int instanceID, Rect selectionRect)
+        private static void UpdateSelection()
         {
-            if (!IsEnabled)
+            SELECTED_OBJECT_IDS.Clear();
+#if UNITY_6000_5_OR_NEWER
+            var selectedIds = Selection.entityIds;
+#else
+            var selectedIds = Selection.instanceIDs;
+#endif
+            selectedObjectCount = selectedIds.Length;
+
+            foreach (var id in selectedIds)
+                SELECTED_OBJECT_IDS.Add(id);
+        }
+
+        private static void OnHierarchyWindowItemOnGUI(HierarchyObjectId instanceID, Rect selectionRect)
+        {
+            if (!IsEnabled || !StartBookkeeping())
                 return;
 
+#if UNITY_6000_5_OR_NEWER
+            GameObject obj = EditorUtility.EntityIdToObject(instanceID) as GameObject;
+#else
             GameObject obj = EditorUtility.InstanceIDToObject(instanceID) as GameObject;
+#endif
 
             if (!obj)
                 return;
 
-            if (IsShowDefaultIconForPrefab(obj))
+            if (!BetterHierarchyIconUtility.TryGetIcon(obj, ICON_CONTENT, out var iconType))
                 return;
 
-            Component[] components = obj.GetComponents<Component>();
-            int componentsLength = components != null ? components.Length : 0;
+            var objectStatus = GetHierarchyObjectStatus(instanceID, selectionRect);
+            UpdateSelectedObjectsList(instanceID, objectStatus, selectedObjectCount);
 
-            if (components == null || componentsLength == 0)
-                return;
+            if (iconType == ScriptIconType.BigIcon)
+                ClearOriginalIcon(objectStatus, selectionRect, selectedObjectCount);
 
-            GUIContent content = GetTopComponentContent(components);
-
-            if (content == null || content.image == null)
-                return;
-
-            ScriptIconType iconType = GetIconType();
-            
-            if (IsOverridePrefabIcons && IsPrefab(obj))
-                iconType = OverridenPrefabIcons;
-
-            HierarchyObjectStatus objectStatus = SetupHierarchyObjectStatus();
-            UpdateSelectedObjectsList(objectStatus);
-
-            switch (iconType)
-            {
-                case ScriptIconType.UnityDefault:
-                    return;
-                case ScriptIconType.BigIcon:
-                    ClearOriginalIcon(objectStatus, selectionRect);
-                    break;
-                case ScriptIconType.SmallIcon:
-                default:
-                    break;
-            }
-            
-            DrawIcon(selectionRect, content, obj, iconType);
-
-            return;
-
-            HierarchyObjectStatus SetupHierarchyObjectStatus()
-            {
-				const float HIERARCHY_EXPAND_ICON_WIDTH = 11f;
-				const float HIERARCHY_EXPAND_ICON_X_OFFSET = HIERARCHY_EXPAND_ICON_WIDTH + 3f;
-				
-                HierarchyObjectStatus objectStatus = new HierarchyObjectStatus();
-                
-                Rect entireRowRect = selectionRect;
-                entireRowRect.x = 0;
-                entireRowRect.width = short.MaxValue;
-                Rect expandChildrenIconRect = selectionRect;
-                expandChildrenIconRect.x -= HIERARCHY_EXPAND_ICON_X_OFFSET;
-                expandChildrenIconRect.width = HIERARCHY_EXPAND_ICON_WIDTH;
-
-                objectStatus.IsSelected = Selection.instanceIDs.Contains(instanceID);
-                objectStatus.IsHovered = entireRowRect.Contains(Event.current.mousePosition);
-                objectStatus.IsDropDownHovered = expandChildrenIconRect.Contains(Event.current.mousePosition);
-
-                return objectStatus;
-            }
-
-            void UpdateSelectedObjectsList(HierarchyObjectStatus objectStatus)
-            {
-                if (objectStatus.IsSelected || (objectStatus.IsDropDownHovered && MouseStatus.IsMouseDown))
-                {
-                    if (Selection.instanceIDs.Length > 1)
-                        additionalSelectedInstanceIDs.Clear();
-                    
-                    additionalSelectedInstanceIDs.Add(instanceID);
-                }
-                else
-                    additionalSelectedInstanceIDs.Remove(instanceID);
-            }
-
-            ScriptIconType GetIconType()
-            {
-                if (componentsLength > 2 && !IsShowAlwaysFirstScriptIcon)
-                {
-                    if (HasDefaultScriptIcon(content))
-                        return ContainsNonUnityScriptsType;
-                    
-                    if (!HasCustomScripts(components, out Component component))
-                        return ContainsOnlyUnityScriptsType;
-
-                    if (component)
-                        content = GetContent(component.GetType(), component);
-                    else
-                        content = GetContent(typeof(Component));
-                    
-                    return ContainsNonUnityScriptsType;
-                }
-                
-                if (componentsLength == 2 || (componentsLength > 2 && IsShowAlwaysFirstScriptIcon))
-                {
-                    if (HasDefaultScriptIcon(content))
-                        return ContainsSingleScriptType;
-
-                    return ContainsOnlyUnityScriptsType;
-                }
-                
-                return ContainsNoScriptsType;
-            }
-            
-            static GUIContent GetTopComponentContent(Component[] components)
-            {
-                Component component = GetTopComponent(components);
-                Type componentType = component ? component.GetType() : typeof(Component);
-                
-                return GetContent(componentType, component);
-            }
-
-            static bool IsShowDefaultIconForPrefab(GameObject obj)
-            {
-                return (IsOverridePrefabIcons && OverridenPrefabIcons == ScriptIconType.UnityDefault && IsPrefab(obj));
-            }
+            DrawIcon(selectionRect, ICON_CONTENT, obj, iconType);
         }
 
-
-        private static bool IsPrefab(GameObject obj)
+        private static HierarchyObjectStatus GetHierarchyObjectStatus(HierarchyObjectId instanceID, Rect selectionRect)
         {
-            return (PrefabUtility.GetCorrespondingObjectFromOriginalSource(obj) != null);
+            const float HIERARCHY_EXPAND_ICON_WIDTH = 11f;
+            const float HIERARCHY_EXPAND_ICON_X_OFFSET = HIERARCHY_EXPAND_ICON_WIDTH + 3f;
+
+            Rect entireRowRect = selectionRect;
+            entireRowRect.x = 0;
+            entireRowRect.width = short.MaxValue;
+            Rect expandChildrenIconRect = selectionRect;
+            expandChildrenIconRect.x -= HIERARCHY_EXPAND_ICON_X_OFFSET;
+            expandChildrenIconRect.width = HIERARCHY_EXPAND_ICON_WIDTH;
+
+            return new HierarchyObjectStatus
+            {
+                IsSelected = SELECTED_OBJECT_IDS.Contains(instanceID),
+                IsHovered = entireRowRect.Contains(Event.current.mousePosition),
+                IsDropDownHovered = expandChildrenIconRect.Contains(Event.current.mousePosition)
+            };
         }
 
-        private static Component GetTopComponent(IReadOnlyList<Component> components)
+        private static void UpdateSelectedObjectsList(HierarchyObjectId instanceID, HierarchyObjectStatus objectStatus, int selectedCount)
         {
-            Component component = components.Count > 1 ? components[1] : components[0];
-            bool isComponentMissing = (component == null);
+            if (objectStatus.IsSelected || (objectStatus.IsDropDownHovered && MouseStatus.IsMouseDown))
+            {
+                if (selectedCount > 1)
+                    ADDITIONAL_SELECTED_OBJECT_IDS.Clear();
 
-            if (isComponentMissing)
-                return component;
-            
-            var componentType = component.GetType();
-
-            if (!IsShowAlwaysFirstScriptIcon && componentType == typeof(CanvasRenderer))
-                component = components[components.Count - 1];
-
-            return component;
+                ADDITIONAL_SELECTED_OBJECT_IDS.Add(instanceID);
+            }
+            else
+                ADDITIONAL_SELECTED_OBJECT_IDS.Remove(instanceID);
         }
 
         private static void DrawIcon(Rect selectionRect, GUIContent objContent, GameObject obj, ScriptIconType iconType = ScriptIconType.BigIcon)
         {
+            Rect tooltipRect = selectionRect;
             if (iconType == ScriptIconType.SmallIcon)
             {
                 selectionRect.width = 10;
@@ -204,98 +186,40 @@ namespace Utilities.BetterHierarchy
             }
 
             Color originalColor = GUI.color;
-            {
-                if (!obj.activeInHierarchy)
-                {
-                    Color transparentIconColor = new Color(originalColor.r, originalColor.g, originalColor.b, 0.5f);
-                    GUI.color = transparentIconColor;
-                }
 
-                EditorGUI.LabelField(selectionRect, objContent);
-            }
+            if (!obj.activeInHierarchy)
+                GUI.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0.5f);
+
+            EditorGUI.LabelField(selectionRect, objContent);
             GUI.color = originalColor;
+
+            // Keep the component tooltip reachable over the name as well as a small badge.
+            if (!string.IsNullOrEmpty(objContent.tooltip))
+            {
+                TOOLTIP_CONTENT.tooltip = objContent.tooltip;
+                GUI.Label(tooltipRect, TOOLTIP_CONTENT, GUIStyle.none);
+            }
         }
 
-        private static GUIContent GetContent(Type type, Component component = null)
+        private static void ClearOriginalIcon(HierarchyObjectStatus hierarchyObjectStatus, Rect selectionRect, int selectedCount)
         {
-            GUIContent content = EditorGUIUtility.ObjectContent(component, type);
-            content.text = null;
-            content.tooltip = IsEnableTooltipsOnHierarchyObject ? type.Name : "";
-
-            return content;
-        }
-
-        private static void ClearOriginalIcon(HierarchyObjectStatus hierarchyObjectStatus, Rect selectionRect)
-        {
-            int selectedAmount = Selection.instanceIDs.Length > 1 ? Selection.instanceIDs.Length : additionalSelectedInstanceIDs.Count;
-            Color color = UnityEditorBackgroundColor.Get(hierarchyObjectStatus, hierarchyHasFocus, selectedAmount);
+            int selectedAmount = selectedCount > 1 ? selectedCount : ADDITIONAL_SELECTED_OBJECT_IDS.Count;
+            var color = UnityEditorBackgroundColor.Get(hierarchyObjectStatus, hierarchyHasFocus, selectedAmount);
             Rect backgroundRect = selectionRect;
             backgroundRect.width = HIERARCHY_ICON_WIDTH;
             EditorGUI.DrawRect(backgroundRect, color);
         }
 
-
-        private static bool HasCustomScripts(IReadOnlyList<Component> components, out Component customComponent)
+        private static void Shutdown()
         {
-            const int MAX_COMPONENT_CHECKS = 10;
-			const int FIRST_COMPONENT_INDEX = 1;
-			int componentsCount = components.Count;
-			bool isTooManyScriptsToCheck = (componentsCount > MAX_COMPONENT_CHECKS);
-			customComponent = null;
-			
-			if (isTooManyScriptsToCheck)
-				return true;
-			
-            int componentsToCheckAmount = Mathf.Min(componentsCount, MAX_COMPONENT_CHECKS + FIRST_COMPONENT_INDEX);
-
-            for (int i = FIRST_COMPONENT_INDEX; i < componentsToCheckAmount; i++)
-            {
-                var component = components[i];
-                bool isCustomScript = !IsNamespaceUnityRelated(component);
-
-                if (isCustomScript)
-                {
-                    customComponent = component;
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        private static bool HasDefaultScriptIcon(GUIContent content)
-        {
-            string imageName = content.image.name;
-
-            if (string.IsNullOrEmpty(imageName))
-                return false;
-            
-            return imageName.EndsWith("Script Icon");
-        }
-
-        private static bool IsNamespaceUnityRelated(Component component)
-        {
-            if (component == null)
-                return false;
-            
-            string namespaceStr = component.GetType().Namespace;
-
-            if (string.IsNullOrEmpty(namespaceStr))
-                return false;
-
-            bool isNativeUnityRelated;
-
-            if (UnityScriptDetectionType == UnityNativeScriptsDetectionType.Unity)
-                isNativeUnityRelated = namespaceStr.Contains("Unity");
-            else if (UnityScriptDetectionType == UnityNativeScriptsDetectionType.UnityEngine)
-                isNativeUnityRelated = namespaceStr.Equals(nameof(UnityEngine)) 
-                                       || namespaceStr.Equals(nameof(UnityEditor)) 
-                                       || namespaceStr.StartsWith(nameof(UnityEngine) + ".") 
-                                       || namespaceStr.StartsWith(nameof(UnityEditor) + ".");
-            else
-                isNativeUnityRelated = false;
-
-            return (isNativeUnityRelated || namespaceStr.StartsWith("TMPro"));
+#if UNITY_6000_5_OR_NEWER
+            EditorApplication.hierarchyWindowItemByEntityIdOnGUI -= OnHierarchyWindowItemOnGUI;
+#else
+            EditorApplication.hierarchyWindowItemOnGUI -= OnHierarchyWindowItemOnGUI;
+#endif
+            StopBookkeeping();
+            OnSettingsChangedEvents -= OnSettingsChanged;
+            AssemblyReloadEvents.beforeAssemblyReload -= Shutdown;
         }
     }
 }
