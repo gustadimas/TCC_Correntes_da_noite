@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 453760}
   - component: {fileID: 3385810}
   - component: {fileID: 2364090}
-  - component: {fileID: 9522776}
   m_Layer: 0
   m_Name: Bottle_32
   m_TagString: Untagged
@@ -87,28 +86,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &9522776
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 102722}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 3759cb4a0ee31dc4fad2c726393e644f, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &106898
 GameObject:
   m_ObjectHideFlags: 0
@@ -120,7 +97,6 @@ GameObject:
   - component: {fileID: 408234}
   - component: {fileID: 3380682}
   - component: {fileID: 2385906}
-  - component: {fileID: 9543810}
   m_Layer: 0
   m_Name: Book_26
   m_TagString: Untagged
@@ -196,28 +172,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &9543810
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 106898}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 7b274a561eba18a4590c38a4154aab04, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &109664
 GameObject:
   m_ObjectHideFlags: 0
@@ -229,7 +183,6 @@ GameObject:
   - component: {fileID: 420230}
   - component: {fileID: 3301782}
   - component: {fileID: 2383888}
-  - component: {fileID: 9510964}
   m_Layer: 0
   m_Name: Bottle_28
   m_TagString: Untagged
@@ -305,28 +258,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &9510964
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 109664}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 3759cb4a0ee31dc4fad2c726393e644f, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &113390
 GameObject:
   m_ObjectHideFlags: 0
@@ -338,7 +269,6 @@ GameObject:
   - component: {fileID: 496282}
   - component: {fileID: 3371532}
   - component: {fileID: 2340944}
-  - component: {fileID: 9504032}
   m_Layer: 0
   m_Name: Bookcase_3
   m_TagString: Untagged
@@ -414,28 +344,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &9504032
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 113390}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 9906ad55d37464e4caba4c78add5ebff, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &118628
 GameObject:
   m_ObjectHideFlags: 0
@@ -447,7 +355,6 @@ GameObject:
   - component: {fileID: 475630}
   - component: {fileID: 3347522}
   - component: {fileID: 2391078}
-  - component: {fileID: 9506328}
   m_Layer: 0
   m_Name: Bottle_21
   m_TagString: Untagged
@@ -523,28 +430,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &9506328
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 118628}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 3759cb4a0ee31dc4fad2c726393e644f, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &122034
 GameObject:
   m_ObjectHideFlags: 0
@@ -556,7 +441,6 @@ GameObject:
   - component: {fileID: 482546}
   - component: {fileID: 3380716}
   - component: {fileID: 2344214}
-  - component: {fileID: 9546484}
   m_Layer: 0
   m_Name: Bottle_27
   m_TagString: Untagged
@@ -632,28 +516,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &9546484
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 122034}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 3759cb4a0ee31dc4fad2c726393e644f, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &122638
 GameObject:
   m_ObjectHideFlags: 0
@@ -665,7 +527,6 @@ GameObject:
   - component: {fileID: 484658}
   - component: {fileID: 3329642}
   - component: {fileID: 2337990}
-  - component: {fileID: 9555540}
   m_Layer: 0
   m_Name: Bottle_22
   m_TagString: Untagged
@@ -741,28 +602,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &9555540
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 122638}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 0417fce6e34e23540bcc19d3f607f1d7, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &123136
 GameObject:
   m_ObjectHideFlags: 0
@@ -774,7 +613,6 @@ GameObject:
   - component: {fileID: 482474}
   - component: {fileID: 3313182}
   - component: {fileID: 2331054}
-  - component: {fileID: 9572774}
   m_Layer: 0
   m_Name: Bottle_30
   m_TagString: Untagged
@@ -850,28 +688,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &9572774
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 123136}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 3aa6c86bf66e7bb41b14f9afe1c68ad7, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &125166
 GameObject:
   m_ObjectHideFlags: 0
@@ -883,7 +699,6 @@ GameObject:
   - component: {fileID: 474418}
   - component: {fileID: 3351468}
   - component: {fileID: 2310460}
-  - component: {fileID: 9551576}
   m_Layer: 0
   m_Name: Bottle_36
   m_TagString: Untagged
@@ -959,28 +774,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &9551576
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 125166}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 8ac0470272c9439458af739f28b34290, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &125446
 GameObject:
   m_ObjectHideFlags: 0
@@ -1028,7 +821,6 @@ GameObject:
   - component: {fileID: 451932}
   - component: {fileID: 3321886}
   - component: {fileID: 2327900}
-  - component: {fileID: 9547198}
   m_Layer: 0
   m_Name: Bottle 2
   m_TagString: Untagged
@@ -1104,28 +896,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &9547198
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 127482}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 8f7e473154695aa48b98b99b04e46fe7, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &131442
 GameObject:
   m_ObjectHideFlags: 0
@@ -1137,7 +907,6 @@ GameObject:
   - component: {fileID: 476388}
   - component: {fileID: 3386724}
   - component: {fileID: 2321730}
-  - component: {fileID: 9563420}
   m_Layer: 0
   m_Name: Bottle_33
   m_TagString: Untagged
@@ -1213,28 +982,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &9563420
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 131442}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 4366725530f23e349950c248e0587bc4, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &136276
 GameObject:
   m_ObjectHideFlags: 0
@@ -1246,7 +993,6 @@ GameObject:
   - component: {fileID: 489040}
   - component: {fileID: 3314720}
   - component: {fileID: 2381358}
-  - component: {fileID: 9549488}
   m_Layer: 0
   m_Name: Book_24
   m_TagString: Untagged
@@ -1322,28 +1068,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &9549488
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 136276}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 593bb4cde77267a44bfe4b90cfd91e13, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &142118
 GameObject:
   m_ObjectHideFlags: 0
@@ -1355,7 +1079,6 @@ GameObject:
   - component: {fileID: 400906}
   - component: {fileID: 3354142}
   - component: {fileID: 2349180}
-  - component: {fileID: 9547422}
   m_Layer: 0
   m_Name: Bottle_20
   m_TagString: Untagged
@@ -1431,28 +1154,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &9547422
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 142118}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 3759cb4a0ee31dc4fad2c726393e644f, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &144688
 GameObject:
   m_ObjectHideFlags: 0
@@ -1464,7 +1165,6 @@ GameObject:
   - component: {fileID: 436530}
   - component: {fileID: 3396696}
   - component: {fileID: 2325904}
-  - component: {fileID: 9574096}
   m_Layer: 0
   m_Name: Bottle_18
   m_TagString: Untagged
@@ -1540,28 +1240,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &9574096
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 144688}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 3aa6c86bf66e7bb41b14f9afe1c68ad7, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &157588
 GameObject:
   m_ObjectHideFlags: 0
@@ -1573,7 +1251,6 @@ GameObject:
   - component: {fileID: 487368}
   - component: {fileID: 3363546}
   - component: {fileID: 2374804}
-  - component: {fileID: 9570690}
   m_Layer: 0
   m_Name: Bottle 3
   m_TagString: Untagged
@@ -1649,28 +1326,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &9570690
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 157588}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 8f7e473154695aa48b98b99b04e46fe7, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &158194
 GameObject:
   m_ObjectHideFlags: 0
@@ -1682,7 +1337,6 @@ GameObject:
   - component: {fileID: 479588}
   - component: {fileID: 3358776}
   - component: {fileID: 2327250}
-  - component: {fileID: 9564086}
   m_Layer: 0
   m_Name: Bottle_25
   m_TagString: Untagged
@@ -1758,28 +1412,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &9564086
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 158194}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 4366725530f23e349950c248e0587bc4, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &158746
 GameObject:
   m_ObjectHideFlags: 0
@@ -1791,7 +1423,6 @@ GameObject:
   - component: {fileID: 489786}
   - component: {fileID: 3326936}
   - component: {fileID: 2321432}
-  - component: {fileID: 9591784}
   m_Layer: 0
   m_Name: Bottle_37
   m_TagString: Untagged
@@ -1867,28 +1498,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &9591784
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 158746}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 8ac0470272c9439458af739f28b34290, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &167336
 GameObject:
   m_ObjectHideFlags: 0
@@ -1900,7 +1509,6 @@ GameObject:
   - component: {fileID: 413088}
   - component: {fileID: 3368316}
   - component: {fileID: 2322020}
-  - component: {fileID: 9569150}
   m_Layer: 0
   m_Name: Bottle_23
   m_TagString: Untagged
@@ -1976,28 +1584,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &9569150
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 167336}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 4366725530f23e349950c248e0587bc4, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &167978
 GameObject:
   m_ObjectHideFlags: 0
@@ -2009,7 +1595,6 @@ GameObject:
   - component: {fileID: 494384}
   - component: {fileID: 3311426}
   - component: {fileID: 2303882}
-  - component: {fileID: 9590140}
   m_Layer: 0
   m_Name: Bottle_35
   m_TagString: Untagged
@@ -2085,28 +1670,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &9590140
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 167978}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 4366725530f23e349950c248e0587bc4, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &173298
 GameObject:
   m_ObjectHideFlags: 0
@@ -2118,7 +1681,6 @@ GameObject:
   - component: {fileID: 409542}
   - component: {fileID: 3351774}
   - component: {fileID: 2330400}
-  - component: {fileID: 9533402}
   m_Layer: 0
   m_Name: Book_27
   m_TagString: Untagged
@@ -2194,28 +1756,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &9533402
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 173298}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: cc4212594f95e1444944b4add446e11e, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &173446
 GameObject:
   m_ObjectHideFlags: 0
@@ -2227,7 +1767,6 @@ GameObject:
   - component: {fileID: 442062}
   - component: {fileID: 3392234}
   - component: {fileID: 2323856}
-  - component: {fileID: 9566312}
   m_Layer: 0
   m_Name: Bottle_31
   m_TagString: Untagged
@@ -2303,28 +1842,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &9566312
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 173446}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 4366725530f23e349950c248e0587bc4, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &174194
 GameObject:
   m_ObjectHideFlags: 0
@@ -2336,7 +1853,6 @@ GameObject:
   - component: {fileID: 420324}
   - component: {fileID: 3319992}
   - component: {fileID: 2320594}
-  - component: {fileID: 9537564}
   m_Layer: 0
   m_Name: Bottle 1
   m_TagString: Untagged
@@ -2412,28 +1928,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &9537564
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 174194}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 8f7e473154695aa48b98b99b04e46fe7, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &175220
 GameObject:
   m_ObjectHideFlags: 0
@@ -2445,7 +1939,6 @@ GameObject:
   - component: {fileID: 402208}
   - component: {fileID: 3380268}
   - component: {fileID: 2379900}
-  - component: {fileID: 9556962}
   m_Layer: 0
   m_Name: Bottle_34
   m_TagString: Untagged
@@ -2521,28 +2014,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &9556962
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 175220}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 0417fce6e34e23540bcc19d3f607f1d7, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &179460
 GameObject:
   m_ObjectHideFlags: 0
@@ -2554,7 +2025,6 @@ GameObject:
   - component: {fileID: 433460}
   - component: {fileID: 3327676}
   - component: {fileID: 2331292}
-  - component: {fileID: 9578218}
   m_Layer: 0
   m_Name: Book_25
   m_TagString: Untagged
@@ -2630,28 +2100,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &9578218
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 179460}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 92c871ee1877e1f429791dc9b025c07b, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &184160
 GameObject:
   m_ObjectHideFlags: 0
@@ -2663,7 +2111,6 @@ GameObject:
   - component: {fileID: 457060}
   - component: {fileID: 3311714}
   - component: {fileID: 2395646}
-  - component: {fileID: 9574934}
   m_Layer: 0
   m_Name: Bottle_24
   m_TagString: Untagged
@@ -2739,28 +2186,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &9574934
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 184160}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 8ac0470272c9439458af739f28b34290, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &184600
 GameObject:
   m_ObjectHideFlags: 0
@@ -2850,7 +2275,6 @@ GameObject:
   - component: {fileID: 422144}
   - component: {fileID: 3394560}
   - component: {fileID: 2339240}
-  - component: {fileID: 9570010}
   m_Layer: 0
   m_Name: Bottle_29
   m_TagString: Untagged
@@ -2926,28 +2350,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &9570010
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 189768}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 3aa6c86bf66e7bb41b14f9afe1c68ad7, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &192950
 GameObject:
   m_ObjectHideFlags: 0
@@ -2959,7 +2361,6 @@ GameObject:
   - component: {fileID: 469130}
   - component: {fileID: 3393164}
   - component: {fileID: 2362568}
-  - component: {fileID: 9564324}
   m_Layer: 0
   m_Name: Book_28
   m_TagString: Untagged
@@ -3035,28 +2436,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &9564324
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 192950}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 8ed528e0713c0e047b892211cb141f05, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &198238
 GameObject:
   m_ObjectHideFlags: 0
@@ -3068,7 +2447,6 @@ GameObject:
   - component: {fileID: 473974}
   - component: {fileID: 3339110}
   - component: {fileID: 2396364}
-  - component: {fileID: 9504568}
   m_Layer: 0
   m_Name: Bottle_26
   m_TagString: Untagged
@@ -3144,28 +2522,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &9504568
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 198238}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 0417fce6e34e23540bcc19d3f607f1d7, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &199576
 GameObject:
   m_ObjectHideFlags: 0
@@ -3177,7 +2533,6 @@ GameObject:
   - component: {fileID: 418786}
   - component: {fileID: 3345916}
   - component: {fileID: 2309432}
-  - component: {fileID: 9597866}
   m_Layer: 0
   m_Name: Bottle_19
   m_TagString: Untagged
@@ -3253,25 +2608,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &9597866
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 199576}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 3aa6c86bf66e7bb41b14f9afe1c68ad7, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0

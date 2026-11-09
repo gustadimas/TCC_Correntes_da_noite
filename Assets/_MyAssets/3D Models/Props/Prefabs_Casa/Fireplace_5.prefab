@@ -136,7 +136,6 @@ GameObject:
   - component: {fileID: 477618}
   - component: {fileID: 3315892}
   - component: {fileID: 2370372}
-  - component: {fileID: 9506656}
   m_Layer: 0
   m_Name: Fireplace_3
   m_TagString: Untagged
@@ -204,25 +203,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!95 &9506656
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 170346}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 7b844044fb7c7264abdb0694f3425f57, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &186590
 GameObject:
   m_ObjectHideFlags: 0

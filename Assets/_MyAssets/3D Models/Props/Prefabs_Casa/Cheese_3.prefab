@@ -10,7 +10,6 @@ GameObject:
   - component: {fileID: 452578}
   - component: {fileID: 3345072}
   - component: {fileID: 2346540}
-  - component: {fileID: 9534304}
   m_Layer: 0
   m_Name: Cheese_3
   m_TagString: Untagged
@@ -73,24 +72,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 144564}
   m_Mesh: {fileID: 4300000, guid: 957852099c45c1f46a4e2f00bf14f0d0, type: 3}
---- !u!95 &9534304
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 144564}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 957852099c45c1f46a4e2f00bf14f0d0, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 451124}
   - component: {fileID: 3301364}
   - component: {fileID: 2330794}
-  - component: {fileID: 9538346}
   m_Layer: 0
   m_Name: Plate_24
   m_TagString: Untagged
@@ -87,28 +86,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &9538346
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 109992}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 4f96d2ae4023ce94583d6a2b4c995638, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &114120
 GameObject:
   m_ObjectHideFlags: 0
@@ -120,7 +97,6 @@ GameObject:
   - component: {fileID: 477100}
   - component: {fileID: 3303846}
   - component: {fileID: 2314708}
-  - component: {fileID: 9569518}
   m_Layer: 0
   m_Name: Cup_28
   m_TagString: Untagged
@@ -196,28 +172,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &9569518
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 114120}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 4a24ccd563d8a8e4c83b9d96f8188cda, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &128880
 GameObject:
   m_ObjectHideFlags: 0
@@ -263,7 +217,6 @@ GameObject:
   - component: {fileID: 420708}
   - component: {fileID: 3368576}
   - component: {fileID: 2339842}
-  - component: {fileID: 9530676}
   m_Layer: 0
   m_Name: Table_9
   m_TagString: Untagged
@@ -339,28 +292,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &9530676
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 135000}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 100dbc818e0d33642964e98efb5e5a70, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &139958
 GameObject:
   m_ObjectHideFlags: 0
@@ -433,7 +364,6 @@ GameObject:
   - component: {fileID: 409986}
   - component: {fileID: 3345808}
   - component: {fileID: 2348652}
-  - component: {fileID: 9558948}
   m_Layer: 0
   m_Name: ApplianceHolder
   m_TagString: Untagged
@@ -509,28 +439,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &9558948
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 146358}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 6fbec11b8ba56ec41bc7107633d83452, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &153352
 GameObject:
   m_ObjectHideFlags: 0
@@ -542,7 +450,6 @@ GameObject:
   - component: {fileID: 460180}
   - component: {fileID: 3363826}
   - component: {fileID: 2327056}
-  - component: {fileID: 9527156}
   m_Layer: 0
   m_Name: Plate_25
   m_TagString: Untagged
@@ -618,28 +525,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &9527156
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 153352}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 4f96d2ae4023ce94583d6a2b4c995638, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &155980
 GameObject:
   m_ObjectHideFlags: 0
@@ -651,7 +536,6 @@ GameObject:
   - component: {fileID: 428520}
   - component: {fileID: 3389766}
   - component: {fileID: 2388670}
-  - component: {fileID: 9528654}
   m_Layer: 0
   m_Name: Bread_5
   m_TagString: Untagged
@@ -727,28 +611,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &9528654
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 155980}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 3040f4bc5f6ece04883f4c889144f3e2, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &157118
 GameObject:
   m_ObjectHideFlags: 0
@@ -760,7 +622,6 @@ GameObject:
   - component: {fileID: 477976}
   - component: {fileID: 3382678}
   - component: {fileID: 2310502}
-  - component: {fileID: 9557240}
   m_Layer: 0
   m_Name: FryingPan_4
   m_TagString: Untagged
@@ -836,28 +697,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &9557240
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 157118}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 2b2743da699832e4d9995823387540f0, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &180612
 GameObject:
   m_ObjectHideFlags: 0
@@ -869,7 +708,6 @@ GameObject:
   - component: {fileID: 407900}
   - component: {fileID: 3369598}
   - component: {fileID: 2398362}
-  - component: {fileID: 9508210}
   m_Layer: 0
   m_Name: Sausage 5
   m_TagString: Untagged
@@ -945,28 +783,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &9508210
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 180612}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: e1ee8189c320be649a4fc02d4929d9a9, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &187248
 GameObject:
   m_ObjectHideFlags: 0
@@ -978,7 +794,6 @@ GameObject:
   - component: {fileID: 437910}
   - component: {fileID: 3365430}
   - component: {fileID: 2386822}
-  - component: {fileID: 9575476}
   m_Layer: 0
   m_Name: Bottle 12
   m_TagString: Untagged
@@ -1054,28 +869,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &9575476
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 187248}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 8f7e473154695aa48b98b99b04e46fe7, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &191954
 GameObject:
   m_ObjectHideFlags: 0
@@ -1087,7 +880,6 @@ GameObject:
   - component: {fileID: 450078}
   - component: {fileID: 3345036}
   - component: {fileID: 2393308}
-  - component: {fileID: 9565270}
   m_Layer: 0
   m_Name: Jug_8
   m_TagString: Untagged
@@ -1163,25 +955,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &9565270
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 191954}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: cfacfdedda24f59488c23624f7189233, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0

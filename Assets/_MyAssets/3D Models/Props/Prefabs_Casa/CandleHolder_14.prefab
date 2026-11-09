@@ -10,7 +10,6 @@ GameObject:
   - component: {fileID: 476570}
   - component: {fileID: 3377004}
   - component: {fileID: 2343494}
-  - component: {fileID: 9535198}
   m_Layer: 0
   m_Name: CandleHolder_7
   m_TagString: Untagged
@@ -45,7 +44,6 @@ GameObject:
   - component: {fileID: 439472}
   - component: {fileID: 3321542}
   - component: {fileID: 2305040}
-  - component: {fileID: 9550496}
   m_Layer: 0
   m_Name: Candle_31
   m_TagString: Untagged
@@ -78,7 +76,6 @@ GameObject:
   - component: {fileID: 443798}
   - component: {fileID: 3320774}
   - component: {fileID: 2378754}
-  - component: {fileID: 9568500}
   m_Layer: 0
   m_Name: Candle_32
   m_TagString: Untagged
@@ -456,60 +453,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 102696}
   m_Mesh: {fileID: 4300000, guid: 92da7d45dd4b3aa4798ae88ddbe5753f, type: 3}
---- !u!95 &9535198
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 102696}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 92da7d45dd4b3aa4798ae88ddbe5753f, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
---- !u!95 &9550496
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 118030}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: b3fe32e201c9b9f41b7fb1b27538df23, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
---- !u!95 &9568500
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 150894}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: b3fe32e201c9b9f41b7fb1b27538df23, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!108 &10851376
 Light:
   m_ObjectHideFlags: 1

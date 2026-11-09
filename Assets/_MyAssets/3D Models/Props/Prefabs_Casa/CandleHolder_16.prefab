@@ -10,7 +10,6 @@ GameObject:
   - component: {fileID: 403802}
   - component: {fileID: 3383284}
   - component: {fileID: 2321534}
-  - component: {fileID: 9500920}
   m_Layer: 0
   m_Name: Candle_4
   m_TagString: Untagged
@@ -44,7 +43,6 @@ GameObject:
   - component: {fileID: 443052}
   - component: {fileID: 3356272}
   - component: {fileID: 2379500}
-  - component: {fileID: 9573446}
   m_Layer: 0
   m_Name: CandleHolder_5
   m_TagString: Untagged
@@ -279,42 +277,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 125618}
   m_Mesh: {fileID: 4300000, guid: bde8d4d1b75e3744592f7e2c1e212471, type: 3}
---- !u!95 &9500920
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 125618}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: bde8d4d1b75e3744592f7e2c1e212471, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
---- !u!95 &9573446
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 136454}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: bfd77694946de0644a9acb79251de64b, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!108 &10843400
 Light:
   m_ObjectHideFlags: 1
