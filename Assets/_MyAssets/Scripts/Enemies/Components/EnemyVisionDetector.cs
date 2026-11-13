@@ -13,14 +13,14 @@ namespace CorrentesDaNoite.Enemies
 
         [Header("Update")]
         [SerializeField] protected bool detectionEnabled = true;
-        [SerializeField] protected float visibilityResetDelay = 0.1f;
 
         protected EnemyController enemyController;
         protected Transform playerTransform;
         protected float seeingTimer;
-        protected float lossTimer;
         protected bool canSeePlayer;
         float _suppressDetectionUntil;
+
+        const float VISION_DECAY = 0.5f;
 
         protected virtual void Awake()
         {
@@ -32,52 +32,51 @@ namespace CorrentesDaNoite.Enemies
         protected virtual void OnEnable()
         {
             seeingTimer = 0f;
-            lossTimer = 0f;
             canSeePlayer = false;
         }
 
         protected virtual void Update()
         {
-            if (!detectionEnabled)
-                return;
-
-            if (Time.time < _suppressDetectionUntil)
-                return;
+            if (!detectionEnabled || Time.time < _suppressDetectionUntil) return;
 
             EnsurePlayerReference();
-            if (playerTransform == null || enemyController == null)
+            if (playerTransform == null || enemyController == null) return;
+
+            canSeePlayer = IsPlayerVisible();
+            if (!canSeePlayer)
+            {
+                seeingTimer = Mathf.Max(0f, seeingTimer - Time.deltaTime * VISION_DECAY);
                 return;
-
-            bool isVisible = IsPlayerVisible();
-
-            if (isVisible)
-            {
-                lossTimer = 0f;
-                seeingTimer += Time.deltaTime;
-
-                if (seeingTimer >= timeToAggro)
-                {
-                    enemyController.OnVisionAggro();
-                    seeingTimer = 0f;
-                }
-            }
-            else
-            {
-                lossTimer += Time.deltaTime;
-                if (lossTimer >= visibilityResetDelay)
-                {
-                    lossTimer = 0f;
-                    seeingTimer = 0f;
-                }
             }
 
-            canSeePlayer = isVisible;
+            seeingTimer += Time.deltaTime * GetSpotSpeed();
+            if (seeingTimer < timeToAggro) return;
+
+            enemyController.OnVisionAggro();
+            seeingTimer = 0f;
+        }
+
+        // perto ve quase na hora e no limite da visao demora mais
+        float GetSpotSpeed()
+        {
+            float speed = Mathf.Lerp(2.5f, 0.6f, Vector3.Distance(eyeOrigin.position, playerTransform.position) / viewDistance);
+            var player = enemyController.Player;
+            if (player == null) return speed;
+            if (player.IsCrouching) return speed * 0.5f;
+            return player.IsRunning ? speed * 2f : speed;
+        }
+
+        // mira no peito pra um caixote baixo nao esconder ela inteira
+        Vector3 GetAimPoint()
+        {
+            bool crouching = enemyController.Player != null && enemyController.Player.IsCrouching;
+            return playerTransform.position + Vector3.up * (crouching ? 0.6f : 1.3f);
         }
 
         protected virtual bool IsPlayerVisible()
         {
             Vector3 origin = eyeOrigin != null ? eyeOrigin.position : transform.position;
-            Vector3 toPlayer = playerTransform.position - origin;
+            Vector3 toPlayer = GetAimPoint() - origin;
 
             if (toPlayer.sqrMagnitude > viewDistance * viewDistance)
                 return false;
@@ -137,7 +136,6 @@ namespace CorrentesDaNoite.Enemies
             if (!enable)
             {
                 seeingTimer = 0f;
-                lossTimer = 0f;
                 canSeePlayer = false;
             }
         }
@@ -146,7 +144,6 @@ namespace CorrentesDaNoite.Enemies
         {
             playerTransform = null;
             seeingTimer = 0f;
-            lossTimer = 0f;
             canSeePlayer = false;
             _suppressDetectionUntil = suppressDuration > 0f ? Time.time + suppressDuration : 0f;
         }

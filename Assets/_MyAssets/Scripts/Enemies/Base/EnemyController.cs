@@ -194,14 +194,7 @@ namespace CorrentesDaNoite.Enemies
             }
         }
 
-        protected virtual int GetCurrentPatrolIndex(EnemyPatrolState patrolState)
-        {
-            var field = patrolState.GetType().GetField("currentPointIndex",
-                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            if (field != null)
-                return (int)field.GetValue(patrolState);
-            return 0;
-        }
+        protected virtual int GetCurrentPatrolIndex(EnemyPatrolState patrolState) => patrolState.CurrentPointIndex;
 
         protected virtual void UpdatePatrolRotation()
         {

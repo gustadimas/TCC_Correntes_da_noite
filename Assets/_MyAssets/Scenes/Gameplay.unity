@@ -13400,7 +13400,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkSoundRange: 5
-  runSoundRange: 20
+  runSoundRange: 12
   jumpSoundRange: 15
   landSoundRange: 12
   walkSoundCooldown: 0.5
@@ -39512,12 +39512,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44f055be5ef792340a59bd3ca9b1c717, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewDistance: 8
-  viewAngle: 40
+  viewDistance: 12
+  viewAngle: 110
   timeToAggro: 0.75
   obstructionMask:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 513
   eyeOrigin: {fileID: 1532360107}
   detectionEnabled: 1
   visibilityResetDelay: 0.1
@@ -39576,7 +39576,7 @@ MonoBehaviour:
   playerHoldPoint: {fileID: 1532360107}
   postRespawnDetectionCooldown: 0.75
   lanternGameObject: {fileID: 1110914064}
-  enableSoundReactions: 0
+  enableSoundReactions: 1
   soundRotationSpeed: 3
   soundAlertDuration: 3
   minSoundDistanceToReact: 3
@@ -63916,12 +63916,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44f055be5ef792340a59bd3ca9b1c717, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewDistance: 8
-  viewAngle: 40
+  viewDistance: 12
+  viewAngle: 110
   timeToAggro: 0.75
   obstructionMask:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 513
   eyeOrigin: {fileID: 779166214}
   detectionEnabled: 1
   visibilityResetDelay: 0.1
@@ -63980,7 +63980,7 @@ MonoBehaviour:
   playerHoldPoint: {fileID: 779166214}
   postRespawnDetectionCooldown: 0.75
   lanternGameObject: {fileID: 220153815}
-  enableSoundReactions: 0
+  enableSoundReactions: 1
   soundRotationSpeed: 3
   soundAlertDuration: 3
   minSoundDistanceToReact: 3
@@ -70508,12 +70508,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44f055be5ef792340a59bd3ca9b1c717, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewDistance: 8
-  viewAngle: 40
+  viewDistance: 12
+  viewAngle: 110
   timeToAggro: 0.75
   obstructionMask:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 513
   eyeOrigin: {fileID: 1525087869}
   detectionEnabled: 1
   visibilityResetDelay: 0.1
@@ -70574,7 +70574,7 @@ MonoBehaviour:
   playerHoldPoint: {fileID: 1525087869}
   postRespawnDetectionCooldown: 0.75
   lanternGameObject: {fileID: 1666845481}
-  enableSoundReactions: 0
+  enableSoundReactions: 1
   soundRotationSpeed: 3
   soundAlertDuration: 3
   minSoundDistanceToReact: 3
@@ -98749,7 +98749,7 @@ MonoBehaviour:
   playerHoldPoint: {fileID: 928392837}
   postRespawnDetectionCooldown: 0.75
   lanternGameObject: {fileID: 1163505863089427}
-  enableSoundReactions: 0
+  enableSoundReactions: 1
   soundRotationSpeed: 3
   soundAlertDuration: 3
   minSoundDistanceToReact: 3
@@ -98863,12 +98863,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44f055be5ef792340a59bd3ca9b1c717, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewDistance: 4
-  viewAngle: 60
+  viewDistance: 9
+  viewAngle: 100
   timeToAggro: 0.75
   obstructionMask:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 513
   eyeOrigin: {fileID: 928392837}
   detectionEnabled: 1
   visibilityResetDelay: 0.1

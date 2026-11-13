@@ -12,6 +12,8 @@ namespace CorrentesDaNoite.Enemies
         protected float _pathCheckTimer;
         protected const float PathCheckDelay = 0.4f;
 
+        public int CurrentPointIndex => _currentPointIndex;
+
         public EnemyPatrolState(EnemyController controller, EnemyStateMachine stateMachine, int startIndex = 0) : base(controller, stateMachine)
         {
             _patrolPoints = controller.PatrolPoints;
