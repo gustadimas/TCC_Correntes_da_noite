@@ -14,6 +14,8 @@ namespace CorrentesDaNoite.Audio.Footsteps
 
         protected readonly List<SurfaceType> areaStack = new List<SurfaceType>();
 
+        const float RAY_START_HEIGHT = 0.5f;
+
         public SurfaceType CurrentSurface => areaStack.Count > 0 ? areaStack[areaStack.Count - 1] : defaultSurface;
 
         public void SetDefaultSurface(SurfaceType surface) => defaultSurface = surface;
@@ -30,30 +32,20 @@ namespace CorrentesDaNoite.Audio.Footsteps
                 areaStack.Remove(area.surfaceType);
         }
 
+        // o chao vem primeiro pra dentro de casa nao tocar o som do terreno que fica embaixo
         public SurfaceType DetectByRaycast(Transform origin)
         {
-            SurfaceType terrainSurface = DetectTerrainSurface(origin);
-            if (terrainSurface != SurfaceType.Default)
-                return terrainSurface;
-
-            if (!useRaycastFallback || origin == null)
-                return CurrentSurface;
-
-            if (Physics.Raycast(origin.position, Vector3.down, out RaycastHit hit, raycastDistance, groundLayer))
-            {
-                if (hit.collider.TryGetComponent(out SurfaceArea area))
-                    return area.surfaceType;
-            }
-
-            return CurrentSurface;
+            if (origin == null) return CurrentSurface;
+            if (!useRaycastFallback || !Physics.Raycast(origin.position + Vector3.up * RAY_START_HEIGHT, Vector3.down, out RaycastHit hit, raycastDistance + RAY_START_HEIGHT, groundLayer, QueryTriggerInteraction.Ignore)) return GetTerrainOrCurrent(origin.position);
+            if (hit.collider.TryGetComponent(out SurfaceArea area)) return area.surfaceType;
+            return hit.collider is TerrainCollider ? GetTerrainOrCurrent(hit.point) : CurrentSurface;
         }
 
-        SurfaceType DetectTerrainSurface(Transform origin)
+        SurfaceType GetTerrainOrCurrent(Vector3 position)
         {
-            if (!useTerrainDetection || terrainTextureDetector == null || origin == null)
-                return SurfaceType.Default;
-
-            return terrainTextureDetector.GetSurfaceAtPosition(origin.position);
+            if (!useTerrainDetection || terrainTextureDetector == null) return CurrentSurface;
+            SurfaceType surface = terrainTextureDetector.GetSurfaceAtPosition(position);
+            return surface != SurfaceType.Default ? surface : CurrentSurface;
         }
     }
 }

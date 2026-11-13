@@ -36,12 +36,18 @@ namespace CorrentesDaNoite.Audio
         protected readonly List<AudioSource> spatialSourcePool = new List<AudioSource>();
         protected readonly Dictionary<AudioEvent, AudioConfig> eventToConfig = new Dictionary<AudioEvent, AudioConfig>();
 
+        const float SPATIAL_FULL_VOLUME_DISTANCE = 10f;
+        const float SPATIAL_SILENT_DISTANCE = 40f;
+
         [System.Serializable]
         public class AudioEventConfig
         {
             public AudioEvent audioEvent;
             public AudioConfig audioConfig;
         }
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        static void CreateAudioRoot() => Instantiate(Resources.Load<GameObject>("AudioRoot"));
 
         protected virtual void Awake()
         {
@@ -113,6 +119,9 @@ namespace CorrentesDaNoite.Audio
             obj.transform.SetParent(transform);
             AudioSource source = obj.AddComponent<AudioSource>();
             source.playOnAwake = false;
+            source.rolloffMode = AudioRolloffMode.Linear;
+            source.minDistance = SPATIAL_FULL_VOLUME_DISTANCE;
+            source.maxDistance = SPATIAL_SILENT_DISTANCE;
             source.outputAudioMixerGroup = ResolveMixerGroup(mixerGroupPath);
             return source;
         }

@@ -10219,7 +10219,7 @@ MonoBehaviour:
   reactToWalkingSounds: 1
   reactToRunningSounds: 1
   reactToJumpingSounds: 0
-  playerDetectedAudioEvent: 10
+  playerDetectedAudioEvent: 8
   playerDetectedCooldown: 1.5
   sleepingEnemyConfig: {fileID: 0}
   sleepingAnimationController: {fileID: 231980737}
@@ -13472,7 +13472,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: ec37cf8cbe7924644a7a3d8de454807a, type: 3}
     type: 0
     spatialAudio: 1
-    baseVolume: 0.9
+    baseVolume: 0.15
     usePitchVariation: 1
     minPitch: 0.95
     maxPitch: 1.05
@@ -13483,7 +13483,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: ec37cf8cbe7924644a7a3d8de454807a, type: 3}
     type: 0
     spatialAudio: 1
-    baseVolume: 0.1
+    baseVolume: 0.15
     usePitchVariation: 1
     minPitch: 0.95
     maxPitch: 1.05
@@ -13521,7 +13521,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: c8a4780fa06de814592975fe655b72de, type: 3}
     type: 0
     spatialAudio: 1
-    baseVolume: 0.1
+    baseVolume: 0.15
     usePitchVariation: 1
     minPitch: 0.95
     maxPitch: 1.05
@@ -13531,7 +13531,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 68ab3630d4ad01349b90517e75e7d527, type: 3}
     type: 0
     spatialAudio: 1
-    baseVolume: 0.1
+    baseVolume: 0.15
     usePitchVariation: 1
     minPitch: 0.95
     maxPitch: 1.05
@@ -13541,7 +13541,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: e95139be60d70ad4e95912b52f536217, type: 3}
     type: 0
     spatialAudio: 1
-    baseVolume: 0.1
+    baseVolume: 0.15
     usePitchVariation: 1
     minPitch: 0.95
     maxPitch: 1.05
@@ -13563,7 +13563,7 @@ MonoBehaviour:
   raycastDistance: 1
   groundLayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 257
   useTerrainDetection: 1
   terrainTextureDetector: {fileID: 279207462}
 --- !u!114 &279207462
@@ -18695,7 +18695,7 @@ MonoBehaviour:
   reactToWalkingSounds: 1
   reactToRunningSounds: 1
   reactToJumpingSounds: 0
-  playerDetectedAudioEvent: 10
+  playerDetectedAudioEvent: 8
   playerDetectedCooldown: 1.5
   watchGuardConfig: {fileID: 0}
   guardPoints:
@@ -19835,7 +19835,7 @@ MonoBehaviour:
   reactToWalkingSounds: 1
   reactToRunningSounds: 1
   reactToJumpingSounds: 0
-  playerDetectedAudioEvent: 10
+  playerDetectedAudioEvent: 8
   playerDetectedCooldown: 1.5
   watchGuardConfig: {fileID: 0}
   guardPoints:
@@ -29204,6 +29204,7 @@ GameObject:
   - component: {fileID: 601350508}
   - component: {fileID: 601350507}
   - component: {fileID: 601350509}
+  - component: {fileID: 601350510}
   m_Layer: 0
   m_Name: Chaser
   m_TagString: Untagged
@@ -29371,8 +29372,8 @@ MonoBehaviour:
   roarCrossFade: 0.05
   footstepSounds:
   - {fileID: 8300000, guid: 68ab3630d4ad01349b90517e75e7d527, type: 3}
-  roarSound: {fileID: 8300000, guid: 1b7297126babf934eb6457a515fbd850, type: 3}
-  audioSource: {fileID: 0}
+  roarSound: {fileID: 0}
+  audioSource: {fileID: 601350510}
   footstepInterval: 0.5
   roarAudioEvent: 9
   roarVolume: 1
@@ -29452,6 +29453,103 @@ MonoBehaviour:
     m_Bits: 256
   useTerrainDetection: 0
   terrainTextureDetector: {fileID: 0}
+--- !u!82 &601350510
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 601350493}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 2401970710067617579, guid: 000fec4452533fd4e898f5f2dabc58a1, type: 2}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 10
+  MaxDistance: 40
+  Pan2D: 0
+  rolloffMode: 1
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &602128206
 GameObject:
   m_ObjectHideFlags: 0
@@ -39476,7 +39574,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementThreshold: 0.2
   stepInterval: 0.4
-  useAnimationEvents: 1
+  useAnimationEvents: 0
   defaultConfig:
     clips:
     - {fileID: 8300000, guid: 68ab3630d4ad01349b90517e75e7d527, type: 3}
@@ -39520,7 +39618,6 @@ MonoBehaviour:
     m_Bits: 513
   eyeOrigin: {fileID: 1532360107}
   detectionEnabled: 1
-  visibilityResetDelay: 0.1
 --- !u!114 &839911737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50672,9 +50769,9 @@ MonoBehaviour:
   enemyRoarEvent: 0
   audioSource: {fileID: 0}
   audioStateController: {fileID: 924619518}
-  chaseMusicKey: chase
-  explorationMusicKey: game
-  menuMusicKey: menu
+  chaseMusicKey: Chase
+  explorationMusicKey: Game
+  menuMusicKey: Menu
   musicFadeTime: 1.5
   endSequenceDuration: 5
   enemyStopDelay: 0.5
@@ -53095,7 +53192,7 @@ MonoBehaviour:
   reactToWalkingSounds: 1
   reactToRunningSounds: 1
   reactToJumpingSounds: 0
-  playerDetectedAudioEvent: 10
+  playerDetectedAudioEvent: 8
   playerDetectedCooldown: 1.5
   sleepingEnemyConfig: {fileID: 0}
   sleepingAnimationController: {fileID: 1166217040}
@@ -63924,7 +64021,6 @@ MonoBehaviour:
     m_Bits: 513
   eyeOrigin: {fileID: 779166214}
   detectionEnabled: 1
-  visibilityResetDelay: 0.1
 --- !u!114 &1385633286
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64165,7 +64261,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementThreshold: 0.2
   stepInterval: 0.4
-  useAnimationEvents: 1
+  useAnimationEvents: 0
   defaultConfig:
     clips:
     - {fileID: 8300000, guid: 68ab3630d4ad01349b90517e75e7d527, type: 3}
@@ -70516,7 +70612,6 @@ MonoBehaviour:
     m_Bits: 513
   eyeOrigin: {fileID: 1525087869}
   detectionEnabled: 1
-  visibilityResetDelay: 0.1
 --- !u!114 &1526537951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70759,7 +70854,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementThreshold: 0.2
   stepInterval: 0.4
-  useAnimationEvents: 1
+  useAnimationEvents: 0
   defaultConfig:
     clips:
     - {fileID: 8300000, guid: 68ab3630d4ad01349b90517e75e7d527, type: 3}
@@ -98389,7 +98484,7 @@ MonoBehaviour:
   reactToWalkingSounds: 1
   reactToRunningSounds: 1
   reactToJumpingSounds: 0
-  playerDetectedAudioEvent: 10
+  playerDetectedAudioEvent: 8
   playerDetectedCooldown: 1.5
   sleepingEnemyConfig: {fileID: 0}
   sleepingAnimationController: {fileID: 7927414841405893834}
@@ -98871,7 +98966,6 @@ MonoBehaviour:
     m_Bits: 513
   eyeOrigin: {fileID: 928392837}
   detectionEnabled: 1
-  visibilityResetDelay: 0.1
 --- !u!114 &9192132949333104925
 MonoBehaviour:
   m_ObjectHideFlags: 0

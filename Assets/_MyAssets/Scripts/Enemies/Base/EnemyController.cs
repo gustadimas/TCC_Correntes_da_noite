@@ -380,7 +380,7 @@ namespace CorrentesDaNoite.Enemies
             _soundRotationTimer = 0f;
         }
 
-        protected virtual void TryPlayDetectionSound()
+        public virtual void TryPlayDetectionSound()
         {
             if (playerDetectedAudioEvent == default)
                 return;

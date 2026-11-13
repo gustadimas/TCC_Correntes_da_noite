@@ -90,7 +90,11 @@ namespace CorrentesDaNoite.Player
                 Debug.LogWarning("main camera nao encontrada");
                 useCameraRelativeMovement = false;
             }
+        }
 
+        // no start pra vir depois do awake do menu de pausa que toca a musica do menu
+        private void Start()
+        {
             MusicManager.GetOrCreate().PlayMusic("Game", 1.5f);
             FindFirstObjectByType<AudioStateController>()?.SetExplorationState();
         }

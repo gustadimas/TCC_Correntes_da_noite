@@ -15,6 +15,7 @@ namespace CorrentesDaNoite.Enemies
             SleepingController?.SleepingAnimation?.ResetAllTriggers();
             SleepingController?.SleepingAnimation?.SetSleeping(false, SleepingController.SleepingBoolParam);
             SleepingController?.SleepingAnimation?.SetIdleReady(true, SleepingController.IdleReadyBoolParam);
+            _controller.TryPlayDetectionSound();
 
             _stateMachine.ChangeState(new EnemyChaseState(_controller, _stateMachine));
         }

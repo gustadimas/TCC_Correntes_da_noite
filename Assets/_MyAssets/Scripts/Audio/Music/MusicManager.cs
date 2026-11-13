@@ -25,6 +25,8 @@ namespace CorrentesDaNoite.Audio
         protected Coroutine crossfadeRoutine;
         protected readonly Dictionary<string, AudioClip> musicMap = new Dictionary<string, AudioClip>();
 
+        const float LOOP_CROSSFADE = 4f;
+
         [System.Serializable]
         public class MusicEntry
         {
@@ -44,6 +46,13 @@ namespace CorrentesDaNoite.Audio
 
             if (Instance != this)
                 Destroy(gameObject);
+        }
+
+        // recomeca a musica antes do fim pra nao cair no silencio do final do arquivo
+        private void Update()
+        {
+            if (crossfadeRoutine != null || activeSource == null || !activeSource.isPlaying) return;
+            if (activeSource.time >= activeSource.clip.length - LOOP_CROSSFADE) StartCrossfade(activeSource.clip, LOOP_CROSSFADE);
         }
 
         public static MusicManager GetOrCreate()
@@ -111,7 +120,7 @@ namespace CorrentesDaNoite.Audio
         {
             if (string.IsNullOrEmpty(key) || !musicMap.TryGetValue(key, out AudioClip clip))
             {
-                Debug.LogWarning($"[MusicManager] Key '{key}' não encontrada na tabela de musicEntries.");
+                Debug.LogWarning("musica nao encontrada " + key);
                 return;
             }
 
@@ -155,7 +164,7 @@ namespace CorrentesDaNoite.Audio
                 if (targetClip != null)
                     to.volume = baseVolume;
 
-                activeSource = targetClip != null ? to : to;
+                activeSource = to;
                 crossfadeRoutine = null;
                 yield break;
             }
@@ -169,7 +178,7 @@ namespace CorrentesDaNoite.Audio
                 if (targetClip != null)
                     to.volume = Mathf.Lerp(0f, baseVolume, t);
 
-                elapsed += Time.deltaTime;
+                elapsed += Time.unscaledDeltaTime;
                 yield return null;
             }
 
@@ -185,7 +194,7 @@ namespace CorrentesDaNoite.Audio
             else
                 to.volume = 0f;
 
-            activeSource = targetClip != null ? to : to;
+            activeSource = to;
             crossfadeRoutine = null;
         }
     }
