@@ -26,7 +26,6 @@ namespace CorrentesDaNoite.Player
 
         [Header("Jump")]
         [SerializeField] float jumpHeight = 1.5f;
-        [SerializeField] bool enableJumpPhysics = false;
 
         [Header("Camera")]
         [SerializeField] Transform cameraTransform;
@@ -54,10 +53,15 @@ namespace CorrentesDaNoite.Player
         bool _hasExternalMovementInput;
         bool _forceRunExternal;
         Vector2 _inputMultiplier = Vector2.one;
+        float _standHeight;
+        Vector3 _standCenter;
+
+        const float CROUCH_HEIGHT = 1f;
 
         static readonly int Speed = Animator.StringToHash("Speed");
         static readonly int IsRunningHash = Animator.StringToHash("IsRunning");
         static readonly int IsCrouchingHash = Animator.StringToHash("IsCrouching");
+        static readonly int IsGroundedHash = Animator.StringToHash("IsGrounded");
         static readonly int Jump = Animator.StringToHash("Jump");
         static readonly int VelocityX = Animator.StringToHash("VelocityX");
         static readonly int VelocityZ = Animator.StringToHash("VelocityZ");
@@ -77,22 +81,18 @@ namespace CorrentesDaNoite.Player
             _soundEmitter = GetComponent<PlayerSoundEmitter>();
             _lookBackController = GetComponent<ChaseLookBackController>();
             _stumbleHandler = GetComponent<ChaseStumbleHandler>();
+            _standHeight = _characterController.height;
+            _standCenter = _characterController.center;
 
+            if (cameraTransform == null && UnityEngine.Camera.main != null) cameraTransform = UnityEngine.Camera.main.transform;
             if (cameraTransform == null)
             {
-                var mainCamera = UnityEngine.Camera.main;
-                if (mainCamera != null)
-                    cameraTransform = mainCamera.transform;
-                else
-                {
-                    Debug.LogWarning("PlayerController: Main Camera nao encontrada!");
-                    useCameraRelativeMovement = false;
-                }
+                Debug.LogWarning("main camera nao encontrada");
+                useCameraRelativeMovement = false;
             }
 
             MusicManager.GetOrCreate().PlayMusic("Game", 1.5f);
-            var asc = FindFirstObjectByType<AudioStateController>();
-            asc?.SetExplorationState();
+            FindFirstObjectByType<AudioStateController>()?.SetExplorationState();
         }
 
         void Update()
@@ -129,18 +129,13 @@ namespace CorrentesDaNoite.Player
 
                 _currentVelocity = movement;
             }
-            else
-            {
-                _currentVelocity = Vector3.Lerp(_currentVelocity, Vector3.zero, deceleration * Time.deltaTime);
-            }
+            else if (!_characterController.isGrounded) _characterController.Move(_currentVelocity * Time.deltaTime);
+            else _currentVelocity = Vector3.Lerp(_currentVelocity, Vector3.zero, deceleration * Time.deltaTime);
         }
 
         Vector3 GetMoveDirection()
         {
-            if (useDirectionalZones && CameraDirectionManager.Instance != null)
-            {
-                return CameraDirectionManager.Instance.ConvertInputToWorldDirection(_movementInput, invertDirectionalHorizontal);
-            }
+            if (useDirectionalZones && CameraDirectionManager.Instance != null) return CameraDirectionManager.Instance.ConvertInputToWorldDirection(_movementInput, invertDirectionalHorizontal);
 
             if (useCameraRelativeMovement && cameraTransform != null)
             {
@@ -167,24 +162,18 @@ namespace CorrentesDaNoite.Player
         float GetChaseSpeedMultiplier()
         {
             float multiplier = 1f;
-
-            if (_lookBackController != null)
-                multiplier *= _lookBackController.GetCurrentSpeedMultiplier();
-
-            if (_stumbleHandler != null)
-                multiplier *= _stumbleHandler.CurrentSpeedMultiplier;
-
+            if (_lookBackController != null) multiplier *= _lookBackController.GetCurrentSpeedMultiplier();
+            if (_stumbleHandler != null) multiplier *= _stumbleHandler.CurrentSpeedMultiplier;
             return multiplier;
         }
 
         void ApplyGravity()
         {
-            if (_characterController.isGrounded && _verticalVelocity.y < 0)
-                _verticalVelocity.y = -2f;
-            else
-                _verticalVelocity.y += gravity * Time.deltaTime;
+            if (_characterController.isGrounded && _verticalVelocity.y < 0) _verticalVelocity.y = -2f;
+            else _verticalVelocity.y += gravity * Time.deltaTime;
 
-            _characterController.Move(_verticalVelocity * Time.deltaTime);
+            CollisionFlags flags = _characterController.Move(_verticalVelocity * Time.deltaTime);
+            if ((flags & CollisionFlags.Above) != 0 && _verticalVelocity.y > 0) _verticalVelocity.y = 0f;
         }
 
         void UpdateAnimator()
@@ -192,6 +181,7 @@ namespace CorrentesDaNoite.Player
             _animator.SetFloat(Speed, _currentSpeed / runSpeed);
             _animator.SetBool(IsCrouchingHash, _isCrouching);
             _animator.SetBool(IsRunningHash, _isRunning && !_isCrouching && _movementInput.magnitude > 0.1f);
+            _animator.SetBool(IsGroundedHash, _characterController.isGrounded);
 
             Vector3 localVelocity = transform.InverseTransformDirection(_currentVelocity);
             _animator.SetFloat(VelocityX, localVelocity.x);
@@ -200,16 +190,10 @@ namespace CorrentesDaNoite.Player
 
         void AdjustCharacterControllerHeight()
         {
-            if (_isCrouching)
-            {
-                _characterController.height = 1.0f;
-                _characterController.center = new Vector3(0, 0.5f, 0);
-            }
-            else
-            {
-                _characterController.height = 2.0f;
-                _characterController.center = new Vector3(0, 1.0f, 0);
-            }
+            float height = _isCrouching ? CROUCH_HEIGHT : _standHeight;
+            _characterController.height = height;
+            // mantem a base da capsula no lugar
+            _characterController.center = _standCenter + Vector3.down * ((_standHeight - height) / 2f);
         }
 
         public void OnMove(InputAction.CallbackContext context)
@@ -221,59 +205,37 @@ namespace CorrentesDaNoite.Player
         public void OnRun(InputAction.CallbackContext context)
         {
             if (_isCaptured) return;
-            if (context.performed && !_isCrouching)
-                _isRunning = true;
-            else if (context.canceled)
-                _isRunning = false;
+            if (context.performed && !_isCrouching) _isRunning = true;
+            else if (context.canceled) _isRunning = false;
         }
 
         public void OnCrouch(InputAction.CallbackContext context)
         {
-            if (_isCaptured) return;
+            if (_isCaptured || !context.performed) return;
 
-            if (context.performed)
-            {
-                _isCrouching = !_isCrouching;
-
-                if (_isCrouching)
-                    _isRunning = false;
-
-                AdjustCharacterControllerHeight();
-            }
+            _isCrouching = !_isCrouching;
+            if (_isCrouching) _isRunning = false;
+            AdjustCharacterControllerHeight();
         }
 
         public void OnJump(InputAction.CallbackContext context)
         {
-            if (_isCaptured) return;
+            // o input chega mesmo com o controller desligado no respawn e no teleporte
+            if (_isCaptured || !enabled || _isCrouching || !context.performed || !_characterController.isGrounded) return;
 
-            if (context.performed && _characterController.isGrounded)
-            {
-                _animator.SetTrigger(Jump);
-                if (enableJumpPhysics)
-                    _verticalVelocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-
-                _soundEmitter?.EmitJumpSound();
-            }
+            _animator.SetTrigger(Jump);
+            _verticalVelocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            _soundEmitter?.EmitJumpSound();
         }
 
         public virtual void SetCapturedState(bool captured)
         {
             _isCaptured = captured;
-            if (captured)
-            {
-                ResetMovementState();
-                _characterController.enabled = false;
-            }
-            else
-            {
-                _characterController.enabled = true;
-            }
+            if (captured) ResetMovementState();
+            _characterController.enabled = !captured;
         }
 
-        public virtual void PlayCaptureAnimation()
-        {
-            _animator?.SetTrigger(Struggling);
-        }
+        public virtual void PlayCaptureAnimation() => _animator?.SetTrigger(Struggling);
 
         public void SetExternalMovement(Vector2 input, bool forceRun)
         {
@@ -303,21 +265,18 @@ namespace CorrentesDaNoite.Player
 
         void ApplyExternalMovementOverride()
         {
-            if (_hasExternalMovementInput)
-            {
-                _movementInput = _externalMovementInput;
-                if (_forceRunExternal)
-                    _isRunning = true;
-            }
+            if (!_hasExternalMovementInput) return;
+
+            _movementInput = _externalMovementInput;
+            if (_forceRunExternal) _isRunning = true;
         }
 
         void OnDrawGizmosSelected()
         {
-            if (Application.isPlaying)
-            {
-                Gizmos.color = Color.green;
-                Gizmos.DrawRay(transform.position, _currentVelocity);
-            }
+            if (!Application.isPlaying) return;
+
+            Gizmos.color = Color.green;
+            Gizmos.DrawRay(transform.position, _currentVelocity);
         }
 
         void ResetMovementState()

@@ -29,6 +29,8 @@ namespace CorrentesDaNoite.Audio.Footsteps
 
         protected float lastStepTime;
         protected Vector3 lastPosition;
+        bool _wasFalling;
+        float _lastY;
 
         protected void Reset()
         {
@@ -47,8 +49,8 @@ namespace CorrentesDaNoite.Audio.Footsteps
 
         protected void Update()
         {
-            if (useAnimationEvents)
-                return;
+            PlayLandingStep();
+            if (useAnimationEvents) return;
 
             TryPlayStepByMovement();
         }
@@ -56,6 +58,15 @@ namespace CorrentesDaNoite.Audio.Footsteps
         public void PlayStepAnimationEvent()
         {
             TryPlayFootstep(surfaceTracker.DetectByRaycast(feetTransform));
+        }
+
+        void PlayLandingStep()
+        {
+            bool grounded = characterController.isGrounded;
+            if (grounded && _wasFalling) PlayStepAnimationEvent();
+            // depois de respawn a capsula fica fora do chao parada entao so conta se estava descendo
+            _wasFalling = !grounded && transform.position.y < _lastY;
+            _lastY = transform.position.y;
         }
 
         protected void TryPlayStepByMovement()

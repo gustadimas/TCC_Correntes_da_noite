@@ -13215,7 +13215,6 @@ MonoBehaviour:
   useSnapRotation: 0
   gravity: -9.81
   jumpHeight: 1
-  enableJumpPhysics: 1
   cameraTransform: {fileID: 135168785}
   useCameraRelativeMovement: 1
   useDirectionalZones: 1

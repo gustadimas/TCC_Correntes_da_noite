@@ -19,6 +19,7 @@ namespace CorrentesDaNoite.Chase
         [SerializeField] Player.PlayerController playerController;
 
         bool isAutoRunning;
+        Player.PlayerInputHandler _inputHandler;
 
         public bool InputEnabled => inputEnabled;
         public bool IsAutoRunning => isAutoRunning;
@@ -27,6 +28,7 @@ namespace CorrentesDaNoite.Chase
         {
             playerInput ??= GetComponent<PlayerInput>();
             playerController ??= GetComponent<Player.PlayerController>();
+            _inputHandler = GetComponent<Player.PlayerInputHandler>();
         }
 
         void Update()
@@ -47,10 +49,7 @@ namespace CorrentesDaNoite.Chase
         {
             inputEnabled = true;
             ResetAutoFlags();
-
-            if (playerInput != null)
-                playerInput.enabled = true;
-
+            SetPlayerInput(true);
             playerController?.ClearExternalMovement();
         }
 
@@ -58,10 +57,7 @@ namespace CorrentesDaNoite.Chase
         {
             inputEnabled = false;
             ResetAutoFlags();
-
-            if (playerInput != null)
-                playerInput.enabled = false;
-
+            SetPlayerInput(false);
             playerController?.ClearExternalMovement();
         }
 
@@ -70,10 +66,7 @@ namespace CorrentesDaNoite.Chase
             inputEnabled = false;
             forceForwardMovement = true;
             isAutoRunning = true;
-
-            if (playerInput != null)
-                playerInput.enabled = false;
-
+            SetPlayerInput(false);
             playerController?.SetExternalMovement(Vector2.up, true);
         }
 
@@ -82,24 +75,17 @@ namespace CorrentesDaNoite.Chase
             inputEnabled = true;
             forceForwardMovement = keepForwardUntilInput;
             isAutoRunning = keepForwardUntilInput;
+            SetPlayerInput(true);
 
-            if (playerInput != null)
-                playerInput.enabled = true;
-
-            if (keepForwardUntilInput)
-                playerController?.SetExternalMovement(Vector2.up, true);
-            else
-                playerController?.ClearExternalMovement();
+            if (keepForwardUntilInput) playerController?.SetExternalMovement(Vector2.up, true);
+            else playerController?.ClearExternalMovement();
         }
 
         public void SetInputEnabled(bool enabled)
         {
             inputEnabled = enabled;
-            if (playerInput != null)
-                playerInput.enabled = enabled;
-
-            if (!enabled)
-                playerController?.ClearExternalMovement();
+            SetPlayerInput(enabled);
+            if (!enabled) playerController?.ClearExternalMovement();
         }
 
         void ClearAutoRun()
@@ -113,6 +99,13 @@ namespace CorrentesDaNoite.Chase
         {
             forceForwardMovement = false;
             isAutoRunning = false;
+        }
+
+        // o input do jogo vem do PlayerInputHandler entao desligar so o PlayerInput nao trava nada
+        void SetPlayerInput(bool active)
+        {
+            if (playerInput != null) playerInput.enabled = active;
+            if (_inputHandler != null) _inputHandler.enabled = active;
         }
 
         bool PlayerProvidedInput()

@@ -31,13 +31,14 @@ namespace CorrentesDaNoite.Player
 
         void OnDisable()
         {
+            // desliga antes de tirar os eventos pra soltar o que estava apertado
+            _inputActions.Disable();
             _inputActions.Player.Move.performed -= OnMovePerformed;
             _inputActions.Player.Move.canceled -= OnMoveCanceled;
             _inputActions.Player.Run.performed -= OnRunPerformed;
             _inputActions.Player.Run.canceled -= OnRunCanceled;
             _inputActions.Player.Crouch.performed -= OnCrouchPerformed;
             _inputActions.Player.Jump.performed -= OnJumpPerformed;
-            _inputActions.Disable();
         }
 
         void OnMovePerformed(InputAction.CallbackContext context) => _playerController.OnMove(context);
