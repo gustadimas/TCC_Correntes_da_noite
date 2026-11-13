@@ -31,6 +31,10 @@ namespace CorrentesDaNoite.Audio.Footsteps
         protected Vector3 lastPosition;
         bool _wasFalling;
         float _lastY;
+        Player.PlayerController _player;
+
+        // agachada o passo fica bem baixo pra combinar com andar escondida
+        const float CROUCH_STEP_VOLUME = 0.3f;
 
         protected void Reset()
         {
@@ -45,6 +49,7 @@ namespace CorrentesDaNoite.Audio.Footsteps
             surfaceTracker ??= GetComponent<FootstepSurfaceTracker>();
             feetTransform ??= transform;
             lastPosition = transform.position;
+            _player = GetComponent<Player.PlayerController>();
         }
 
         protected void Update()
@@ -98,6 +103,7 @@ namespace CorrentesDaNoite.Audio.Footsteps
 
             lastStepTime = Time.time;
             AudioConfig audioConfig = config.GetRandomAudioConfig();
+            if (_player != null && _player.IsCrouching) audioConfig.volume *= CROUCH_STEP_VOLUME;
             Vector3? position = usePositionalAudio && feetTransform != null ? feetTransform.position : (Vector3?)null;
             AudioManager.Instance?.PlayConfig(audioConfig, position);
         }
