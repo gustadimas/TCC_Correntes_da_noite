@@ -8,7 +8,6 @@ namespace CorrentesDaNoite.Chase
         [Header("Stumble Settings")]
         [Range(0f, 1f)]
         [SerializeField] float speedMultiplierDuringStumble = 0.3f;
-        [SerializeField] float stumbleDuration = 2f;
 
         [Header("Trigger Settings")]
         [SerializeField] bool oneTimeUse = true;
@@ -28,8 +27,10 @@ namespace CorrentesDaNoite.Chase
         [Header("State")]
         [SerializeField] bool hasBeenTriggered;
 
-        [Header("Debug")]
-        [SerializeField] bool debugMode;
+        // o tropeco dura o tempo do inimigo chegar nessa distancia dela
+        const float NEAR_CATCH_DISTANCE = 1.7f;
+        const float MIN_STUMBLE_TIME = 0.5f;
+        const float MAX_STUMBLE_TIME = 1.8f;
 
         public bool HasBeenTriggered => hasBeenTriggered;
 
@@ -49,24 +50,14 @@ namespace CorrentesDaNoite.Chase
 
         void OnTriggerEnter(Collider other)
         {
-            if (!other.CompareTag("Player"))
-                return;
-
-            if (hasBeenTriggered && oneTimeUse)
-                return;
+            if (!other.CompareTag("Player") || (hasBeenTriggered && oneTimeUse)) return;
 
             var stumbleHandler = other.GetComponent<ChaseStumbleHandler>();
-            if (stumbleHandler == null)
-            {
-                if (debugMode)
-                    Debug.LogWarning("[ChaseStumbleTrigger] Player nao possui ChaseStumbleHandler!");
-                return;
-            }
+            var enemy = FindFirstObjectByType<ChaseEnemyController>();
+            if (stumbleHandler == null || enemy == null || !enemy.IsChasing) return;
 
-            stumbleHandler.TriggerStumble(speedMultiplierDuringStumble, stumbleDuration, stumbleAnimationTrigger);
-
-            if (debugMode)
-                Debug.Log($"[ChaseStumbleTrigger] Tropeco acionado: {gameObject.name}");
+            float stumbleSpeed = other.GetComponent<Player.PlayerController>().CurrentSpeed * speedMultiplierDuringStumble;
+            stumbleHandler.TriggerStumble(speedMultiplierDuringStumble, GetStumbleDuration(enemy, stumbleSpeed), stumbleAnimationTrigger);
 
             if (stumbleSound != null && audioSource != null)
                 audioSource.PlayOneShot(stumbleSound);
@@ -77,13 +68,12 @@ namespace CorrentesDaNoite.Chase
                 gameObject.SetActive(false);
         }
 
+        float GetStumbleDuration(ChaseEnemyController enemy, float stumbleSpeed) => Mathf.Clamp((enemy.GetDistanceToPlayer() - NEAR_CATCH_DISTANCE) / (enemy.AggressiveChaseSpeed - stumbleSpeed), MIN_STUMBLE_TIME, MAX_STUMBLE_TIME);
+
         public void ResetTrigger()
         {
             hasBeenTriggered = false;
             gameObject.SetActive(true);
-
-            if (debugMode)
-                Debug.Log($"[ChaseStumbleTrigger] Trigger resetado: {gameObject.name}");
         }
 
         void OnDrawGizmos()
@@ -136,7 +126,7 @@ namespace CorrentesDaNoite.Chase
 
             UnityEditor.Handles.Label(
                 labelPos,
-                $"Stumble Trigger {status}\nSlowdown: {speedMultiplierDuringStumble * 100:F0}%\nDuracao: {stumbleDuration}s",
+                $"Stumble Trigger {status}\nSlowdown: {speedMultiplierDuringStumble * 100:F0}%",
                 new GUIStyle()
                 {
                     normal = { textColor = color },

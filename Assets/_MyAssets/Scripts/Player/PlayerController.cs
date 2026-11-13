@@ -41,6 +41,7 @@ namespace CorrentesDaNoite.Player
         ChaseStumbleHandler _stumbleHandler;
 
         Vector2 _movementInput;
+        Vector2 _playerMoveInput;
         bool _isRunning;
         bool _isCrouching;
 
@@ -203,7 +204,8 @@ namespace CorrentesDaNoite.Player
         public void OnMove(InputAction.CallbackContext context)
         {
             if (_isCaptured) return;
-            _movementInput = Vector2.Scale(context.ReadValue<Vector2>(), _inputMultiplier);
+            _playerMoveInput = Vector2.Scale(context.ReadValue<Vector2>(), _inputMultiplier);
+            _movementInput = _playerMoveInput;
         }
 
         public void OnRun(InputAction.CallbackContext context)
@@ -253,6 +255,8 @@ namespace CorrentesDaNoite.Player
             _hasExternalMovementInput = false;
             _forceRunExternal = false;
             _externalMovementInput = Vector2.zero;
+            // volta pro que o jogador esta segurando senao fica andando com o input do movimento externo
+            _movementInput = _playerMoveInput;
         }
 
         public void SetDirectionalZonesEnabled(bool enabled) => useDirectionalZones = enabled;
@@ -286,6 +290,7 @@ namespace CorrentesDaNoite.Player
         void ResetMovementState()
         {
             _movementInput = Vector2.zero;
+            _playerMoveInput = Vector2.zero;
             _currentVelocity = Vector3.zero;
             _currentSpeed = 0f;
             _isRunning = false;

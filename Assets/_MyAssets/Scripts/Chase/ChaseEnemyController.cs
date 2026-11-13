@@ -18,12 +18,12 @@ namespace CorrentesDaNoite.Chase
         [SerializeField] Transform playerHoldPoint;
         [SerializeField] CaptureHandler captureHandler;
 
-        protected float baseChaseSpeed = 4.6f;
         protected float aggressiveChaseSpeed = 5.2f;
-        protected float minDistance = 2.5f;
-        protected float aggressiveDistanceThreshold = 7f;
-        protected float maxDistance = 40f;
-        protected float catchUpSpeedMultiplier = 2.2f;
+        protected float minDistance = 1f;
+
+        // com ela correndo ele fica nessa distancia e quando ela vacila ele fecha
+        const float CHASE_GAP = 6f;
+        const float PLAYER_RUNNING_SPEED = 4f;
 
         [Header("Movement Settings")]
         [SerializeField] Vector3 startOffset = new Vector3(0f, 0f, -15f);
@@ -61,12 +61,12 @@ namespace CorrentesDaNoite.Chase
         NavMeshAgent navMeshAgent;
         bool hasCaptured;
         Coroutine captureRoutine;
+        PlayerController _targetPlayer;
 
         public bool IsChasing => isChasing;
         public bool HasCaptured => hasCaptured;
         public Transform Target => target;
         public float CurrentSpeed => currentSpeed;
-        public float BaseChaseSpeed => baseChaseSpeed;
         public float AggressiveChaseSpeed => aggressiveChaseSpeed;
         public Animator Animator => animator;
         public string RunAnimationBool => runAnimationBool;
@@ -139,14 +139,7 @@ namespace CorrentesDaNoite.Chase
                 return;
             }
 
-            float targetSpeed = distanceToTarget < aggressiveDistanceThreshold
-                ? aggressiveChaseSpeed
-                : baseChaseSpeed;
-
-            if (distanceToTarget > maxDistance)
-                targetSpeed *= catchUpSpeedMultiplier;
-
-            currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime * 5f);
+            currentSpeed = Mathf.Lerp(currentSpeed, GetChaseSpeed(distanceToTarget), Time.deltaTime * 5f);
 
             Vector3 targetPosition = target.position;
             Vector3 directionToTarget = (targetPosition - transform.position).normalized;
@@ -179,6 +172,13 @@ namespace CorrentesDaNoite.Chase
                 Debug.DrawRay(transform.position, directionToTarget * 5f, Color.red);
                 Debug.DrawLine(transform.position, target.position, Color.yellow);
             }
+        }
+
+        float GetChaseSpeed(float distance)
+        {
+            float playerSpeed = _targetPlayer != null ? _targetPlayer.CurrentSpeed : 0f;
+            if (playerSpeed < PLAYER_RUNNING_SPEED) return aggressiveChaseSpeed;
+            return Mathf.Clamp(playerSpeed + (distance - CHASE_GAP) * 0.5f, playerSpeed * 0.75f, aggressiveChaseSpeed * 1.4f);
         }
 
         void UpdateAnimation()
@@ -403,6 +403,7 @@ namespace CorrentesDaNoite.Chase
         public void SetTarget(Transform newTarget)
         {
             target = newTarget;
+            _targetPlayer = newTarget != null ? newTarget.GetComponent<PlayerController>() : null;
         }
 
         protected void TeleportCloserToPlayer()
@@ -429,9 +430,6 @@ namespace CorrentesDaNoite.Chase
                 Gizmos.color = Color.yellow;
                 Gizmos.DrawWireSphere(transform.position, minDistance);
 
-                Gizmos.color = new Color(1f, 0.5f, 0f);
-                Gizmos.DrawWireSphere(transform.position, aggressiveDistanceThreshold);
-
                 Gizmos.color = Color.magenta;
                 Gizmos.DrawWireSphere(transform.position, captureDistance);
             }
@@ -444,9 +442,6 @@ namespace CorrentesDaNoite.Chase
         {
             if (target != null)
             {
-                Gizmos.color = new Color(1f, 0f, 0f, 0.2f);
-                Gizmos.DrawSphere(transform.position, maxDistance);
-
                 Vector3 startPos = target.position + target.TransformDirection(startOffset);
                 Gizmos.color = Color.green;
                 Gizmos.DrawWireSphere(startPos, 1f);

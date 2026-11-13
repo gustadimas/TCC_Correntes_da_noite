@@ -5062,8 +5062,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 2, z: 17}
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!4 &126256053
 Transform:
   m_ObjectHideFlags: 0
@@ -5073,7 +5073,7 @@ Transform:
   m_GameObject: {fileID: 126256051}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 29.7, y: -0.70000005, z: -130.5}
+  m_LocalPosition: {x: 13, y: -0.7, z: -132.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5092,7 +5092,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedMultiplierDuringStumble: 0.3
-  stumbleDuration: 1
   oneTimeUse: 1
   disableAfterUse: 1
   stumbleAnimationTrigger: Stumble
@@ -5101,7 +5100,6 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   showGizmo: 1
   hasBeenTriggered: 0
-  debugMode: 0
 --- !u!1 &126852500
 GameObject:
   m_ObjectHideFlags: 0
@@ -8586,6 +8584,81 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.3899711, y: 14.33, z: 2.5}
   m_Center: {x: -0.000015258789, y: 0.48647094, z: 0}
+--- !u!1 &201331051
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 201331052}
+  - component: {fileID: 201331054}
+  - component: {fileID: 201331053}
+  m_Layer: 0
+  m_Name: StumbleTrigger (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &201331052
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 201331051}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -24, y: -0.7, z: -132.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1837554021}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &201331053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 201331051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14111843b5bbfd14c87ee87cd109b5de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speedMultiplierDuringStumble: 0.3
+  oneTimeUse: 1
+  disableAfterUse: 1
+  stumbleAnimationTrigger: Stumble
+  stumbleSound: {fileID: 0}
+  audioSource: {fileID: 0}
+  gizmoColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  showGizmo: 1
+  hasBeenTriggered: 0
+--- !u!65 &201331054
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 201331051}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 2, z: 17}
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!4 &202471916 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4513734153393208, guid: d63888d47c5721f4b880b3facc5a0ee3, type: 3}
@@ -31474,6 +31547,81 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5721206337174541531, guid: 7b8b0a688867d9c4d887dcb3996ed9d6, type: 3}
   m_PrefabInstance: {fileID: 646089372}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &646645493
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 646645494}
+  - component: {fileID: 646645496}
+  - component: {fileID: 646645495}
+  m_Layer: 0
+  m_Name: StumbleTrigger (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &646645494
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 646645493}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -13, y: -0.7, z: -132.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1837554021}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &646645495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 646645493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14111843b5bbfd14c87ee87cd109b5de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speedMultiplierDuringStumble: 0.3
+  oneTimeUse: 1
+  disableAfterUse: 1
+  stumbleAnimationTrigger: Stumble
+  stumbleSound: {fileID: 0}
+  audioSource: {fileID: 0}
+  gizmoColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  showGizmo: 1
+  hasBeenTriggered: 0
+--- !u!65 &646645496
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 646645493}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 2, z: 17}
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1001 &649107815
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -50743,7 +50891,6 @@ MonoBehaviour:
   transitionWaypoint: {fileID: 0}
   waypointTransitionThreshold: 2
   enemyStartChaseDelay: 0.5
-  enemyCatchDistance: 1.5
   player: {fileID: 279207449}
   playerAnimator: {fileID: 279207453}
   inputMediator: {fileID: 279207457}
@@ -57825,7 +57972,7 @@ Transform:
   m_GameObject: {fileID: 1256144627}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.7999992, y: -0.70000005, z: -130.5}
+  m_LocalPosition: {x: -1, y: -0.7, z: -132.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -57844,7 +57991,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedMultiplierDuringStumble: 0.3
-  stumbleDuration: 1
   oneTimeUse: 1
   disableAfterUse: 1
   stumbleAnimationTrigger: Stumble
@@ -57853,7 +57999,6 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   showGizmo: 1
   hasBeenTriggered: 0
-  debugMode: 0
 --- !u!65 &1256144630
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -57873,8 +58018,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 2, z: 17}
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1 &1256768762
 GameObject:
   m_ObjectHideFlags: 0
@@ -84154,6 +84299,8 @@ Transform:
   m_Children:
   - {fileID: 126256053}
   - {fileID: 1256144628}
+  - {fileID: 646645494}
+  - {fileID: 201331052}
   m_Father: {fileID: 363736555}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1839483696

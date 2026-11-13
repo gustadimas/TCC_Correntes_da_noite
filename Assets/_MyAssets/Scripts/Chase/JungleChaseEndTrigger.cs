@@ -42,6 +42,7 @@ namespace CorrentesDaNoite.Chase
         [SerializeField] string speedFloatName = "Speed";
 
         bool _triggered;
+        readonly Plane[] _cameraPlanes = new Plane[6];
 
         private void Reset()
         {
@@ -148,14 +149,27 @@ namespace CorrentesDaNoite.Chase
 
         void HandleEnemy(JungleChaseSequenceController controller)
         {
-            var enemyController = controller.ChaseEnemyController;
-            var enemyObject = controller.ChaseEnemy;
+            if (controller.ChaseEnemy != null) StartCoroutine(HideEnemyOffCamera(controller.ChaseEnemyController, controller.ChaseEnemy));
+        }
 
-            if (stopEnemyChase)
-                enemyController?.StopChase();
+        // so some depois de sair do enquadramento pra nao sumir na frente do jogador
+        IEnumerator HideEnemyOffCamera(ChaseEnemyController enemyController, GameObject enemyObject)
+        {
+            var renderers = enemyObject.GetComponentsInChildren<Renderer>();
+            while (IsOnCamera(renderers)) yield return null;
 
-            if (disableEnemyOnEnd && enemyObject != null)
-                enemyObject.SetActive(false);
+            if (stopEnemyChase) enemyController?.StopChase();
+            if (disableEnemyOnEnd) enemyObject.SetActive(false);
+        }
+
+        bool IsOnCamera(Renderer[] renderers)
+        {
+            var camera = UnityEngine.Camera.main;
+            if (camera == null) return false;
+
+            GeometryUtility.CalculateFrustumPlanes(camera, _cameraPlanes);
+            foreach (var r in renderers) if (r.enabled && GeometryUtility.TestPlanesAABB(_cameraPlanes, r.bounds)) return true;
+            return false;
         }
 
         bool IsValidState(Animator animator, string stateName)

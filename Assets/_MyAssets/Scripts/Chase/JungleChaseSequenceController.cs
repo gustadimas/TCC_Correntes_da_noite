@@ -41,7 +41,6 @@ namespace CorrentesDaNoite.Chase
 
         [Header("Enemy Chase Settings")]
         [SerializeField] float enemyStartChaseDelay = 1f;
-        [SerializeField] float enemyCatchDistance = 1.5f;
 
         [Header("Player References")]
         [SerializeField] Transform player;
@@ -145,7 +144,6 @@ namespace CorrentesDaNoite.Chase
         public Transform TransitionWaypoint => transitionWaypoint;
         public float WaypointTransitionThreshold => waypointTransitionThreshold;
         public float EnemyStartChaseDelay => enemyStartChaseDelay;
-        public float EnemyCatchDistance => enemyCatchDistance;
         public Transform Player => player;
         public Animator PlayerAnimator => playerAnimator;
         public ChaseInputMediator InputMediator => inputMediator;
@@ -187,15 +185,16 @@ namespace CorrentesDaNoite.Chase
             InitializeReferences();
             InitializeAudioSource();
             CacheStartPositions();
-            SubscribeCaptureEvents();
-            SubscribePlayerDeathEvents();
 
             if (chaseEnemy != null)
                 chaseEnemy.SetActive(false);
         }
 
+        // o reinicio desliga e liga esse objeto entao os eventos tem que voltar aqui
         void OnEnable()
         {
+            SubscribeCaptureEvents();
+            SubscribePlayerDeathEvents();
             sequenceStarted = false;
             if (autoStartOnEnable && !waitForTeleportStart)
                 BeginSequenceAfterDelay(delayBeforeStart);
@@ -565,6 +564,7 @@ namespace CorrentesDaNoite.Chase
 
             chaseEnemyController?.ResetCaptureState();
             chaseEnemyController?.SetTarget(player);
+            foreach (var stumbleTrigger in FindObjectsByType<ChaseStumbleTrigger>(FindObjectsInactive.Include, FindObjectsSortMode.None)) stumbleTrigger.ResetTrigger();
 
             SetCameraDirectionToAutoRun();
             ResetAnimations();

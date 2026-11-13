@@ -20,6 +20,10 @@ namespace CorrentesDaNoite.Chase
 
         bool isAutoRunning;
         Player.PlayerInputHandler _inputHandler;
+        float _autoRunEndTime;
+
+        // depois de liberar continua correndo sozinha esse tempo ou ate o jogador apertar algo
+        const float RELEASE_RUN_TIME = 1.5f;
 
         public bool InputEnabled => inputEnabled;
         public bool IsAutoRunning => isAutoRunning;
@@ -38,11 +42,7 @@ namespace CorrentesDaNoite.Chase
                 playerController.SetExternalMovement(Vector2.up, true);
             }
 
-            if (stopAutoRunOnPlayerInput && isAutoRunning && inputEnabled)
-            {
-                if (PlayerProvidedInput())
-                    ClearAutoRun();
-            }
+            if (isAutoRunning && inputEnabled && (Time.time >= _autoRunEndTime || (stopAutoRunOnPlayerInput && PlayerProvidedInput()))) ClearAutoRun();
         }
 
         public void EnableAllInputs()
@@ -75,6 +75,7 @@ namespace CorrentesDaNoite.Chase
             inputEnabled = true;
             forceForwardMovement = keepForwardUntilInput;
             isAutoRunning = keepForwardUntilInput;
+            _autoRunEndTime = Time.time + RELEASE_RUN_TIME;
             SetPlayerInput(true);
 
             if (keepForwardUntilInput) playerController?.SetExternalMovement(Vector2.up, true);
