@@ -3,6 +3,7 @@ using UnityEngine.AI;
 using System.Collections;
 using CorrentesDaNoite.Enemies;
 using CorrentesDaNoite.Player;
+using Unity.Cinemachine;
 
 namespace CorrentesDaNoite.Chase
 {
@@ -21,9 +22,10 @@ namespace CorrentesDaNoite.Chase
         protected float aggressiveChaseSpeed = 5.2f;
         protected float minDistance = 1f;
 
-        // com ela correndo ele fica nessa distancia e quando ela vacila ele fecha
-        const float CHASE_GAP = 6f;
+        // com ela correndo ele vai ficando pra tras ate essa distancia e o tropeco da corrida traz ele de volta
+        const float CHASE_GAP = 10f;
         const float PLAYER_RUNNING_SPEED = 4f;
+        const float NEAR_CATCH_FX_DISTANCE = 2.3f;
 
         [Header("Movement Settings")]
         [SerializeField] Vector3 startOffset = new Vector3(0f, 0f, -15f);
@@ -45,10 +47,8 @@ namespace CorrentesDaNoite.Chase
         [SerializeField] float roarCrossFade = 0.05f;
 
         [Header("Audio")]
-        [SerializeField] AudioClip[] footstepSounds;
         [SerializeField] AudioClip roarSound;
         [SerializeField] AudioSource audioSource;
-        [SerializeField] float footstepInterval = 0.5f;
         [SerializeField] Audio.AudioEvent roarAudioEvent;
         [SerializeField, Range(0f, 1.5f)] float roarVolume = 1f;
 
@@ -57,11 +57,13 @@ namespace CorrentesDaNoite.Chase
 
         Vector3 currentVelocity;
         float currentSpeed;
-        float footstepTimer;
         NavMeshAgent navMeshAgent;
         bool hasCaptured;
         Coroutine captureRoutine;
         PlayerController _targetPlayer;
+        CinemachineImpulseSource _impulse;
+        EnemyFootstepEmitter _footstepEmitter;
+        bool _nearCatchPlayed;
 
         public bool IsChasing => isChasing;
         public bool HasCaptured => hasCaptured;
@@ -78,6 +80,8 @@ namespace CorrentesDaNoite.Chase
         {
             animator ??= GetComponent<Animator>();
             captureHandler ??= GetComponent<CaptureHandler>();
+            _impulse = GetComponent<CinemachineImpulseSource>();
+            _footstepEmitter = GetComponent<EnemyFootstepEmitter>();
 
             navMeshAgent = GetComponent<NavMeshAgent>();
             if (navMeshAgent != null)
@@ -115,8 +119,8 @@ namespace CorrentesDaNoite.Chase
             if (isChasing && target != null)
             {
                 UpdateChase();
+                UpdateNearCatchFx();
                 UpdateAnimation();
-                UpdateAudio();
                 TryCapture();
             }
 
@@ -174,6 +178,18 @@ namespace CorrentesDaNoite.Chase
             }
         }
 
+        // tremor e grunhido quando ele quase encosta nela
+        void UpdateNearCatchFx()
+        {
+            float distance = GetDistanceToPlayer();
+            if (distance > NEAR_CATCH_FX_DISTANCE * 1.5f) _nearCatchPlayed = false;
+            if (_nearCatchPlayed || distance > NEAR_CATCH_FX_DISTANCE) return;
+
+            _nearCatchPlayed = true;
+            if (_impulse != null) _impulse.GenerateImpulse();
+            Audio.AudioManager.Instance?.PlayEvent(roarAudioEvent, transform.position);
+        }
+
         float GetChaseSpeed(float distance)
         {
             float playerSpeed = _targetPlayer != null ? _targetPlayer.CurrentSpeed : 0f;
@@ -195,35 +211,8 @@ namespace CorrentesDaNoite.Chase
                 animator.SetFloat(speedAnimationFloat, normalizedSpeed);
         }
 
-        void UpdateAudio()
-        {
-            if (currentSpeed > 0.1f && footstepSounds != null && footstepSounds.Length > 0)
-            {
-                footstepTimer += Time.deltaTime;
-
-                if (footstepTimer >= footstepInterval)
-                {
-                    PlayFootstep();
-                    footstepTimer = 0f;
-                }
-            }
-        }
-
-        void PlayFootstep()
-        {
-            if (audioSource != null && footstepSounds.Length > 0)
-            {
-                AudioClip clip = footstepSounds[UnityEngine.Random.Range(0, footstepSounds.Length)];
-                audioSource.PlayOneShot(clip, 0.5f);
-            }
-        }
-
-        public void PlayStepAnimationEvent()
-        {
-            PlayFootstep();
-        }
-
-        public void NewEvent() { }
+        // chamado pelo evento de pisada da animacao de corrida
+        public void PlayStepAnimationEvent() => _footstepEmitter?.PlayFootstep();
 
         void TryCapture()
         {
@@ -257,9 +246,6 @@ namespace CorrentesDaNoite.Chase
             captureRoutine = StartCoroutine(KillCapturedPlayerAfterDelay());
 
             OnPlayerCaptured?.Invoke();
-
-            if (debugMode)
-                Debug.Log("[ChaseEnemyController] Player capturado");
         }
 
         IEnumerator KillCapturedPlayerAfterDelay()
@@ -319,9 +305,6 @@ namespace CorrentesDaNoite.Chase
                 navMeshAgent.isStopped = false;
                 navMeshAgent.SetDestination(target.position);
             }
-
-            if (debugMode)
-                Debug.Log($"[ChaseEnemyController] Perseguicao iniciada em {transform.position}");
         }
 
         public void StopChase()
@@ -337,9 +320,6 @@ namespace CorrentesDaNoite.Chase
 
             if (animator != null && !string.IsNullOrEmpty(runAnimationBool))
                 animator.SetBool(runAnimationBool, false);
-
-            if (debugMode)
-                Debug.Log("[ChaseEnemyController] Perseguicao parada");
         }
 
         public void ResetCaptureState()
@@ -381,9 +361,6 @@ namespace CorrentesDaNoite.Chase
 
             if (roarSound != null && audioSource != null)
                 audioSource.PlayOneShot(roarSound, roarVolume);
-
-            if (debugMode)
-                Debug.Log("[ChaseEnemyController] Rugido tocado");
         }
 
         public void SetRoarClip(AudioClip clip) => roarSound = clip;
@@ -415,9 +392,6 @@ namespace CorrentesDaNoite.Chase
                 teleportPosition.y = fixedHeight;
 
             transform.position = Vector3.Lerp(transform.position, teleportPosition, Time.deltaTime * 2f);
-
-            if (debugMode)
-                Debug.Log("[ChaseEnemyController] Teleportando mais proximo do player (muito longe)");
         }
 
         void OnDrawGizmos()

@@ -122,6 +122,7 @@ namespace CorrentesDaNoite.Chase
         bool awaitingRespawn;
         Player.PlayerDeath playerDeath;
         Coroutine respawnResetRoutine;
+        bool _introPlayed;
 
         public System.Action OnSlowMoEnded;
 
@@ -313,11 +314,17 @@ namespace CorrentesDaNoite.Chase
 
         public void StartSequence()
         {
-            if (debugMode)
-                Debug.Log("[JungleChaseSequence] Sequencia iniciada");
-
             ResetAllCameras();
             ApplyChaseAudio();
+
+            // depois da primeira vez o retry so repete o olhar pra tras e o rugido sem a cutscene
+            if (_introPlayed)
+            {
+                ChangeState(new JungleChaseRetryRevealState(this));
+                return;
+            }
+
+            _introPlayed = true;
             ChangeState(new JungleChaseIntroState(this));
         }
 
@@ -335,6 +342,8 @@ namespace CorrentesDaNoite.Chase
         IEnumerator StartSequenceAfterDelay(float delay)
         {
             yield return new WaitForSeconds(delay);
+            // no retry espera ela terminar de levantar antes de sair correndo
+            while (_introPlayed && playerAnimator != null && playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Getting Up")) yield return null;
             StartSequence();
             sequenceStarted = true;
             startSequenceRoutine = null;
@@ -345,9 +354,6 @@ namespace CorrentesDaNoite.Chase
             currentState?.Exit();
             currentState = newState;
             currentState?.Enter();
-
-            if (debugMode && currentState != null)
-                Debug.Log($"[JungleChaseSequence] Estado mudou para: {currentState.GetType().Name}");
         }
 
         void ResetAllCameras()
@@ -378,9 +384,6 @@ namespace CorrentesDaNoite.Chase
 
             inputMediator?.EnableAllInputs();
 
-            if (debugMode)
-                Debug.Log("[JungleChaseSequence] Sequencia interrompida");
-
             ResetTimeScale();
             ApplyExplorationAudio();
         }
@@ -395,9 +398,6 @@ namespace CorrentesDaNoite.Chase
             }
 
             ChangeState(new JungleChaseEndState(this));
-
-            if (debugMode)
-                Debug.Log("[JungleChaseSequence] Sequencia de fim acionada");
 
             ApplyExplorationAudio();
         }
@@ -468,6 +468,8 @@ namespace CorrentesDaNoite.Chase
             ShowSlowMoPrompt();
 
             yield return new WaitForSecondsRealtime(slowMoDuration);
+            // se pausou no meio espera despausar senao o jogo volta a rodar com o menu aberto
+            while (Time.timeScale == 0f) yield return null;
 
             Time.timeScale = originalScale;
             Time.fixedDeltaTime = originalFixedDelta;
@@ -510,9 +512,6 @@ namespace CorrentesDaNoite.Chase
 
         void HandlePlayerCaptured()
         {
-            if (debugMode)
-                Debug.Log("[JungleChaseSequence] Player capturado - reiniciando perseguicao");
-
             awaitingRespawn = true;
             StopSequence();
             ResetChaseSystems(true);
@@ -522,9 +521,6 @@ namespace CorrentesDaNoite.Chase
         void HandlePlayerRespawned()
         {
             if (!awaitingRespawn) return;
-
-            if (debugMode)
-                Debug.Log("[JungleChaseSequence] Respawn apos captura - reiniciando perseguicao");
 
             awaitingRespawn = false;
             if (respawnResetRoutine != null)
@@ -564,7 +560,7 @@ namespace CorrentesDaNoite.Chase
 
             chaseEnemyController?.ResetCaptureState();
             chaseEnemyController?.SetTarget(player);
-            foreach (var stumbleTrigger in FindObjectsByType<ChaseStumbleTrigger>(FindObjectsInactive.Include, FindObjectsSortMode.None)) stumbleTrigger.ResetTrigger();
+            stumbleHandler?.CancelStumble();
 
             SetCameraDirectionToAutoRun();
             ResetAnimations();

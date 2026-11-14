@@ -20,9 +20,12 @@ namespace CorrentesDaNoite.Chase
         [Header("Stumble Effect")]
         [SerializeField] protected float defaultStumbleSpeedMultiplier = 0.3f;
         [SerializeField] protected float defaultStumbleDuration = 2f;
+        [SerializeField] AudioClip _stumbleSound;
 
         [Header("Debug")]
         [SerializeField] protected bool debugMode;
+
+        const float STUMBLE_VOLUME = 0.6f;
 
         protected Coroutine stumbleCoroutine;
         protected float normalRunSpeed;
@@ -79,11 +82,9 @@ namespace CorrentesDaNoite.Chase
             }
 
             SetRunningAnimation(false);
+            if (_stumbleSound != null) Audio.AudioManager.Instance?.PlayConfig(new Audio.AudioConfig { clip = _stumbleSound, volume = STUMBLE_VOLUME, pitch = 1f, spatialAudio = true }, transform.position);
 
             OnStumbleStarted?.Invoke(speedMultiplier, duration);
-
-            if (debugMode)
-                Debug.Log($"[ChaseStumbleHandler] Tropeco iniciado - Velocidade: {speedMultiplier * 100:F0}%, Duracao: {duration}s");
 
             yield return new WaitForSeconds(duration);
 
@@ -92,9 +93,6 @@ namespace CorrentesDaNoite.Chase
             SetRunningAnimation(true);
 
             OnStumbleEnded?.Invoke();
-
-            if (debugMode)
-                Debug.Log("[ChaseStumbleHandler] Tropeco finalizado - Velocidade restaurada");
 
             stumbleCoroutine = null;
         }
@@ -112,9 +110,6 @@ namespace CorrentesDaNoite.Chase
             SetRunningAnimation(true);
 
             OnStumbleEnded?.Invoke();
-
-            if (debugMode)
-                Debug.Log("[ChaseStumbleHandler] Tropeco cancelado");
         }
 
         public float GetModifiedSpeed(float baseSpeed)

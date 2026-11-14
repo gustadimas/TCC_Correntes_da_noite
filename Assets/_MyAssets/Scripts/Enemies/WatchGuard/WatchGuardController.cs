@@ -82,14 +82,10 @@ namespace CorrentesDaNoite.Enemies
             if (_stateMachine == null)
                 return;
 
-            int closestIndex = GetClosestGuardPointIndex();
-            if (closestIndex >= 0)
-            {
-                TeleportToGuardPoint(closestIndex);
-                _stateMachine.ChangeState(new WatchGuardWatchingState(this, _stateMachine, closestIndex));
-            }
-            else
-                _stateMachine.ChangeState(new EnemyIdleState(this, _stateMachine));
+            TeleportToStart();
+            int startIndex = GetClosestGuardPointIndex();
+            if (startIndex >= 0) _stateMachine.ChangeState(new WatchGuardWalkingState(this, _stateMachine, startIndex));
+            else _stateMachine.ChangeState(new EnemyIdleState(this, _stateMachine));
         }
 
         public bool HasValidGuardPoints()
@@ -173,28 +169,6 @@ namespace CorrentesDaNoite.Enemies
             }
 
             return closestIndex;
-        }
-
-        void TeleportToGuardPoint(int guardIndex)
-        {
-            if (!IsValidGuardIndex(guardIndex))
-                return;
-
-            Vector3 targetPos = guardPoints[guardIndex].position;
-            if (movement != null)
-                movement.TeleportTo(targetPos);
-            else
-                transform.position = targetPos;
-
-            Transform lookTarget = GetLookTargetForGuardPoint(guardIndex);
-            if (lookTarget != null)
-            {
-                Vector3 lookDirection = lookTarget.position - targetPos;
-                lookDirection.y = 0f;
-
-                if (lookDirection.sqrMagnitude > 0.001f)
-                    transform.rotation = Quaternion.LookRotation(lookDirection.normalized);
-            }
         }
 
         bool IsValidGuardIndex(int index)

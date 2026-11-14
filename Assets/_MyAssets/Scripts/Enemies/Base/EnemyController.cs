@@ -70,6 +70,8 @@ namespace CorrentesDaNoite.Enemies
         protected float _patrolRotationTimer;
         protected float _lastDetectionSoundTime;
         protected float _suppressDetectionUntil;
+        protected Vector3 _startPosition;
+        protected Quaternion _startRotation;
 
         public System.Action OnPlayerCaptured;
 
@@ -99,6 +101,8 @@ namespace CorrentesDaNoite.Enemies
         protected virtual void Awake()
         {
             _stateMachine = new EnemyStateMachine();
+            _startPosition = transform.position;
+            _startRotation = transform.rotation;
             InitializeComponents();
             ApplyConfig();
         }
@@ -438,17 +442,17 @@ namespace CorrentesDaNoite.Enemies
             if (_stateMachine == null)
                 return;
 
-            int closestPointIndex = GetClosestPatrolPointIndex();
+            TeleportToStart();
+            int startPointIndex = GetClosestPatrolPointIndex();
+            if (startPointIndex >= 0) _stateMachine.ChangeState(new EnemyPatrolState(this, _stateMachine, startPointIndex));
+            else _stateMachine.ChangeState(new EnemyIdleState(this, _stateMachine));
+        }
 
-            if (closestPointIndex >= 0)
-            {
-                TeleportToPatrolPoint(closestPointIndex);
-                _stateMachine.ChangeState(new EnemyPatrolState(this, _stateMachine, closestPointIndex));
-            }
-            else
-            {
-                _stateMachine.ChangeState(new EnemyIdleState(this, _stateMachine));
-            }
+        protected void TeleportToStart()
+        {
+            if (movement != null) movement.TeleportTo(_startPosition);
+            else transform.position = _startPosition;
+            transform.rotation = _startRotation;
         }
 
         protected virtual int GetClosestPatrolPointIndex()
@@ -472,46 +476,6 @@ namespace CorrentesDaNoite.Enemies
             }
 
             return closestIndex;
-        }
-
-        protected virtual void TeleportToPatrolPoint(int patrolIndex)
-        {
-            if (patrolPoints == null || patrolIndex < 0 || patrolIndex >= patrolPoints.Length)
-                return;
-
-            Transform patrolPoint = patrolPoints[patrolIndex];
-            if (patrolPoint == null)
-                return;
-
-            if (movement != null)
-                movement.TeleportTo(patrolPoint.position);
-            else
-                transform.position = patrolPoint.position;
-
-            int nextPointIndex = GetNextPatrolIndex(patrolIndex);
-            if (nextPointIndex >= 0)
-            {
-                Vector3 lookDirection = patrolPoints[nextPointIndex].position - patrolPoint.position;
-                lookDirection.y = 0f;
-
-                if (lookDirection.sqrMagnitude > 0.001f)
-                    transform.rotation = Quaternion.LookRotation(lookDirection.normalized);
-            }
-        }
-
-        protected virtual int GetNextPatrolIndex(int currentIndex)
-        {
-            if (patrolPoints == null || patrolPoints.Length == 0)
-                return -1;
-
-            for (int offset = 1; offset <= patrolPoints.Length; offset++)
-            {
-                int candidateIndex = (currentIndex + offset) % patrolPoints.Length;
-                if (patrolPoints[candidateIndex] != null)
-                    return candidateIndex;
-            }
-
-            return -1;
         }
     }
 }

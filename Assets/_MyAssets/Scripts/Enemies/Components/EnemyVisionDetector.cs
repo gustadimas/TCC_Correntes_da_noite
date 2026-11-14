@@ -22,6 +22,8 @@ namespace CorrentesDaNoite.Enemies
 
         const float VISION_DECAY = 0.5f;
 
+        public bool IsNoticingPlayer => seeingTimer > 0f;
+
         protected virtual void Awake()
         {
             enemyController = GetComponent<EnemyController>();

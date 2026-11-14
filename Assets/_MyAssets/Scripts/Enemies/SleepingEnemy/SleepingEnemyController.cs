@@ -16,10 +16,6 @@ namespace CorrentesDaNoite.Enemies
         [Header("Sleeping Timers")]
         [SerializeField] protected float startledDuration = 1.5f;
 
-        protected Vector3 _initialPosition;
-        protected Quaternion _initialRotation;
-        protected bool _hasInitialPose;
-
         public SleepingEnemyAnimationController SleepingAnimation => sleepingAnimationController;
         public string SleepingBoolParam => sleepingBoolParam;
         public string StartledTriggerParam => startledTriggerParam;
@@ -33,18 +29,6 @@ namespace CorrentesDaNoite.Enemies
             base.InitializeComponents();
             if (sleepingAnimationController == null)
                 sleepingAnimationController = GetComponent<SleepingEnemyAnimationController>();
-        }
-
-        protected override void Awake()
-        {
-            base.Awake();
-            RecordInitialTransform();
-        }
-
-        protected override void OnEnable()
-        {
-            base.OnEnable();
-            RecordInitialTransform();
         }
 
         protected override void InitializeStateMachine()
@@ -95,14 +79,6 @@ namespace CorrentesDaNoite.Enemies
             }
         }
 
-        protected void RecordInitialTransform()
-        {
-            if (_hasInitialPose) return;
-            _initialPosition = transform.position;
-            _initialRotation = transform.rotation;
-            _hasInitialPose = true;
-        }
-
         protected override void ResetEnemy()
         {
             if (movement != null) movement.Stop();
@@ -113,17 +89,8 @@ namespace CorrentesDaNoite.Enemies
             ResetDetectionAfterRespawn();
             SetLanternVisible(true);
 
-            if (_hasInitialPose)
-            {
-                if (movement != null)
-                    movement.TeleportTo(_initialPosition);
-                else
-                    transform.position = _initialPosition;
-
-                transform.rotation = _initialRotation;
-            }
-
             if (_stateMachine == null) return;
+            TeleportToStart();
             _stateMachine.ChangeState(new SleepingEnemySleepingState(this, _stateMachine));
         }
     }
