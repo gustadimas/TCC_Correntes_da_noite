@@ -6,9 +6,6 @@ namespace CorrentesDaNoite.Player
     [RequireComponent(typeof(PlayerController))]
     public class PlayerInputHandler : MonoBehaviour
     {
-        [Header("Debug")]
-        [SerializeField] bool showDebugLogs = false;
-
         PlayerController _playerController;
         InputSystem_Actions _inputActions;
 
@@ -20,7 +17,7 @@ namespace CorrentesDaNoite.Player
 
         void OnEnable()
         {
-            _inputActions.Enable();
+            _inputActions.Player.Enable();
             _inputActions.Player.Move.performed += OnMovePerformed;
             _inputActions.Player.Move.canceled += OnMoveCanceled;
             _inputActions.Player.Run.performed += OnRunPerformed;
@@ -32,7 +29,7 @@ namespace CorrentesDaNoite.Player
         void OnDisable()
         {
             // desliga antes de tirar os eventos pra soltar o que estava apertado
-            _inputActions.Disable();
+            _inputActions.Player.Disable();
             _inputActions.Player.Move.performed -= OnMovePerformed;
             _inputActions.Player.Move.canceled -= OnMoveCanceled;
             _inputActions.Player.Run.performed -= OnRunPerformed;
@@ -47,14 +44,5 @@ namespace CorrentesDaNoite.Player
         void OnRunCanceled(InputAction.CallbackContext context) => _playerController.OnRun(context);
         void OnCrouchPerformed(InputAction.CallbackContext context) => _playerController.OnCrouch(context);
         void OnJumpPerformed(InputAction.CallbackContext context) => _playerController.OnJump(context);
-
-        void Update()
-        {
-            if (!showDebugLogs) return;
-
-            Vector2 moveInput = _inputActions.Player.Move.ReadValue<Vector2>();
-            if (moveInput.magnitude > 0.1f)
-                Debug.Log($"Move Input: {moveInput}");
-        }
     }
 }

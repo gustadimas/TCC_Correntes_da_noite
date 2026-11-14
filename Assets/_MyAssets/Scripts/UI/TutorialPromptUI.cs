@@ -60,7 +60,7 @@ namespace CorrentesDaNoite.UI
                 gameObject.SetActive(true);
             }
 
-            promptText.text = message;
+            promptText.text = ReplaceInputTokens(message);
             canvasGroup.blocksRaycasts = true;
             canvasGroup.interactable = true;
 
@@ -97,6 +97,20 @@ namespace CorrentesDaNoite.UI
             }
 
             canvasGroup.alpha = to;
+        }
+
+        // os textos usam tokens pra mostrar a tecla ou o botao do controle que a pessoa esta usando
+        static string ReplaceInputTokens(string message)
+        {
+            bool gamepad = ActiveInputDevice.UsingGamepad;
+            bool playStation = ActiveInputDevice.IsPlayStation;
+            return message
+                .Replace("{mover}", gamepad ? "o analógico esquerdo" : "as teclas WASD")
+                .Replace("{correr}", gamepad ? (playStation ? "o R2" : "o RT") : "a tecla Shift")
+                .Replace("{pular}", gamepad ? (playStation ? "o X" : "o A") : "a tecla Espaço")
+                .Replace("{agachar}", gamepad ? (playStation ? "o Círculo" : "o B") : "as teclas Ctrl Esq ou C")
+                .Replace("{tecla_tras}", gamepad ? "ANALÓGICO PARA TRÁS" : "S")
+                .Replace("{tecla_correr}", gamepad ? (playStation ? "R2" : "RT") : "SHIFT");
         }
 
         public void HideImmediate()

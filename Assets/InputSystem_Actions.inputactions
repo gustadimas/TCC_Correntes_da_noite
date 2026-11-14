@@ -374,6 +374,17 @@
                 },
                 {
                     "name": "",
+                    "id": "3f1d2c4b-6a7e-4b8f-9c0d-1e2f3a4b5c6d",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Run",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "d8bf24bf-3f2f-4160-a97c-38ec1eb520ba",
                     "path": "<XRController>/trigger",
                     "interactions": "",
@@ -475,6 +486,17 @@
                     "name": "",
                     "id": "36e52cba-0905-478e-a818-f4bfcb9f3b9a",
                     "path": "<Keyboard>/c",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Crouch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8a9b7c6d-5e4f-3d2c-1b0a-9f8e7d6c5b4a",
+                    "path": "<Keyboard>/leftCtrl",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",

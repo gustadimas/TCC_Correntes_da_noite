@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Unity.Cinemachine;
 
 namespace CorrentesDaNoite.Camera
@@ -24,11 +25,10 @@ namespace CorrentesDaNoite.Camera
         {
             if (!enableMouseLook) return;
 
-            Vector2 mousePosition = Input.mousePosition;
-            Vector2 screenCenter = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
-
-            float normalizedX = Mathf.Clamp((mousePosition.x - screenCenter.x) / screenCenter.x, -1f, 1f);
-            float normalizedY = Mathf.Clamp((mousePosition.y - screenCenter.y) / screenCenter.y, -1f, 1f);
+            // no controle o analogico direito faz o papel da posicao do mouse
+            Vector2 look = !CameraSway.Enabled ? Vector2.zero : ActiveInputDevice.UsingGamepad && Gamepad.current != null ? Gamepad.current.rightStick.ReadValue() : GetMouseOffset();
+            float normalizedX = look.x;
+            float normalizedY = look.y;
 
             if (invertHorizontal) normalizedX = -normalizedX;
             if (invertVertical) normalizedY = -normalizedY;
@@ -55,5 +55,12 @@ namespace CorrentesDaNoite.Camera
         }
 
         public void SetEnabled(bool enabled) => enableMouseLook = enabled;
+
+        Vector2 GetMouseOffset()
+        {
+            Vector2 center = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
+            Vector2 offset = ((Vector2)Input.mousePosition - center) / center;
+            return new Vector2(Mathf.Clamp(offset.x, -1f, 1f), Mathf.Clamp(offset.y, -1f, 1f));
+        }
     }
 }
