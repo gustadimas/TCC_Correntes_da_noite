@@ -18,7 +18,6 @@ namespace CorrentesDaNoite.Chase
         [SerializeField] bool pathCompleted;
 
         [Header("Debug")]
-        [SerializeField] bool debugMode;
         [SerializeField] Color pathColor = Color.green;
 
         public Transform[] Waypoints => waypoints;
@@ -67,9 +66,6 @@ namespace CorrentesDaNoite.Chase
 
         void OnWaypointReached()
         {
-            if (debugMode)
-                Debug.Log($"[ChasePathFollower] Waypoint {currentWaypointIndex} alcancado");
-
             currentWaypointIndex++;
 
             if (waypoints == null || waypoints.Length == 0)
@@ -83,14 +79,10 @@ namespace CorrentesDaNoite.Chase
                 if (loopPath)
                 {
                     currentWaypointIndex = 0;
-                    if (debugMode)
-                        Debug.Log("[ChasePathFollower] Loop ativado, voltando ao inicio");
                 }
                 else
                 {
                     pathCompleted = true;
-                    if (debugMode)
-                        Debug.Log("[ChasePathFollower] Caminho completo");
                 }
             }
         }
@@ -151,9 +143,6 @@ namespace CorrentesDaNoite.Chase
 
             if (waypoints != null && waypoints.Length > 0 && waypoints[0] != null)
                 transform.position = waypoints[0].position;
-
-            if (debugMode)
-                Debug.Log("[ChasePathFollower] Caminho resetado");
         }
 
         public void SetAutoMove(bool enabled) => autoMove = enabled;

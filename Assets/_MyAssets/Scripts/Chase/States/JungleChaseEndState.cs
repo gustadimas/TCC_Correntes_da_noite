@@ -19,9 +19,6 @@ namespace CorrentesDaNoite.Chase.States
             _transitionComplete = false;
 
             StopChase();
-
-            if (controller.DebugMode)
-                Debug.Log("[JungleChaseEnd] Estado iniciado - Finalizando persecucao");
         }
 
         public override void Update()
@@ -45,12 +42,6 @@ namespace CorrentesDaNoite.Chase.States
                 CompleteSequence();
                 _transitionComplete = true;
             }
-        }
-
-        public override void Exit()
-        {
-            if (controller.DebugMode)
-                Debug.Log($"[JungleChaseEnd] Estado finalizado - Tempo total: {_stateTimer:F2}s");
         }
 
         void StopChase()
@@ -93,9 +84,6 @@ namespace CorrentesDaNoite.Chase.States
 
         void CompleteSequence()
         {
-            if (controller.DebugMode)
-                Debug.Log("[JungleChaseEnd] Sequencia completa - Acionando fim de fase");
-
             controller.OnChaseCompleted?.Invoke();
 
             if (controller.PlayerController != null)

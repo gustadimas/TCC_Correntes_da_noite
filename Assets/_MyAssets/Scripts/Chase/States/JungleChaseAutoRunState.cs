@@ -29,9 +29,6 @@ namespace CorrentesDaNoite.Chase.States
             controller.InputMediator?.DisableAllInputs();
             controller.SetActiveCamera(controller.GameplayChaseCamera);
             EnableAutoRun();
-
-            if (controller.DebugMode)
-                Debug.Log("[JungleChaseAutoRun] Estado iniciado - corrida automatica");
         }
 
         public override void Update()
@@ -81,12 +78,6 @@ namespace CorrentesDaNoite.Chase.States
                 }
                 controller.ChangeState(new JungleChasePlayerRunState(controller));
             }
-        }
-
-        public override void Exit()
-        {
-            if (controller.DebugMode)
-                Debug.Log($"[JungleChaseAutoRun] Estado finalizado - Distancia: {_distanceTraveled:F2}m, Tempo: {_stateTimer:F2}s");
         }
 
         void EnableAutoRun()

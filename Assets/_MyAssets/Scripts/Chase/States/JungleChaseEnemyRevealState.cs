@@ -35,9 +35,6 @@ namespace CorrentesDaNoite.Chase.States
 
             EnsureEnemyReady();
             ConfigureEnemyAudio();
-
-            if (controller.DebugMode)
-                Debug.Log("[JungleChaseEnemyReveal] Estado iniciado - olhar para tras e revelar inimigo");
         }
 
         public override void Update()
@@ -91,12 +88,6 @@ namespace CorrentesDaNoite.Chase.States
             }
         }
 
-        public override void Exit()
-        {
-            if (controller.DebugMode)
-                Debug.Log("[JungleChaseEnemyReveal] Estado finalizado");
-        }
-
         void EnsureEnemyReady()
         {
             if (controller.ChaseEnemy != null)
@@ -128,9 +119,6 @@ namespace CorrentesDaNoite.Chase.States
 
             if (controller.PlayerAnimator != null && !string.IsNullOrEmpty(controller.LookBackAnimationTrigger))
                 controller.PlayerAnimator.SetTrigger(controller.LookBackAnimationTrigger);
-
-            if (controller.DebugMode)
-                Debug.Log("[JungleChaseEnemyReveal] Player reagiu e olhou para tras");
         }
 
         void PlaySingleRoar()
@@ -148,9 +136,6 @@ namespace CorrentesDaNoite.Chase.States
                     : null;
                 impulse?.GenerateImpulse();
             }
-
-            if (controller.DebugMode)
-                Debug.Log("[JungleChaseEnemyReveal] Roar disparado");
         }
 
         void StartEnemyRun()
@@ -163,18 +148,12 @@ namespace CorrentesDaNoite.Chase.States
 
             if (!_chaseCameraActive && controller.GameplayChaseCamera != null)
                 controller.SetActiveCamera(controller.GameplayChaseCamera);
-
-            if (controller.DebugMode)
-                Debug.Log("[JungleChaseEnemyReveal] Inimigo comecou a correr (antes do player)");
         }
 
         void CutToPlayerFace()
         {
             if (controller.PlayerFaceCamera != null)
                 controller.SetActiveCamera(controller.PlayerFaceCamera);
-
-            if (controller.DebugMode)
-                Debug.Log("[JungleChaseEnemyReveal] Corte para rosto do player");
         }
     }
 }

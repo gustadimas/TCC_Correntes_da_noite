@@ -25,9 +25,6 @@ namespace CorrentesDaNoite.Chase
         [SerializeField] bool isLookingBack;
         [SerializeField] float nextLookBackTime;
 
-        [Header("Debug")]
-        [SerializeField] bool debugMode;
-
         Coroutine lookBackCoroutine;
 
         public bool IsEnabled => isEnabled;
@@ -54,9 +51,6 @@ namespace CorrentesDaNoite.Chase
         {
             isEnabled = true;
             CalculateNextLookBackTime();
-
-            if (debugMode)
-                Debug.Log($"[ChaseLookBack] Sistema habilitado. Proximo look back em {nextLookBackTime - Time.time:F1}s");
         }
 
         public void DisableLookBack()
@@ -73,9 +67,6 @@ namespace CorrentesDaNoite.Chase
 
             if (animator != null && !string.IsNullOrEmpty(lookBackAnimationBool))
                 animator.SetBool(lookBackAnimationBool, false);
-
-            if (debugMode)
-                Debug.Log("[ChaseLookBack] Sistema desabilitado");
         }
 
         public void TriggerLookBack()
@@ -101,9 +92,6 @@ namespace CorrentesDaNoite.Chase
                     animator.SetBool(lookBackAnimationBool, true);
             }
 
-            if (debugMode)
-                Debug.Log("[ChaseLookBack] Olhando para tras iniciado");
-
             yield return new WaitForSeconds(lookBackDuration);
 
             if (animator != null && !string.IsNullOrEmpty(lookBackAnimationBool))
@@ -111,9 +99,6 @@ namespace CorrentesDaNoite.Chase
 
             isLookingBack = false;
             CalculateNextLookBackTime();
-
-            if (debugMode)
-                Debug.Log($"[ChaseLookBack] Olhando para tras finalizado. Proximo em {nextLookBackTime - Time.time:F1}s");
         }
 
         void CalculateNextLookBackTime()

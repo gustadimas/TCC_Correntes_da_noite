@@ -50,9 +50,6 @@ namespace CorrentesDaNoite.Chase
 
             hasBeenTriggered = true;
 
-            if (debugMode)
-                Debug.Log($"[ChaseEndZone] Player entrou na zona final: {gameObject.name}");
-
             OnZoneEntered?.Invoke();
 
             if (autoTriggerOnEnter && sequenceController != null)
@@ -66,9 +63,6 @@ namespace CorrentesDaNoite.Chase
             if (sequenceController != null)
             {
                 sequenceController.TriggerEndSequence();
-
-                if (debugMode)
-                    Debug.Log("[ChaseEndZone] Sequência de fim acionada");
             }
             else if (debugMode)
             {
@@ -80,9 +74,6 @@ namespace CorrentesDaNoite.Chase
         {
             hasBeenTriggered = false;
             CancelInvoke(nameof(TriggerEndSequence));
-
-            if (debugMode)
-                Debug.Log("[ChaseEndZone] Zona resetada");
         }
 
         void OnDrawGizmos()

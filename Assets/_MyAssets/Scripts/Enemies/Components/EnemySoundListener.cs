@@ -21,7 +21,6 @@ namespace CorrentesDaNoite.Enemies
         [SerializeField] protected float landingSensitivity = 1f;
 
         [Header("Debug")]
-        [SerializeField] protected bool showDebugLogs = false;
         [SerializeField] protected bool showDebugGizmos = false;
 
         protected EnemyController _enemyController;
@@ -55,12 +54,6 @@ namespace CorrentesDaNoite.Enemies
             _lastHeardSoundPosition = sound.position;
             _lastHeardSoundType = sound.soundType;
             _lastHeardSoundTime = Time.time;
-
-            if (showDebugLogs)
-            {
-                Debug.Log($"[{gameObject.name}] Ouviu {sound.soundType} de {sound.emitter?.name ?? "desconhecido"} " +
-                          $"a {distanceToSound:F1}m (range efetivo: {effectiveRange:F1}m)");
-            }
 
             if (_enemyController != null)
                 _enemyController.OnSoundHeard(sound, distanceToSound);

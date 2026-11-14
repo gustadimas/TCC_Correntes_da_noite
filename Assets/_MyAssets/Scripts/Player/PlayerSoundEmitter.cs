@@ -19,7 +19,6 @@ namespace CorrentesDaNoite.Player
 
         [Header("Debug")]
         [SerializeField] protected bool enableDebugGizmos = false;
-        [SerializeField] protected bool showDebugLogs = false;
 
         protected PlayerController playerController;
         protected CharacterController characterController;
@@ -101,9 +100,6 @@ namespace CorrentesDaNoite.Player
             lastSoundType = soundType;
 
             SoundEmitter.EmitSound(transform.position, range, soundType, gameObject);
-
-            if (showDebugLogs)
-                Debug.Log($"[PlayerSoundEmitter] Emitiu {soundType} com raio {range}m");
         }
 
         protected virtual void OnDrawGizmosSelected()

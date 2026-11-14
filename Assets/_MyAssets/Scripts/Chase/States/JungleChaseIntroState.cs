@@ -28,9 +28,6 @@ namespace CorrentesDaNoite.Chase.States
                 controller.AudioSource.clip = controller.IntroAmbientSound;
                 controller.AudioSource.Play();
             }
-
-            if (controller.DebugMode)
-                Debug.Log("[JungleChaseIntro] Estado iniciado - Cutscene de introdução");
         }
 
         public override void Update()
@@ -41,12 +38,6 @@ namespace CorrentesDaNoite.Chase.States
             {
                 controller.ChangeState(new JungleChaseEnemyRevealState(controller));
             }
-        }
-
-        public override void Exit()
-        {
-            if (controller.DebugMode)
-                Debug.Log("[JungleChaseIntro] Estado finalizado");
         }
 
         void PrepareEnemyBehindPlayer()
