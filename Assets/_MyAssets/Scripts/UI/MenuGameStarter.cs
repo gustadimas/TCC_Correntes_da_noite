@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 namespace CorrentesDaNoite.UI
@@ -10,9 +9,6 @@ namespace CorrentesDaNoite.UI
         [Header("Referencias")]
         [SerializeField] CanvasGroup menuCanvasGroup;
         [SerializeField] CanvasGroup fadeToBlackPanel;
-
-        [Header("Configuracoes")]
-        [SerializeField] string introSceneName = "Introducao";
 
         [Header("Configuracoes do Fade")]
         [SerializeField] float fadeOutDuration = 1f;
@@ -28,173 +24,50 @@ namespace CorrentesDaNoite.UI
         [SerializeField] AudioSource audioSource;
         [SerializeField] AudioClip startGameSound;
 
-        [Header("Eventos")]
-        [SerializeField] UnityEvent onGameStarted;
-
         bool _isTransitioning;
-        bool _gameStarted;
 
         private void Start()
         {
-            if (menuCanvasGroup != null)
-            {
-                menuCanvasGroup.alpha = 1f;
-                menuCanvasGroup.interactable = true;
-                menuCanvasGroup.blocksRaycasts = true;
-            }
-
-            if (fadeToBlackPanel != null)
-            {
-                fadeToBlackPanel.alpha = 0f;
-                fadeToBlackPanel.blocksRaycasts = false;
-            }
-        }
-        public void StartGame()
-        {
-            if (_isTransitioning)
-            {
-                return;
-            }
-
-            StartCoroutine(StartGameCoroutine());
+            menuCanvasGroup.alpha = 1f;
+            menuCanvasGroup.interactable = menuCanvasGroup.blocksRaycasts = true;
+            fadeToBlackPanel.alpha = 0f;
+            fadeToBlackPanel.blocksRaycasts = false;
         }
 
-        IEnumerator StartGameCoroutine()
+        public void StartGame(string sceneName)
         {
+            if (_isTransitioning) return;
             _isTransitioning = true;
-            PlayStartGameSound();
-
-            if (menuCanvasGroup != null)
-            {
-                menuCanvasGroup.interactable = false;
-            }
-
-            yield return StartCoroutine(FadeOutMenu());
-
-            if (deactivateMenuAfterFade && menuCanvasGroup != null)
-            {
-                menuCanvasGroup.gameObject.SetActive(false);
-            }
-
-            if (useFadeToBlack && fadeToBlackPanel != null)
-            {
-                yield return StartCoroutine(FadeToBlack());
-            }
-
-            SceneManager.LoadScene(introSceneName);
-
-            _isTransitioning = false;
-            OnGameStarted();
+            StartCoroutine(StartGameRoutine(sceneName));
         }
 
-        IEnumerator FadeOutMenu()
+        IEnumerator StartGameRoutine(string sceneName)
         {
-            if (menuCanvasGroup == null)
-            {
-                yield break;
-            }
+            if (audioSource != null && startGameSound != null) audioSource.PlayOneShot(startGameSound);
 
-            float startAlpha = menuCanvasGroup.alpha;
-            float elapsed = 0f;
-
-            while (elapsed < fadeOutDuration)
-            {
-                elapsed += Time.deltaTime;
-                float progress = elapsed / fadeOutDuration;
-
-                float curveValue = fadeOutCurve.Evaluate(progress);
-                menuCanvasGroup.alpha = Mathf.Lerp(startAlpha, 0f, curveValue);
-
-                yield return null;
-            }
-
-            menuCanvasGroup.alpha = 0f;
+            menuCanvasGroup.interactable = false;
+            yield return Fade(menuCanvasGroup, menuCanvasGroup.alpha, 0f, fadeOutCurve, fadeOutDuration);
             menuCanvasGroup.blocksRaycasts = false;
-        }
+            if (deactivateMenuAfterFade) menuCanvasGroup.gameObject.SetActive(false);
 
-        IEnumerator FadeToBlack()
-        {
-            if (fadeToBlackPanel == null)
+            if (useFadeToBlack)
             {
-                yield break;
+                fadeToBlackPanel.blocksRaycasts = true;
+                yield return Fade(fadeToBlackPanel, 0f, 1f, fadeToBlackCurve, fadeToBlackDuration);
             }
 
-            fadeToBlackPanel.blocksRaycasts = true;
+            SceneManager.LoadScene(sceneName);
+        }
 
-            float elapsed = 0f;
-
-            while (elapsed < fadeToBlackDuration)
+        IEnumerator Fade(CanvasGroup canvasGroup, float from, float to, AnimationCurve curve, float duration)
+        {
+            for (float elapsed = 0f; elapsed < duration; elapsed += Time.deltaTime)
             {
-                elapsed += Time.deltaTime;
-                float progress = elapsed / fadeToBlackDuration;
-
-                float curveValue = fadeToBlackCurve.Evaluate(progress);
-                fadeToBlackPanel.alpha = Mathf.Lerp(0f, 1f, curveValue);
-
+                canvasGroup.alpha = Mathf.Lerp(from, to, curve.Evaluate(elapsed / duration));
                 yield return null;
             }
 
-            fadeToBlackPanel.alpha = 1f;
+            canvasGroup.alpha = to;
         }
-
-        void PlayStartGameSound()
-        {
-            if (audioSource != null && startGameSound != null)
-            {
-                audioSource.PlayOneShot(startGameSound);
-            }
-        }
-
-        void OnGameStarted()
-        {
-            _gameStarted = true;
-            Debug.Log("[MenuGameStarter] Jogo iniciado!");
-            onGameStarted?.Invoke();
-        }
-
-        public bool HasGameStarted()
-        {
-            return _gameStarted;
-        }
-
-        public void CancelTransition()
-        {
-            if (_isTransitioning)
-            {
-                StopAllCoroutines();
-                _isTransitioning = false;
-
-                if (menuCanvasGroup != null)
-                {
-                    menuCanvasGroup.alpha = 1f;
-                    menuCanvasGroup.interactable = true;
-                    menuCanvasGroup.blocksRaycasts = true;
-                }
-            }
-        }
-
-        public bool IsTransitioning()
-        {
-            return _isTransitioning;
-        }
-
-#if UNITY_EDITOR
-        [Header("Debug")]
-        [SerializeField] private bool showDebugInfo;
-
-        private void OnValidate()
-        {
-            if (fadeOutDuration <= 0)
-            {
-                fadeOutDuration = 1f;
-                Debug.LogWarning("[MenuGameStarter] Duracao do fade deve ser maior que 0!");
-            }
-
-            if (showDebugInfo)
-            {
-                Debug.Log($"[MenuGameStarter] Menu Canvas Group: {(menuCanvasGroup != null ? "Atribuido" : "Nao atribuido")}");
-            }
-        }
-#endif
     }
 }

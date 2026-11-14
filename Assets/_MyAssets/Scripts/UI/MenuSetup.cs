@@ -53,7 +53,6 @@ namespace CorrentesDaNoite.UI
 #else
             Application.Quit();
 #endif
-            Debug.Log("Game is quitting");
         }
     }
 }

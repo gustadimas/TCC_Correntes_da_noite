@@ -23,21 +23,8 @@ namespace CorrentesDaNoite.Audio
         [SerializeField] internal float minDb = -80f;
         [SerializeField] internal float maxDb = 0f;
 
-        [Header("Timing")]
-        [SerializeField] internal bool applyOnAwake = true;
-        [SerializeField] internal bool applyOnEnable = true;
-
-        void Awake()
-        {
-            if (applyOnAwake)
-                ApplyFromPrefs();
-        }
-
-        void OnEnable()
-        {
-            if (applyOnEnable)
-                ApplyFromPrefs();
-        }
+        // o mixer ignora o SetFloat no awake do primeiro frame por isso aplica no start
+        private void Start() => ApplyFromPrefs();
 
         public void ApplyFromPrefs()
         {

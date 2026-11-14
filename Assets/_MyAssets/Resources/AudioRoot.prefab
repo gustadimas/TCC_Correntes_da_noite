@@ -203,7 +203,7 @@ MonoBehaviour:
   - audioEvent: 1
     audioConfig:
       clip: {fileID: 8300000, guid: 01de830fbe65ea9408dae3ecc0d59c33, type: 3}
-      type: 0
+      type: 2
       volume: 1
       pitch: 1
       loop: 0
@@ -214,6 +214,22 @@ MonoBehaviour:
       type: 0
       volume: 1
       pitch: 1
+      loop: 0
+      spatialAudio: 1
+  - audioEvent: 0
+    audioConfig:
+      clip: {fileID: 8300000, guid: 01de830fbe65ea9408dae3ecc0d59c33, type: 3}
+      type: 2
+      volume: 1
+      pitch: 0.75
+      loop: 0
+      spatialAudio: 0
+  - audioEvent: 7
+    audioConfig:
+      clip: {fileID: 8300000, guid: 1b7297126babf934eb6457a515fbd850, type: 3}
+      type: 0
+      volume: 0.8
+      pitch: 0.85
       loop: 0
       spatialAudio: 1
 --- !u!114 &7056057167384394784
@@ -279,8 +295,6 @@ MonoBehaviour:
   defaultValue: 1
   minDb: -80
   maxDb: 0
-  applyOnAwake: 1
-  applyOnEnable: 1
 --- !u!1 &6534443310320284732
 GameObject:
   m_ObjectHideFlags: 0

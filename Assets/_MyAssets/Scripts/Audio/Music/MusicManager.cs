@@ -86,6 +86,7 @@ namespace CorrentesDaNoite.Audio
             src.playOnAwake = false;
             src.loop = true;
             src.volume = 0f;
+            src.ignoreListenerPause = true;
             src.outputAudioMixerGroup = musicGroup;
             return src;
         }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 
 namespace CorrentesDaNoite.UI
@@ -18,6 +19,7 @@ namespace CorrentesDaNoite.UI
             public bool hasSelectableButtons = true;
             [Tooltip("Se marcado, este menu controla sua propria visibilidade (ex: SplashScreen)")]
             public bool controlsOwnVisibility;
+            public string backMenuName;
             public UnityEvent OnShowBegin;
             public UnityEvent OnShowComplete;
             public UnityEvent OnHideBegin;
@@ -51,44 +53,15 @@ namespace CorrentesDaNoite.UI
         readonly Dictionary<string, MenuScreen> _menuDictionary = new Dictionary<string, MenuScreen>();
         float _nextAutoFixTime;
 
+        public bool IsTransitioning => _isTransitioning;
+        public string CurrentMenuName => _currentMenu?.menuName;
+
         private void Awake()
         {
-            foreach (MenuScreen menu in menuScreens)
-            {
-                _menuDictionary[menu.menuName] = menu;
-            }
+            foreach (MenuScreen menu in menuScreens) _menuDictionary[menu.menuName] = menu;
 
             MusicManager.GetOrCreate().PlayMusic("Menu", 1.5f);
-            var asc = FindFirstObjectByType<AudioStateController>();
-            asc?.SetMenuState();
-        }
-
-        private void Update()
-        {
-            if (Time.unscaledTime < _nextAutoFixTime)
-            {
-                return;
-            }
-
-            _nextAutoFixTime = Time.unscaledTime + 0.5f;
-
-            if (transitionBlocker != null && !transitionBlocker.gameObject.activeInHierarchy)
-            {
-                transitionBlocker.blocksRaycasts = false;
-            }
-
-            foreach (MenuScreen menu in menuScreens)
-            {
-                if (menu.canvasGroup != null && menu.canvasGroup.alpha < 0.1f && menu.canvasGroup.blocksRaycasts)
-                {
-                    menu.canvasGroup.blocksRaycasts = false;
-                }
-            }
-
-            if (transitionBlocker != null && transitionBlocker.gameObject.activeInHierarchy && transitionBlocker.alpha < 0.1f && transitionBlocker.blocksRaycasts)
-            {
-                transitionBlocker.blocksRaycasts = false;
-            }
+            FindFirstObjectByType<AudioStateController>()?.SetMenuState();
         }
 
         private void Start()
@@ -99,139 +72,113 @@ namespace CorrentesDaNoite.UI
                 transitionBlocker.gameObject.SetActive(false);
             }
 
-            if (!string.IsNullOrEmpty(initialMenuName) && _menuDictionary.ContainsKey(initialMenuName))
+            if (!_menuDictionary.TryGetValue(initialMenuName, out MenuScreen initialMenu))
             {
-                MenuScreen initialMenu = _menuDictionary[initialMenuName];
+                if (hideAllOnStart) HideAllMenusImmediately();
+                return;
+            }
 
-                if (hideAllOnStart)
+            if (hideAllOnStart)
+            {
+                foreach (MenuScreen menu in menuScreens)
                 {
-                    foreach (MenuScreen menu in menuScreens)
-                    {
-                        if (menu == initialMenu && menu.controlsOwnVisibility)
-                        {
-                            SetCanvasGroupState(menu.canvasGroup, true, false);
-                        }
-                        else if (menu != initialMenu)
-                        {
-                            SetCanvasGroupState(menu.canvasGroup, false, true);
-                        }
-                    }
-                }
-
-                _currentMenu = initialMenu;
-
-                if (!initialMenu.controlsOwnVisibility)
-                {
-                    ShowMenu(initialMenuName, false);
+                    if (menu != initialMenu) SetCanvasGroupState(menu.canvasGroup, false, true);
+                    else if (menu.controlsOwnVisibility) SetCanvasGroupState(menu.canvasGroup, true, false);
                 }
             }
-            else if (hideAllOnStart)
-            {
-                HideAllMenusImmediately();
-            }
+
+            _currentMenu = initialMenu;
+            if (!initialMenu.controlsOwnVisibility) ShowMenu(initialMenuName, false);
+        }
+
+        private void Update()
+        {
+            HandleNavigationInput();
+            if (Time.unscaledTime < _nextAutoFixTime) return;
+
+            _nextAutoFixTime = Time.unscaledTime + 0.5f;
+            FixStuckRaycasts();
+        }
+
+        // clicar no vazio com o mouse tira a selecao entao a seta ou o controle seleciona de novo e o cancel volta pra tela de tras
+        void HandleNavigationInput()
+        {
+            if (_isTransitioning || _currentMenu == null || !IsInteractable(_currentMenu) || !(EventSystem.current?.currentInputModule is InputSystemUIInputModule module)) return;
+
+            if (!string.IsNullOrEmpty(_currentMenu.backMenuName) && module.cancel.action.WasPressedThisFrame()) ShowMenu(_currentMenu.backMenuName);
+            else if (EventSystem.current.currentSelectedGameObject == null && module.move.action.WasPressedThisFrame()) SelectFirstButtonInMenu(_currentMenu);
+        }
+
+        bool IsInteractable(MenuScreen menu) => menu.canvasGroup != null && menu.canvasGroup.gameObject.activeInHierarchy && menu.canvasGroup.interactable;
+
+        void FixStuckRaycasts()
+        {
+            if (transitionBlocker != null && (!transitionBlocker.gameObject.activeInHierarchy || transitionBlocker.alpha < 0.1f)) transitionBlocker.blocksRaycasts = false;
+
+            foreach (MenuScreen menu in menuScreens)
+                if (menu.canvasGroup != null && menu.canvasGroup.alpha < 0.1f) menu.canvasGroup.blocksRaycasts = false;
         }
 
         public void HideAllMenusImmediately()
         {
             foreach (MenuScreen menu in menuScreens)
-            {
-                if (menu.controlsOwnVisibility)
-                {
-                    continue;
-                }
-
-                SetCanvasGroupState(menu.canvasGroup, false, true);
-            }
+                if (!menu.controlsOwnVisibility) SetCanvasGroupState(menu.canvasGroup, false, true);
         }
 
         public void ShowMenu(string menuName, bool useTransition = true)
         {
-            if (!_menuDictionary.ContainsKey(menuName))
+            if (!_menuDictionary.TryGetValue(menuName, out MenuScreen targetMenu))
             {
-                Debug.LogWarning($"Menu '{menuName}' nao encontrado!");
+                Debug.LogWarning("menu nao encontrado " + menuName);
                 return;
             }
 
-            if (_isTransitioning)
+            if (_isTransitioning) return;
+            if (_currentMenu?.canvasGroup != null) _currentMenu.canvasGroup.interactable = false;
+
+            if (useTransition)
             {
+                _isTransitioning = true;
+                _currentTransition = StartCoroutine(_currentMenu != null ? TransitionBetweenMenus(_currentMenu, targetMenu) : FadeInMenu(targetMenu));
+                if (_currentMenu == null) _currentMenu = targetMenu;
                 return;
             }
-
-            if (_currentMenu != null && _currentMenu.canvasGroup != null)
-            {
-                _currentMenu.canvasGroup.interactable = false;
-            }
-
-            MenuScreen targetMenu = _menuDictionary[menuName];
 
             if (_currentMenu != null)
             {
-                if (useTransition)
-                {
-                    _isTransitioning = true;
-                    _currentTransition = StartCoroutine(TransitionBetweenMenus(_currentMenu, targetMenu));
-                }
-                else
-                {
-                    SetCanvasGroupState(_currentMenu.canvasGroup, false, true);
-                    SetCanvasGroupState(targetMenu.canvasGroup, true, true);
-
-                    _currentMenu.OnHideComplete?.Invoke();
-                    targetMenu.OnShowComplete?.Invoke();
-
-                    SelectFirstButtonInMenu(targetMenu);
-
-                    _currentMenu = targetMenu;
-                }
+                SetCanvasGroupState(_currentMenu.canvasGroup, false, true);
+                _currentMenu.OnHideComplete?.Invoke();
             }
-            else
-            {
-                if (useTransition)
-                {
-                    _isTransitioning = true;
-                    _currentTransition = StartCoroutine(FadeInMenu(targetMenu));
-                }
-                else
-                {
-                    SetCanvasGroupState(targetMenu.canvasGroup, true, true);
-                    targetMenu.OnShowComplete?.Invoke();
 
-                    SelectFirstButtonInMenu(targetMenu);
-                }
-
-                _currentMenu = targetMenu;
-            }
+            SetCanvasGroupState(targetMenu.canvasGroup, true, true);
+            targetMenu.OnShowComplete?.Invoke();
+            SelectFirstButtonInMenu(targetMenu);
+            _currentMenu = targetMenu;
         }
 
         public void HideCurrentMenu(bool useTransition = true)
         {
-            if (_currentMenu == null)
-            {
-                return;
-            }
+            if (_currentMenu == null) return;
 
             if (useTransition)
             {
-                if (_currentTransition != null)
-                {
-                    StopCoroutine(_currentTransition);
-                }
-
+                if (_currentTransition != null) StopCoroutine(_currentTransition);
                 _currentTransition = StartCoroutine(FadeOutMenu(_currentMenu));
+                return;
             }
-            else
-            {
-                SetCanvasGroupState(_currentMenu.canvasGroup, false, true);
-                _currentMenu.OnHideComplete?.Invoke();
-                _currentMenu = null;
-            }
+
+            SetCanvasGroupState(_currentMenu.canvasGroup, false, true);
+            _currentMenu.OnHideComplete?.Invoke();
+            _currentMenu = null;
         }
 
         IEnumerator TransitionBetweenMenus(MenuScreen currentMenu, MenuScreen targetMenu)
         {
             currentMenu.OnHideBegin?.Invoke();
 
-            if (useTransitionBlocker && transitionBlocker != null)
+            // sem o blocker ligado o fundo e o logo ficam invisiveis entao nao espera por eles
+            bool useBlocker = useTransitionBlocker && transitionBlocker != null;
+            if (useBlocker)
             {
                 transitionBlocker.gameObject.SetActive(true);
                 transitionBlocker.blocksRaycasts = true;
@@ -239,86 +186,34 @@ namespace CorrentesDaNoite.UI
                 if (blockerBackground != null) blockerBackground.alpha = 0f;
             }
 
-            float elapsed = 0f;
-            while (elapsed < fadeTime)
+            for (float elapsed = 0f; elapsed < fadeTime; elapsed += Time.unscaledDeltaTime)
             {
-                currentMenu.canvasGroup.alpha = fadeCurve.Evaluate(1 - (elapsed / fadeTime));
-
-                if (currentMenu.canvasGroup.alpha < 0.5f)
-                {
-                    currentMenu.canvasGroup.blocksRaycasts = false;
-                }
-
-                elapsed += Time.unscaledDeltaTime;
+                currentMenu.canvasGroup.alpha = fadeCurve.Evaluate(1 - elapsed / fadeTime);
+                if (currentMenu.canvasGroup.alpha < 0.5f) currentMenu.canvasGroup.blocksRaycasts = false;
                 yield return null;
             }
 
             SetCanvasGroupState(currentMenu.canvasGroup, false, false);
             currentMenu.OnHideComplete?.Invoke();
 
-            if (blockerBackground != null)
+            if (useBlocker && blockerBackground != null)
             {
-                float logoTime = fadeTime / logoFadeSpeed;
-                elapsed = 0f;
-                while (elapsed < logoTime)
-                {
-                    blockerBackground.alpha = fadeCurve.Evaluate(elapsed / logoTime);
-                    elapsed += Time.unscaledDeltaTime;
-                    yield return null;
-                }
-                blockerBackground.alpha = 1f;
-            }
-
-            yield return new WaitForSecondsRealtime(logoHoldTime);
-
-            if (blockerBackground != null)
-            {
-                float logoTime = fadeTime / logoFadeSpeed;
-                elapsed = 0f;
-                while (elapsed < logoTime)
-                {
-                    blockerBackground.alpha = fadeCurve.Evaluate(1 - (elapsed / logoTime));
-                    elapsed += Time.unscaledDeltaTime;
-                    yield return null;
-                }
-                blockerBackground.alpha = 0f;
+                yield return FadeCanvasGroup(blockerBackground, 0f, 1f, fadeTime / logoFadeSpeed);
+                yield return new WaitForSecondsRealtime(logoHoldTime);
+                yield return FadeCanvasGroup(blockerBackground, 1f, 0f, fadeTime / logoFadeSpeed);
             }
 
             targetMenu.canvasGroup.gameObject.SetActive(true);
             targetMenu.canvasGroup.alpha = 0f;
             targetMenu.canvasGroup.blocksRaycasts = false;
             targetMenu.canvasGroup.transform.SetAsLastSibling();
-
             targetMenu.OnShowBegin?.Invoke();
 
-            elapsed = 0f;
-            while (elapsed < fadeTime)
-            {
-                targetMenu.canvasGroup.alpha = fadeCurve.Evaluate(elapsed / fadeTime);
-
-                if (targetMenu.canvasGroup.alpha > 0.5f)
-                {
-                    targetMenu.canvasGroup.blocksRaycasts = true;
-                    targetMenu.canvasGroup.interactable = true;
-                }
-
-                elapsed += Time.unscaledDeltaTime;
-                yield return null;
-            }
+            yield return FadeInCanvasGroup(targetMenu.canvasGroup);
             SetCanvasGroupState(targetMenu.canvasGroup, true, true);
             targetMenu.OnShowComplete?.Invoke();
 
-            if (blockerLogo != null)
-            {
-                elapsed = 0f;
-                while (elapsed < fadeTime)
-                {
-                    blockerLogo.alpha = fadeCurve.Evaluate(1 - (elapsed / fadeTime));
-                    elapsed += Time.unscaledDeltaTime;
-                    yield return null;
-                }
-                blockerLogo.alpha = 0f;
-            }
+            if (useBlocker && blockerLogo != null) yield return FadeCanvasGroup(blockerLogo, 1f, 0f, fadeTime);
 
             if (transitionBlocker != null)
             {
@@ -327,7 +222,6 @@ namespace CorrentesDaNoite.UI
             }
 
             SelectFirstButtonInMenu(targetMenu);
-
             _currentMenu = targetMenu;
             _isTransitioning = false;
             _currentTransition = null;
@@ -336,31 +230,14 @@ namespace CorrentesDaNoite.UI
         IEnumerator FadeInMenu(MenuScreen menu)
         {
             menu.canvasGroup.transform.SetAsLastSibling();
-
             SetCanvasGroupState(menu.canvasGroup, true, false);
             menu.OnShowBegin?.Invoke();
 
-            float elapsedTime = 0;
-            while (elapsedTime < fadeTime)
-            {
-                float alpha = fadeCurve.Evaluate(elapsedTime / fadeTime);
-                SetCanvasGroupAlpha(menu.canvasGroup, alpha);
-
-                if (alpha > 0.5f && menu.canvasGroup != null)
-                {
-                    menu.canvasGroup.blocksRaycasts = true;
-                    menu.canvasGroup.interactable = true;
-                }
-
-                elapsedTime += Time.unscaledDeltaTime;
-                yield return null;
-            }
-
+            yield return FadeInCanvasGroup(menu.canvasGroup);
             SetCanvasGroupState(menu.canvasGroup, true, true);
             menu.OnShowComplete?.Invoke();
 
             SelectFirstButtonInMenu(menu);
-
             _isTransitioning = false;
             _currentTransition = null;
         }
@@ -368,43 +245,41 @@ namespace CorrentesDaNoite.UI
         IEnumerator FadeOutMenu(MenuScreen menu)
         {
             menu.OnHideBegin?.Invoke();
-
-            float elapsedTime = 0f;
-            while (elapsedTime < fadeTime)
-            {
-                float alpha = fadeCurve.Evaluate(1 - (elapsedTime / fadeTime));
-                SetCanvasGroupAlpha(menu.canvasGroup, alpha);
-
-                elapsedTime += Time.unscaledDeltaTime;
-                yield return null;
-            }
+            yield return FadeCanvasGroup(menu.canvasGroup, 1f, 0f, fadeTime);
 
             SetCanvasGroupState(menu.canvasGroup, false, true);
             menu.OnHideComplete?.Invoke();
-
-            if (_currentMenu == menu)
-            {
-                _currentMenu = null;
-            }
+            if (_currentMenu == menu) _currentMenu = null;
 
             _isTransitioning = false;
             _currentTransition = null;
         }
 
-        void SetCanvasGroupAlpha(CanvasGroup canvasGroup, float alpha)
+        // libera o clique na metade do fade pra quem clica rapido
+        IEnumerator FadeInCanvasGroup(CanvasGroup canvasGroup)
         {
-            if (canvasGroup != null)
+            for (float elapsed = 0f; elapsed < fadeTime; elapsed += Time.unscaledDeltaTime)
             {
-                canvasGroup.alpha = alpha;
+                canvasGroup.alpha = fadeCurve.Evaluate(elapsed / fadeTime);
+                if (canvasGroup.alpha > 0.5f) canvasGroup.blocksRaycasts = canvasGroup.interactable = true;
+                yield return null;
             }
+        }
+
+        IEnumerator FadeCanvasGroup(CanvasGroup canvasGroup, float from, float to, float duration)
+        {
+            for (float elapsed = 0f; elapsed < duration; elapsed += Time.unscaledDeltaTime)
+            {
+                canvasGroup.alpha = fadeCurve.Evaluate(Mathf.Lerp(from, to, elapsed / duration));
+                yield return null;
+            }
+
+            canvasGroup.alpha = to;
         }
 
         void SetCanvasGroupState(CanvasGroup canvasGroup, bool visible, bool interactive)
         {
-            if (canvasGroup == null)
-            {
-                return;
-            }
+            if (canvasGroup == null) return;
 
             canvasGroup.alpha = visible ? 1f : 0f;
             canvasGroup.interactable = visible && interactive;
@@ -413,38 +288,19 @@ namespace CorrentesDaNoite.UI
 
         void SelectFirstButtonInMenu(MenuScreen menu)
         {
-            if (menu == null || menu.canvasGroup == null)
-            {
-                return;
-            }
-
-            if (!menu.hasSelectableButtons)
-            {
-                return;
-            }
-
-            StartCoroutine(SelectFirstButtonDelayed(menu.canvasGroup.gameObject));
+            if (menu?.canvasGroup != null && menu.hasSelectableButtons) StartCoroutine(SelectFirstButtonDelayed(menu.canvasGroup.gameObject));
         }
 
         IEnumerator SelectFirstButtonDelayed(GameObject menuObject)
         {
             yield return new WaitForEndOfFrame();
+            if (EventSystem.current == null) yield break;
 
-            EventSystem eventSystem = EventSystem.current;
-            if (eventSystem == null)
+            foreach (Selectable selectable in menuObject.GetComponentsInChildren<Selectable>())
             {
+                if (!selectable.gameObject.activeInHierarchy || !selectable.interactable) continue;
+                EventSystem.current.SetSelectedGameObject(selectable.gameObject);
                 yield break;
-            }
-
-            Selectable[] selectables = menuObject.GetComponentsInChildren<Selectable>();
-
-            foreach (Selectable selectable in selectables)
-            {
-                if (selectable != null && selectable.gameObject.activeInHierarchy && selectable.interactable)
-                {
-                    eventSystem.SetSelectedGameObject(selectable.gameObject);
-                    yield break;
-                }
             }
         }
     }

@@ -1,10 +1,11 @@
 using System.Collections;
-using System.Collections.Generic;
 using CorrentesDaNoite.Checkpoint;
 using CorrentesDaNoite.Chase;
+using CorrentesDaNoite.Player;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -16,17 +17,9 @@ namespace CorrentesDaNoite.UI
         [SerializeField] GameObject panelRoot;
         [SerializeField] CanvasGroup canvasGroup;
         [SerializeField] InputActionReference pauseAction;
-        [SerializeField] InputActionReference escapeAction;
-        [SerializeField] bool useCanvasGroup = true;
-
-        [Header("Click Blocking")]
-        [SerializeField] bool blockClicksWhenOpen = true;
 
         [Header("UI References")]
-        [SerializeField] GameObject buttonsContainer;
-        [SerializeField] Image logoImage;
         [SerializeField] MenuTransitionManager menuManager;
-        [SerializeField] MenuGameStarter menuStarter;
         [SerializeField] GameObject playerObject;
         [SerializeField] GameStartSequence gameStartSequence;
         [SerializeField] JungleChaseSequenceController jungleChaseSequence;
@@ -46,335 +39,127 @@ namespace CorrentesDaNoite.UI
         [Header("Input Protection")]
         [SerializeField] float inputDelayAfterResume = 0.15f;
 
+        const string PAUSE_MENU_NAME = "PauseMenuScreen";
+
         bool _isPaused;
-        bool _isConsumingInput;
-        readonly HashSet<InputAction> _enabledActions = new HashSet<InputAction>();
+        float _timeScaleBeforePause = 1f;
+        PlayerInputHandler _playerInput;
+        PlayerController _playerController;
+        PlayerDeath _playerDeath;
+        bool _playerInputWasEnabled;
+        Coroutine _inputRoutine;
 
         private void Start()
         {
-            if (panelRoot == null)
-            {
-                panelRoot = gameObject;
-            }
+            _playerInput = playerObject.GetComponent<PlayerInputHandler>();
+            _playerController = playerObject.GetComponent<PlayerController>();
+            _playerDeath = playerObject.GetComponent<PlayerDeath>();
 
-            if (menuManager == null)
-            {
-                menuManager = FindFirstObjectByType<MenuTransitionManager>();
-            }
+            resumeButton.onClick.AddListener(Resume);
+            restartCheckpointButton.onClick.AddListener(RestartFromCheckpoint);
+            settingsButton.onClick.AddListener(OpenSettings);
+            exitToMainMenuButton.onClick.AddListener(LoadMainMenu);
+            exitToDesktopButton.onClick.AddListener(ExitToDesktop);
 
-            if (useCanvasGroup && canvasGroup == null)
-            {
-                canvasGroup = panelRoot.GetComponent<CanvasGroup>();
-                if (canvasGroup == null)
-                {
-                    Debug.LogWarning("[PauseMenu] useCanvasGroup esta ativo mas CanvasGroup nao foi encontrado. Desativando useCanvasGroup.");
-                    useCanvasGroup = false;
-                }
-            }
-
-            SetupButtons();
-
-            if (blockClicksWhenOpen)
-            {
-                SetupClickBlocker();
-            }
-
-            EnableInputAction(pauseAction, "[PauseMenu] pauseAction e NULL! Configure no Inspector: Player > Pause");
-            EnableInputAction(escapeAction, null);
-
-            HidePanelImmediate();
+            pauseAction.action.performed += OnPausePerformed;
+            pauseAction.action.Enable();
+            SetPanelVisible(false);
         }
 
         private void OnDestroy()
         {
-            DisableInputAction(pauseAction);
-            DisableInputAction(escapeAction);
+            pauseAction.action.performed -= OnPausePerformed;
+            pauseAction.action.Disable();
+            if (_isPaused) Unpause();
         }
 
-        void OnPausePerformed(InputAction.CallbackContext context)
+        // o B do controle cai no cancel da ui e tem que fazer o mesmo que o esc mas o esc tambem e cancel
+        private void Update()
         {
-            TogglePause();
+            if (_isPaused && !pauseAction.action.WasPressedThisFrame() && EventSystem.current.currentInputModule is InputSystemUIInputModule module && module.cancel.action.WasPressedThisFrame()) HandlePauseInput();
         }
 
-        void TogglePause()
+        void OnPausePerformed(InputAction.CallbackContext context) => HandlePauseInput();
+
+        // esc nas configuracoes volta pro pause e no meio da troca de tela nao faz nada
+        void HandlePauseInput()
         {
-            if (IsInMainMenu())
-            {
-                return;
-            }
-
-            if (_isPaused)
-            {
-                Resume();
-            }
-            else
-            {
-                Pause();
-            }
-        }
-
-        void EnableInputAction(InputActionReference actionRef, string warningMessage)
-        {
-            if (actionRef == null || actionRef.action == null)
-            {
-                if (!string.IsNullOrEmpty(warningMessage))
-                {
-                    Debug.LogWarning(warningMessage);
-                }
-                return;
-            }
-
-            if (_enabledActions.Contains(actionRef.action))
-            {
-                return;
-            }
-
-            actionRef.action.Enable();
-            actionRef.action.performed += OnPausePerformed;
-            _enabledActions.Add(actionRef.action);
-        }
-
-        void DisableInputAction(InputActionReference actionRef)
-        {
-            if (actionRef == null || actionRef.action == null)
-            {
-                return;
-            }
-
-            if (_enabledActions.Remove(actionRef.action))
-            {
-                actionRef.action.performed -= OnPausePerformed;
-            }
-
-            actionRef.action.Disable();
-        }
-
-        bool IsInMainMenu()
-        {
-            if (menuStarter == null)
-            {
-                return false;
-            }
-
-            if (menuStarter.HasGameStarted())
-            {
-                return false;
-            }
-
-            return true;
+            if (menuManager.IsTransitioning) return;
+            if (!_isPaused) Pause();
+            else if (menuManager.CurrentMenuName == settingsMenuName) menuManager.ShowMenu(PAUSE_MENU_NAME);
+            else Resume();
         }
 
         public void Pause()
         {
-            if (_isPaused)
-            {
-                return;
-            }
+            if (_isPaused) return;
 
             _isPaused = true;
+            _timeScaleBeforePause = Time.timeScale;
             Time.timeScale = 0f;
-            ShowPanelImmediate();
-            UpdateRestartButtonVisibility();
-            FocusDefaultButton();
+            AudioListener.pause = true;
+
+            // se pausou de novo antes do input voltar o estado guardado continua valendo
+            if (_inputRoutine != null) StopCoroutine(_inputRoutine);
+            else _playerInputWasEnabled = _playerInput.enabled;
+            _inputRoutine = null;
+            _playerInput.enabled = false;
+
+            SetPanelVisible(true);
+            EventSystem.current.SetSelectedGameObject(defaultSelectedButton.gameObject);
         }
 
         public void Resume()
         {
-            if (!_isPaused)
-            {
-                return;
-            }
+            if (!_isPaused) return;
 
-            _isPaused = false;
-            Time.timeScale = 1f;
-            HidePanelImmediate();
-
-            StartCoroutine(ResumeWithInputDelay());
+            Unpause();
+            SetPanelVisible(false);
+            EventSystem.current.SetSelectedGameObject(null);
+            _inputRoutine = StartCoroutine(RestorePlayerInput());
         }
 
-        IEnumerator ResumeWithInputDelay()
+        // espera um pouco pro enter ou espaco do botao nao virar pulo
+        IEnumerator RestorePlayerInput()
         {
-            _isConsumingInput = true;
-
-            if (EventSystem.current != null)
-            {
-                EventSystem.current.SetSelectedGameObject(null);
-            }
-
             yield return new WaitForSecondsRealtime(inputDelayAfterResume);
-
-            _isConsumingInput = false;
+            _playerInput.enabled = _playerInputWasEnabled;
+            _inputRoutine = null;
         }
 
-        public bool IsConsumingInput()
+        void Unpause()
         {
-            return _isConsumingInput;
-        }
-
-        void LoadMainMenu()
-        {
-            if (string.IsNullOrEmpty(mainMenuSceneName))
-            {
-                return;
-            }
-
-            Time.timeScale = 1f;
             _isPaused = false;
-            HidePanelImmediate();
-            SceneManager.LoadScene(mainMenuSceneName);
-        }
-
-        void HidePanelImmediate()
-        {
-            if (useCanvasGroup && canvasGroup != null)
-            {
-                canvasGroup.alpha = 0f;
-                canvasGroup.interactable = false;
-                canvasGroup.blocksRaycasts = false;
-            }
-
-            if (panelRoot != null)
-            {
-                panelRoot.SetActive(false);
-            }
-        }
-
-        void ShowPanelImmediate()
-        {
-            if (useCanvasGroup && canvasGroup != null)
-            {
-                panelRoot.SetActive(true);
-                canvasGroup.alpha = 1f;
-                canvasGroup.interactable = true;
-                canvasGroup.blocksRaycasts = true;
-            }
-            else if (panelRoot != null)
-            {
-                panelRoot.SetActive(true);
-            }
-
-            UpdateRestartButtonVisibility();
-        }
-
-        public bool IsPaused()
-        {
-            return _isPaused;
-        }
-
-        void SetupButtons()
-        {
-            if (resumeButton != null)
-                resumeButton.onClick.AddListener(Resume);
-
-            if (restartCheckpointButton != null)
-                restartCheckpointButton.onClick.AddListener(RestartFromCheckpoint);
-
-            if (settingsButton != null)
-                settingsButton.onClick.AddListener(OpenSettingsMenu);
-
-            if (exitToMainMenuButton != null)
-                exitToMainMenuButton.onClick.AddListener(LoadMainMenu);
-
-            if (exitToDesktopButton != null)
-                exitToDesktopButton.onClick.AddListener(ExitToDesktop);
-        }
-
-        void FocusDefaultButton()
-        {
-            if (EventSystem.current == null)
-                return;
-
-            var target = defaultSelectedButton != null ? defaultSelectedButton.gameObject : (resumeButton != null ? resumeButton.gameObject : null);
-            if (target != null)
-                EventSystem.current.SetSelectedGameObject(target);
+            Time.timeScale = _timeScaleBeforePause;
+            AudioListener.pause = false;
         }
 
         void RestartFromCheckpoint()
         {
-            var checkpointManager = CheckpointManager.Instance;
-            var player = GetPlayerObject();
+            if (IsBlockingRespawn()) return;
 
-            if (IsBlockingRespawn())
-            {
-                if (restartCheckpointButton != null)
-                {
-                    restartCheckpointButton.gameObject.SetActive(false);
-                }
-                Debug.LogWarning("[PauseMenu] Restart do checkpoint bloqueado durante sequencias ou captura do player.");
-                return;
-            }
+            Unpause();
+            SetPanelVisible(false);
+            _playerInput.enabled = _playerInputWasEnabled;
+            CheckpointManager.Instance.RespawnPlayer(playerObject, true);
+        }
 
-            if (checkpointManager == null || player == null)
-            {
-                Debug.LogWarning("[PauseMenu] Nao foi possivel reiniciar do checkpoint (CheckpointManager ou Player nao encontrados). Recarregando cena.");
-                ReloadCurrentScene();
-                return;
-            }
+        void OpenSettings()
+        {
+            menuManager.ShowMenu(settingsMenuName);
+            SetPanelVisible(false);
+        }
 
+        void LoadMainMenu()
+        {
+            Unpause();
             Time.timeScale = 1f;
-            _isPaused = false;
-            HidePanelImmediate();
-            checkpointManager.RespawnPlayer(player, true);
-            FocusDefaultButton();
-        }
-
-        void OpenSettingsMenu()
-        {
-            if (!string.IsNullOrEmpty(settingsMenuName))
-            {
-                var targetManager = menuManager != null ? menuManager : FindFirstObjectByType<MenuTransitionManager>();
-                if (targetManager != null)
-                {
-                    targetManager.ShowMenu(settingsMenuName);
-                    HidePanelImmediate();
-                }
-                else
-                {
-                    Debug.LogWarning("[PauseMenu] MenuTransitionManager nao encontrado; nao foi possivel abrir configuracoes.");
-                }
-            }
-            else
-            {
-                Debug.LogWarning("[PauseMenu] settingsMenuName nao definido; nao foi possivel abrir configuracoes.");
-            }
-        }
-
-        void SetupClickBlocker()
-        {
-            if (panelRoot == null)
-            {
-                return;
-            }
-
-            if (panelRoot.GetComponent<UIClickBlocker>() == null)
-            {
-                panelRoot.AddComponent<UIClickBlocker>();
-            }
-
-            var image = panelRoot.GetComponent<Image>();
-            if (image == null)
-            {
-                image = panelRoot.AddComponent<Image>();
-                image.color = new Color(0, 0, 0, 0.7f);
-                image.raycastTarget = false;
-            }
-            else
-            {
-                image.raycastTarget = false;
-            }
-
-            var rect = panelRoot.GetComponent<RectTransform>();
-            if (rect != null)
-            {
-                rect.anchorMin = Vector2.zero;
-                rect.anchorMax = Vector2.one;
-                rect.offsetMin = Vector2.zero;
-                rect.offsetMax = Vector2.zero;
-            }
+            SceneManager.LoadScene(mainMenuSceneName);
         }
 
         void ExitToDesktop()
         {
+            Unpause();
             Time.timeScale = 1f;
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
@@ -383,71 +168,15 @@ namespace CorrentesDaNoite.UI
 #endif
         }
 
-        void UpdateRestartButtonVisibility()
+        void SetPanelVisible(bool visible)
         {
-            if (restartCheckpointButton == null)
-            {
-                return;
-            }
-
-            bool canRestart = !IsBlockingRespawn();
-            restartCheckpointButton.gameObject.SetActive(canRestart);
+            panelRoot.SetActive(visible);
+            canvasGroup.alpha = visible ? 1f : 0f;
+            canvasGroup.interactable = visible;
+            canvasGroup.blocksRaycasts = visible;
+            if (visible) restartCheckpointButton.gameObject.SetActive(!IsBlockingRespawn());
         }
 
-        bool IsBlockingRespawn()
-        {
-            if (gameStartSequence != null && gameStartSequence.isActiveAndEnabled)
-            {
-                return true;
-            }
-
-            if (jungleChaseSequence != null && jungleChaseSequence.isActiveAndEnabled)
-            {
-                return true;
-            }
-
-            var player = GetPlayerObject();
-            if (player != null)
-            {
-                var playerController = player.GetComponent<Player.PlayerController>();
-                if (playerController != null && playerController.IsCaptured)
-                {
-                    return true;
-                }
-
-                var playerDeath = player.GetComponent<Player.PlayerDeath>();
-                if (playerDeath != null && playerDeath.IsCaptureInProgress)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        GameObject GetPlayerObject()
-        {
-            if (playerObject != null)
-            {
-                return playerObject;
-            }
-
-            var playerController = FindFirstObjectByType<Player.PlayerController>();
-            if (playerController != null)
-            {
-                playerObject = playerController.gameObject;
-                return playerObject;
-            }
-
-            playerObject = GameObject.FindGameObjectWithTag("Player");
-            return playerObject;
-        }
-
-        private void ReloadCurrentScene()
-        {
-            HidePanelImmediate();
-            var scene = SceneManager.GetActiveScene();
-            SceneManager.LoadScene(scene.name);
-        }
+        bool IsBlockingRespawn() => gameStartSequence.isActiveAndEnabled || jungleChaseSequence.isActiveAndEnabled || _playerController.IsCaptured || _playerDeath.IsCaptureInProgress;
     }
 }

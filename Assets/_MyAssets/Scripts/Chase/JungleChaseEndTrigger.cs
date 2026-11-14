@@ -195,6 +195,9 @@ namespace CorrentesDaNoite.Chase
 
         void FadeAndLoadScene()
         {
+            // zerou o jogo entao o continuar some do menu
+            Checkpoint.CheckpointManager.Instance?.ClearSaveData();
+
             if (string.IsNullOrEmpty(nextSceneName))
             {
                 Debug.LogWarning("[JungleChaseEndTrigger] nextSceneName nao definido; mantendo cena atual.");

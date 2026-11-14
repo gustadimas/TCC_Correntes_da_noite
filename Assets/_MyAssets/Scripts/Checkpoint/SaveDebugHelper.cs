@@ -8,6 +8,9 @@ namespace CorrentesDaNoite.Checkpoint
         [SerializeField] KeyCode clearSaveKey = KeyCode.F9;
         [SerializeField] KeyCode showSaveInfoKey = KeyCode.F10;
 
+        // no build final as teclas nao podem apagar o save do jogador
+        private void Awake() => enabled = Debug.isDebugBuild;
+
         void Update()
         {
             if (Input.GetKeyDown(clearSaveKey)) ClearSaveData();

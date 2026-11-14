@@ -41,8 +41,6 @@ namespace CorrentesDaNoite.Checkpoint
                 return;
             }
             Instance = this;
-            if (transform.parent == null)
-                DontDestroyOnLoad(gameObject);
 
             _saveSystem = SaveSystemProvider.Get(usePersistentSave);
 

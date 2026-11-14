@@ -80,6 +80,7 @@ namespace CorrentesDaNoite.Audio
         {
             musicSource = EnsureAudioSource(musicSource, "Music_Source", musicGroupPath);
             ambientSource = EnsureAudioSource(ambientSource, "Ambient_Source", musicGroupPath);
+            musicSource.ignoreListenerPause = true;
         }
 
         protected AudioSource EnsureAudioSource(AudioSource source, string name, string mixerGroupPath)
@@ -102,6 +103,9 @@ namespace CorrentesDaNoite.Audio
             BuildPool(sfxSourcePool, sfxPoolSize, "SFX_Pool", sfxGroupPath);
             BuildPool(uiSourcePool, uiPoolSize, "UI_Pool", uiGroupPath);
             BuildPool(spatialSourcePool, spatialPoolSize, "Spatial_Pool", spatialGroupPath);
+
+            // no pause o AudioListener para o mundo mas a ui ainda precisa tocar
+            foreach (AudioSource source in uiSourcePool) source.ignoreListenerPause = true;
         }
 
         protected void BuildPool(List<AudioSource> pool, int size, string namePrefix, string mixerGroupPath)
