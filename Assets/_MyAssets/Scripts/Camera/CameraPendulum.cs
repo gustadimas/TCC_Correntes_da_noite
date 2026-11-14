@@ -21,7 +21,7 @@ namespace CorrentesDaNoite.Camera
         void LateUpdate()
         {
             _time += Time.deltaTime * frequency;
-            float angle = Mathf.Sin(_time + phaseOffset) * rotationAmplitude;
+            float angle = CameraSway.Enabled ? Mathf.Sin(_time + phaseOffset) * rotationAmplitude : 0f;
             Vector3 euler = _initialRotation.eulerAngles;
 
             if (rotateX) euler.x += angle;
