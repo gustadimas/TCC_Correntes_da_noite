@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace CorrentesDaNoite.Enemies
 {
@@ -12,6 +13,14 @@ namespace CorrentesDaNoite.Enemies
         [SerializeField] protected string captureTriggerName = "Capture";
 
         EnemyFootstepEmitter _footstepEmitter;
+        NavMeshAgent _agent;
+        bool _hasLocomotionSpeed;
+
+        static readonly int WalkSpeedHash = Animator.StringToHash("WalkSpeed");
+        static readonly int RunSpeedHash = Animator.StringToHash("RunSpeed");
+        // quanto os clips de andar e correr andam por segundo com escala 1 e speed 1
+        const float WALK_CLIP_SPEED = 0.36f;
+        const float RUN_CLIP_SPEED = 3.24f;
 
         protected virtual void Awake()
         {
@@ -19,6 +28,18 @@ namespace CorrentesDaNoite.Enemies
                 animator = GetComponentInChildren<Animator>();
 
             _footstepEmitter = GetComponent<EnemyFootstepEmitter>() ?? GetComponentInParent<EnemyFootstepEmitter>();
+            _agent = GetComponent<NavMeshAgent>();
+            _hasLocomotionSpeed = animator != null && HasParameter("WalkSpeed", AnimatorControllerParameterType.Float) && HasParameter("RunSpeed", AnimatorControllerParameterType.Float);
+        }
+
+        // a perna acompanha a velocidade real pra nao deslizar
+        private void Update()
+        {
+            if (!_hasLocomotionSpeed || _agent == null) return;
+
+            float speed = _agent.velocity.magnitude / transform.lossyScale.y;
+            animator.SetFloat(WalkSpeedHash, Mathf.Max(1f, speed / WALK_CLIP_SPEED));
+            animator.SetFloat(RunSpeedHash, Mathf.Max(1f, speed / RUN_CLIP_SPEED));
         }
 
         public virtual void SetWalking(bool isWalking)

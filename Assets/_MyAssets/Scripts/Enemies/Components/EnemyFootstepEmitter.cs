@@ -25,8 +25,9 @@ namespace CorrentesDaNoite.Enemies
         void Awake()
         {
             movement = GetComponent<EnemyMovement>();
-            surfaceTracker ??= GetComponent<FootstepSurfaceTracker>();
-            feetTransform ??= transform;
+            // o atalho de null do c# nao pega o null falso da unity no campo vazio
+            if (surfaceTracker == null) surfaceTracker = GetComponent<FootstepSurfaceTracker>();
+            if (feetTransform == null) feetTransform = transform;
         }
 
         void Update()
