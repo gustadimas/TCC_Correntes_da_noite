@@ -30,8 +30,9 @@ namespace CorrentesDaNoite.Checkpoint
 
         void OnTriggerEnter(Collider other)
         {
-            if (activateOnEnter && other.CompareTag("Player"))
-                CheckpointManager.Instance?.SetCheckpoint(this);
+            if (!activateOnEnter || !other.CompareTag("Player") || CheckpointManager.Instance == null || CheckpointManager.Instance.CurrentCheckpoint == this) return;
+            CheckpointManager.Instance.SetCheckpoint(this);
+            CheckpointManager.OnCheckpointReached?.Invoke();
         }
 
         public void ActivateCamera()

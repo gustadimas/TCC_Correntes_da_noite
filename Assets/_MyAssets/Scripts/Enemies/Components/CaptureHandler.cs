@@ -37,6 +37,7 @@ namespace CorrentesDaNoite.Enemies
             player.SetCapturedState(true);
             player.PlayCaptureAnimation();
             Audio.AudioManager.Instance?.PlayEvent(Audio.AudioEvent.EnemyCapture, transform.position);
+            player.GetComponent<PlayerDeath>()?.OnGrabbed();
 
             if (parentCapturedPlayer)
             {

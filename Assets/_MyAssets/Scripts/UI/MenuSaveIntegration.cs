@@ -36,6 +36,7 @@ namespace CorrentesDaNoite.UI
         void StartNewGame()
         {
             _saveSystem.ClearSaveData();
+            EscapeStats.Clear();
             _menuStarter.StartGame(introSceneName);
         }
     }

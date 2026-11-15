@@ -1,4 +1,6 @@
 using System.Collections;
+using CorrentesDaNoite.Checkpoint;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,6 +14,13 @@ namespace CorrentesDaNoite.UI
         public Color exitFadeColor = Color.black;
         public bool fadeInAfterLoad = true;
         public float fadeInDuration = 1f;
+        [SerializeField] TMP_Text _statsText;
+
+        private void Start()
+        {
+            int seconds = Mathf.FloorToInt(EscapeStats.PlayTime);
+            if (_statsText != null) _statsText.text = $"Tempo de fuga: {seconds / 60}:{seconds % 60:00}      Capturas: {EscapeStats.Captures}";
+        }
 
         public void GoToMenu()
         {

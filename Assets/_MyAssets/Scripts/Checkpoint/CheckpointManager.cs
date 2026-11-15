@@ -22,6 +22,7 @@ namespace CorrentesDaNoite.Checkpoint
         [SerializeField] string idleAnimationState = "";
         [SerializeField] bool waitForRespawnAnimation = false;
         [SerializeField] bool usePersistentSave = true;
+        [SerializeField] UI.CaptureScreen _captureScreen;
 
         ISaveSystem _saveSystem;
         Checkpoint _currentCheckpoint;
@@ -29,6 +30,7 @@ namespace CorrentesDaNoite.Checkpoint
         Dictionary<string, Checkpoint> _checkpoints = new Dictionary<string, Checkpoint>();
 
         public static System.Action OnPlayerRespawned;
+        public static System.Action OnCheckpointReached;
 
         public Checkpoint CurrentCheckpoint => _currentCheckpoint;
         public ISaveSystem SaveSystem => _saveSystem;
@@ -119,6 +121,7 @@ namespace CorrentesDaNoite.Checkpoint
         IEnumerator RespawnSequence(GameObject player, bool fromCapture, string reactionTrigger)
         {
             _isRespawning = true;
+            if (fromCapture) EscapeStats.AddCapture();
 
             var playerController = player.GetComponent<Player.PlayerController>();
             var animator = player.GetComponent<Animator>();
@@ -168,6 +171,7 @@ namespace CorrentesDaNoite.Checkpoint
             yield return new WaitUntil(() => fadeOutComplete);
 
             ExecuteRespawn(player, animator);
+            if (_captureScreen != null) yield return _captureScreen.Show(fromCapture);
 
             bool fadeInComplete = false;
             FadeController.Instance.FadeIn(() => fadeInComplete = true, fadeDuration);
