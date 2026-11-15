@@ -19,6 +19,7 @@ namespace CorrentesDaNoite.UI
         public void Setup(string[] options, int index)
         {
             _options = options;
+            if (options.Length == 0) return;
             _index = Mathf.Clamp(index, 0, options.Length - 1);
             _valueText.text = _options[_index];
         }

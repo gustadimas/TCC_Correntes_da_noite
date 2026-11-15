@@ -48,6 +48,7 @@ namespace CorrentesDaNoite.UI
         PlayerDeath _playerDeath;
         bool _playerInputWasEnabled;
         Coroutine _inputRoutine;
+        bool _wasCursorLocked;
 
         private void Start()
         {
@@ -79,6 +80,11 @@ namespace CorrentesDaNoite.UI
         private void Update()
         {
             if (_isPaused && !pauseAction.action.WasPressedThisFrame() && EventSystem.current.currentInputModule is InputSystemUIInputModule module && module.cancel.action.WasPressedThisFrame()) HandlePauseInput();
+#if UNITY_WEBGL
+            // no navegador o esc solta o mouse e nao chega no jogo entao perder o mouse pausa
+            if (!_isPaused && _wasCursorLocked && Cursor.lockState != CursorLockMode.Locked) Pause();
+            _wasCursorLocked = Cursor.lockState == CursorLockMode.Locked;
+#endif
         }
 
         void OnPausePerformed(InputAction.CallbackContext context) => HandlePauseInput();
