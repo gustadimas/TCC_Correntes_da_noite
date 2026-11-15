@@ -18,24 +18,34 @@ MonoBehaviour:
       coragem e medo.\u201D"
     minDisplayTime: 0.5
     autoAdvanceTime: 6
+    voice: {fileID: 0}
+    ambience: {fileID: 8300000, guid: 13382b1c35625134681f05fc5010240d, type: 3}
   - image: {fileID: 21300000, guid: c619393650915c64db84266cd1b3cbfe, type: 3}
     text: "\u201CO engenho j\xE1 n\xE3o est\xE1 \xE0 vista\u2026 mas ainda vive em
       suas lembran\xE7as.\u201D"
     minDisplayTime: 0.5
     autoAdvanceTime: 6
+    voice: {fileID: 0}
+    ambience: {fileID: 0}
   - image: {fileID: 21300000, guid: 61807775f4684bd4fa75984267f7da64, type: 3}
     text: "\u201CEntre as \xE1rvores, surgem luzes. Um brilho quente que ela nunca
       viu t\xE3o de perto.\u201D"
     minDisplayTime: 0.5
     autoAdvanceTime: 6
+    voice: {fileID: 0}
+    ambience: {fileID: 8300000, guid: 0800c5c024af0ef49a21fb54579d80c4, type: 3}
   - image: {fileID: 21300000, guid: f83bde701606038438360118e0249799, type: 3}
     text: "\u201CEla segue adiante. Pela primeira vez, o medo d\xE1 lugar ao al\xEDvio.\u201D"
     minDisplayTime: 0.5
     autoAdvanceTime: 6
+    voice: {fileID: 0}
+    ambience: {fileID: 0}
   - image: {fileID: 21300000, guid: beeb336cca8285c4e90a0146deb14e6c, type: 3}
     text: "\u201CAo alcan\xE7ar o quilombo, Amara descobre algo que sempre foi seu
       direito: a liberdade.\u201D"
     minDisplayTime: 0.5
     autoAdvanceTime: 6
+    voice: {fileID: 8300000, guid: 91bd973250f7d974ea2c054fc3e27720, type: 3}
+    ambience: {fileID: 0}
   defaultMinDisplayTime: 0.5
   defaultAutoAdvanceTime: 6

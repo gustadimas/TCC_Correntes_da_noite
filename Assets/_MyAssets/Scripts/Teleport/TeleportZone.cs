@@ -104,17 +104,25 @@ namespace CorrentesDaNoite.Teleport
             yield return new WaitUntil(() => fadeOutComplete);
 
             ExecuteTeleport(player, animator);
+            // fica deitada no escuro e so comeca a levantar quando a imagem volta
+            if (animator != null) animator.speed = 0f;
             yield return new WaitForSeconds(0.1f);
+            if (!string.IsNullOrEmpty(destination.Chapter)) yield return PhaseCard.Instance?.Show(destination.Chapter);
 
+            if (animator != null) animator.speed = 1f;
             bool fadeInComplete = false;
             FadeController.Instance.FadeIn(() => fadeInComplete = true, fadeDuration);
             yield return new WaitUntil(() => fadeInComplete);
+            destination.Voice.Play();
 
             if (animator != null && waitForTeleportAnimation && !string.IsNullOrEmpty(teleportAnimationState))
             {
                 AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
                 yield return new WaitForSeconds(stateInfo.length);
             }
+
+            if (animator != null && !string.IsNullOrEmpty(teleportAnimationState))
+                while (IsPlayingTeleportAnimation(animator)) yield return null;
 
             if (animator != null && !string.IsNullOrEmpty(idleAnimationState))
                 animator.Play(idleAnimationState, 0, 0f);
@@ -132,6 +140,7 @@ namespace CorrentesDaNoite.Teleport
         {
             if (destination == null) return;
 
+            player.GetComponent<Player.StoneThrower>()?.DropStone();
             CharacterController charController = player.GetComponent<CharacterController>();
             if (charController != null)
             {
@@ -147,6 +156,7 @@ namespace CorrentesDaNoite.Teleport
             }
 
             destination.ActivateCamera(player.transform);
+            ObjectiveHUD.Instance?.Show(destination.Objective);
             if (mapManager != null && !string.IsNullOrEmpty(targetMapId))
                 mapManager.ActivateMap(targetMapId);
 
@@ -161,6 +171,12 @@ namespace CorrentesDaNoite.Teleport
                 if (!string.IsNullOrEmpty(teleportAnimationState))
                     animator.Play(teleportAnimationState, 0, 0f);
             }
+        }
+
+        bool IsPlayingTeleportAnimation(Animator animator)
+        {
+            AnimatorStateInfo state = animator.GetCurrentAnimatorStateInfo(0);
+            return state.IsName(teleportAnimationState) && state.normalizedTime < 1f;
         }
 
         public void ResetTrigger() => _hasBeenUsed = false;

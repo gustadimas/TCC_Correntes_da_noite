@@ -13,6 +13,8 @@ namespace CorrentesDaNoite.UI
             [TextArea(2, 4)] public string text;
             public float minDisplayTime = 0.5f;
             public float autoAdvanceTime = 0f;
+            public AudioClip voice;
+            public AudioClip ambience;
         }
 
         public CutsceneSlide[] slides = Array.Empty<CutsceneSlide>();

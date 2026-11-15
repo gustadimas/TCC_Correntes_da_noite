@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using CorrentesDaNoite.UI;
 using CorrentesDaNoite.Camera;
 
 namespace CorrentesDaNoite.Teleport
@@ -14,8 +15,14 @@ namespace CorrentesDaNoite.Teleport
         [SerializeField] Vector3 followOffset = new Vector3(0f, 4f, 0f);
         [SerializeField] Color gizmoColor = Color.green;
         [SerializeField] bool showGizmo = true;
+        [SerializeField] string _objective;
+        [SerializeField] VoiceLine _voice;
+        [SerializeField] string _chapter;
 
         public string DestinationName => destinationName;
+        public string Objective => _objective;
+        public VoiceLine Voice => _voice;
+        public string Chapter => _chapter;
         public CameraDirection Direction => cameraDirection;
         public Vector3 Position => transform.position;
         public Quaternion Rotation => useCustomPlayerRotation

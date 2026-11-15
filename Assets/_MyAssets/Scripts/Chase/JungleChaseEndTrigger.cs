@@ -41,6 +41,9 @@ namespace CorrentesDaNoite.Chase
         [SerializeField] string runBoolName = "IsRunning";
         [SerializeField] string speedFloatName = "Speed";
 
+        [SerializeField] AudioClip _giveUpShout;
+        [SerializeField] AudioClip _freedomDrums;
+
         bool _triggered;
         readonly Plane[] _cameraPlanes = new Plane[6];
 
@@ -80,6 +83,7 @@ namespace CorrentesDaNoite.Chase
                 yield break;
             }
 
+            PlayEscapeSounds();
             var characterController = playerCtrl.GetComponent<CharacterController>();
             var anim = playerAnimatorOverride != null ? playerAnimatorOverride : (playerCtrl.GetComponent<Animator>() ?? controller.PlayerAnimator);
             var playerInput = playerCtrl.GetComponent<UnityEngine.InputSystem.PlayerInput>();
@@ -137,6 +141,15 @@ namespace CorrentesDaNoite.Chase
             }
 
             FadeAndLoadScene();
+        }
+
+        // ele desiste gritando la atras e os tambores do quilombo comecam
+        void PlayEscapeSounds()
+        {
+            var audio = Audio.AudioManager.Instance;
+            if (audio == null) return;
+            if (_giveUpShout != null) audio.PlayConfig(new Audio.AudioConfig { clip = _giveUpShout, volume = 0.7f, pitch = 1f });
+            if (_freedomDrums != null) audio.PlayConfig(new Audio.AudioConfig { clip = _freedomDrums, volume = 0.8f, pitch = 1f });
         }
 
         IEnumerator ShowPromptDelayed()

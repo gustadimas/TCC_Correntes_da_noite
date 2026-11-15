@@ -1,4 +1,4 @@
-using CorrentesDaNoite.Audio;
+﻿using CorrentesDaNoite.Audio;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -13,6 +13,13 @@ namespace CorrentesDaNoite.UI
 {
     public class CutscenePlayer : MonoBehaviour
     {
+        const float SLIDE_ZOOM = 0.08f;
+        const float SLIDE_PAN = 30f;
+        const float SLIDE_MOTION_TIME = 8f;
+        const float SKIP_HINT_ALPHA = 0.45f;
+        const float AMBIENCE_VOLUME = 0.3f;
+        const float AMBIENCE_FADE = 1f;
+
         public CutsceneData cutsceneData;
         public Image slideImage;
         public TextMeshProUGUI slideText;
@@ -34,6 +41,8 @@ namespace CorrentesDaNoite.UI
         public CutsceneFadeController creditsFadeController;
         public CanvasGroup creditsCanvasGroup;
         public string menuSceneName;
+        [SerializeField] TMP_Text _skipHint;
+        [SerializeField] AudioSource _ambience;
 
         protected int currentSlideIndex;
         protected bool isPlaying;
@@ -45,14 +54,29 @@ namespace CorrentesDaNoite.UI
         protected bool typingComplete = true;
         protected Coroutine typewriterRoutine;
 
+        Vector2 _imagePosition;
+        float _slideShownAt;
+        float _panDirection;
+        bool _hintGamepad;
+        Coroutine _ambienceFade;
+
         protected void Start()
         {
+            if (slideImage != null) _imagePosition = slideImage.rectTransform.anchoredPosition;
+            if (_skipHint != null) _skipHint.alpha = 0f;
             if (playOnStart)
                 StartCutscene();
 
             MusicManager.GetOrCreate().PlayMusic("Menu", 1.5f);
             var asc = FindFirstObjectByType<AudioStateController>();
             asc?.SetMenuState();
+        }
+
+        private void Update()
+        {
+            if (!isPlaying) return;
+            MoveSlide();
+            UpdateSkipHint();
         }
 
         public void StartCutscene()
@@ -263,6 +287,7 @@ namespace CorrentesDaNoite.UI
         protected void CompleteCutscene()
         {
             isPlaying = false;
+            if (_skipHint != null) _skipHint.alpha = 0f;
             onCutsceneFinished?.Invoke();
 
             if (showCreditsOnFinish)
@@ -325,6 +350,10 @@ namespace CorrentesDaNoite.UI
         protected void ApplySlide(int index)
         {
             CutsceneData.CutsceneSlide slide = cutsceneData.GetSlide(index);
+            if (slide?.voice != null) Audio.AudioManager.Instance?.PlayConfig(new Audio.AudioConfig { clip = slide.voice, volume = 1f, pitch = 1f });
+            if (slide?.ambience != null && _ambience != null && slide.ambience != _ambience.clip) SwapAmbience(slide.ambience);
+            _slideShownAt = Time.time;
+            _panDirection = index % 2 == 0 ? 1f : -1f;
             if (slideImage != null)
                 slideImage.sprite = slide != null ? slide.image : null;
 
@@ -343,6 +372,53 @@ namespace CorrentesDaNoite.UI
                     slideText.text = string.Empty;
                     typewriterRoutine = StartCoroutine(TypewriterRoutine(slide.text));
                 }
+            }
+        }
+
+        // zoom e deslize lentos pra imagem parada parecer cena
+        void MoveSlide()
+        {
+            if (slideImage == null) return;
+            float t = Mathf.Clamp01((Time.time - _slideShownAt) / SLIDE_MOTION_TIME);
+            slideImage.rectTransform.localScale = Vector3.one * (1f + SLIDE_ZOOM * t);
+            slideImage.rectTransform.anchoredPosition = _imagePosition + Vector2.right * (SLIDE_PAN * _panDirection * t);
+        }
+
+        // fica mais forte enquanto segura o botao de pular
+        void UpdateSkipHint()
+        {
+            if (_skipHint == null) return;
+            bool gamepad = ActiveInputDevice.UsingGamepad;
+            if (_skipHint.text.Length == 0 || gamepad != _hintGamepad)
+            {
+                _hintGamepad = gamepad;
+                _skipHint.text = "Segure " + (gamepad ? (ActiveInputDevice.IsPlayStation ? "X" : "A") : "Espaço") + " para pular";
+            }
+            _skipHint.alpha = Mathf.Lerp(SKIP_HINT_ALPHA, 1f, holdTimer / holdSkipTime);
+        }
+
+        void SwapAmbience(AudioClip clip)
+        {
+            if (_ambienceFade != null) StopCoroutine(_ambienceFade);
+            _ambienceFade = StartCoroutine(FadeAmbience(clip));
+        }
+
+        // abaixa o som do slide anterior antes de trocar
+        IEnumerator FadeAmbience(AudioClip clip)
+        {
+            while (_ambience.isPlaying && _ambience.volume > 0f)
+            {
+                _ambience.volume = Mathf.MoveTowards(_ambience.volume, 0f, Time.deltaTime / AMBIENCE_FADE);
+                yield return null;
+            }
+
+            _ambience.volume = 0f;
+            _ambience.clip = clip;
+            _ambience.Play();
+            while (_ambience.volume < AMBIENCE_VOLUME)
+            {
+                _ambience.volume = Mathf.MoveTowards(_ambience.volume, AMBIENCE_VOLUME, Time.deltaTime / AMBIENCE_FADE);
+                yield return null;
             }
         }
 

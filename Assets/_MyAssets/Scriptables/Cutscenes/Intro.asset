@@ -18,25 +18,35 @@ MonoBehaviour:
       contida.\""
     minDisplayTime: 0.5
     autoAdvanceTime: 6
+    voice: {fileID: 0}
+    ambience: {fileID: 8300000, guid: 3a48285633791034d82e9d02f541ee46, type: 3}
   - image: {fileID: 21300000, guid: 14cb9421a715ff84faf832df38ac765c, type: 3}
     text: "\"Entre sombras, uma pequena menina observa o mundo al\xE9m das paredes
       que a cercam.\""
     minDisplayTime: 0.5
     autoAdvanceTime: 6
+    voice: {fileID: 0}
+    ambience: {fileID: 0}
   - image: {fileID: 21300000, guid: 0a99f3bb814f624499c1952b147bbb63, type: 3}
     text: "\"O velho gri\xF4 a encontra em sil\xEAncio. Seus passos carregam hist\xF3rias
       que o tempo n\xE3o apagou.\""
     minDisplayTime: 0.5
     autoAdvanceTime: 6
+    voice: {fileID: 0}
+    ambience: {fileID: 0}
   - image: {fileID: 21300000, guid: 0f652a6cf54f14e478f4d2791b427f43, type: 3}
     text: "\"Ele lhe oferece um colar de sementes. Dentro dele, mem\xF3rias de quem
       tentou fugir antes.\""
     minDisplayTime: 0.5
     autoAdvanceTime: 6
+    voice: {fileID: 0}
+    ambience: {fileID: 0}
   - image: {fileID: 21300000, guid: 46d1c8cecb94f0d439f0a155cc781875, type: 3}
     text: "\"Com o colar junto ao peito, Amara entende: esta \xE9 a noite em que
       precisa encontrar seu pr\xF3prio caminho.\""
     minDisplayTime: 0.5
     autoAdvanceTime: 6
+    voice: {fileID: 0}
+    ambience: {fileID: 0}
   defaultMinDisplayTime: 0.5
   defaultAutoAdvanceTime: 6
