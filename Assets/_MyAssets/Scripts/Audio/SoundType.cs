@@ -7,6 +7,7 @@ namespace CorrentesDaNoite.Audio
         Crouching = 2,
         Jumping = 3,
         Landing = 4,
-        Struggling = 5
+        Struggling = 5,
+        Stone = 6
     }
 }

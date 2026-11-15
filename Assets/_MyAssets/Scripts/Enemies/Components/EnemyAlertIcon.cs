@@ -39,7 +39,7 @@ namespace CorrentesDaNoite.Enemies
         {
             var state = _enemy.StateMachine?.CurrentState;
             if (state is EnemySpottedState or EnemyChaseState or EnemyCaptureState or SleepingEnemyStandingUpState or SleepingEnemyIdleReadyState) return SPOTTED;
-            if (state is SleepingEnemyStartledState || _enemy.IsAlertedBySound || _enemy.IsRotatingToSound || (_vision != null && _vision.IsNoticingPlayer)) return NOTICING;
+            if (state is SleepingEnemyStartledState or EnemySearchState || _enemy.IsAlertedBySound || _enemy.IsRotatingToSound || (_vision != null && _vision.IsNoticingPlayer)) return NOTICING;
             return "";
         }
     }

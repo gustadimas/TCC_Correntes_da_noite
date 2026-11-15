@@ -1,4 +1,5 @@
 using UnityEngine;
+using CorrentesDaNoite.Player;
 
 namespace CorrentesDaNoite.Enemies
 {
@@ -43,7 +44,7 @@ namespace CorrentesDaNoite.Enemies
 
             if (_playerTransform != null)
             {
-                bool canSeePlayer = !checkObstacles || HasLineOfSight();
+                bool canSeePlayer = (!checkObstacles || HasLineOfSight()) && !HidingSpot.IsHiddenFrom(_enemyController != null ? _enemyController.Player : null, lightSource.position);
 
                 if (canSeePlayer != _isDetectingPlayer)
                 {

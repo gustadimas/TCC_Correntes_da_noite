@@ -331,6 +331,12 @@ namespace CorrentesDaNoite.Enemies
             if (distanceToSound < minSoundDistanceToReact)
                 return;
 
+            if (sound.soundType == Audio.SoundType.Stone)
+            {
+                if (_stateMachine.CurrentState is EnemyPatrolState or EnemyIdleState or EnemySearchState) InvestigateStone(sound.position);
+                return;
+            }
+
             bool shouldReact = sound.soundType switch
             {
                 Audio.SoundType.Walking => reactToWalkingSounds,
@@ -375,6 +381,12 @@ namespace CorrentesDaNoite.Enemies
             {
                 return;
             }
+        }
+
+        void InvestigateStone(Vector3 position)
+        {
+            CancelSoundRotation();
+            _stateMachine.ChangeState(new EnemySearchState(this, _stateMachine, position));
         }
 
         protected virtual void RotateTowardsSound(Vector3 soundPosition)
@@ -445,6 +457,14 @@ namespace CorrentesDaNoite.Enemies
             TeleportToStart();
             int startPointIndex = GetClosestPatrolPointIndex();
             if (startPointIndex >= 0) _stateMachine.ChangeState(new EnemyPatrolState(this, _stateMachine, startPointIndex));
+            else _stateMachine.ChangeState(new EnemyIdleState(this, _stateMachine));
+        }
+
+        // depois de perder ela de vista volta pra ronda de onde estiver
+        public virtual void ReturnToRoutine()
+        {
+            int index = GetClosestPatrolPointIndex();
+            if (index >= 0) _stateMachine.ChangeState(new EnemyPatrolState(this, _stateMachine, index));
             else _stateMachine.ChangeState(new EnemyIdleState(this, _stateMachine));
         }
 

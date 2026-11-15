@@ -1,9 +1,13 @@
 using UnityEngine;
+using CorrentesDaNoite.Player;
 
 namespace CorrentesDaNoite.Enemies
 {
     public class EnemyChaseState : EnemyState
     {
+        // escondida longe dele ela some da perseguicao
+        const float LOSE_DISTANCE = 4f;
+
         float _updatePathInterval = 0.1f;
         float _pathUpdateTimer;
 
@@ -40,6 +44,12 @@ namespace CorrentesDaNoite.Enemies
                 _controller.transform.position,
                 _controller.PlayerTransform.position
             );
+
+            if (distanceToPlayer > LOSE_DISTANCE && HidingSpot.IsHiding(_controller.Player))
+            {
+                _stateMachine.ChangeState(new EnemySearchState(_controller, _stateMachine));
+                return;
+            }
 
             if (distanceToPlayer <= _controller.CaptureDistance)
                 _stateMachine.ChangeState(new EnemyCaptureState(_controller, _stateMachine));

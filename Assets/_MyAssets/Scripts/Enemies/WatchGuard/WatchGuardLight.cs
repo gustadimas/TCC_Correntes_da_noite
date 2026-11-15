@@ -87,6 +87,9 @@ namespace CorrentesDaNoite.Enemies
             if (!_isActive)
                 return;
 
+            if (other.TryGetComponent(out PlayerController player) && HidingSpot.IsHiddenFrom(player, origin.position))
+                return;
+
             Vector3 targetPosition = other.transform.position;
             if (useConeCheck && !IsInsideCone(targetPosition))
                 return;

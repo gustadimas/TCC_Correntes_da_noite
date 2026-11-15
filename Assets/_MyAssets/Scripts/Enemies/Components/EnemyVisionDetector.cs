@@ -1,4 +1,5 @@
 using UnityEngine;
+using CorrentesDaNoite.Player;
 
 namespace CorrentesDaNoite.Enemies
 {
@@ -23,6 +24,7 @@ namespace CorrentesDaNoite.Enemies
         const float VISION_DECAY = 0.5f;
 
         public bool IsNoticingPlayer => seeingTimer > 0f;
+        public float NoticeProgress => Mathf.Clamp01(seeingTimer / timeToAggro);
 
         protected virtual void Awake()
         {
@@ -78,6 +80,7 @@ namespace CorrentesDaNoite.Enemies
         protected virtual bool IsPlayerVisible()
         {
             Vector3 origin = eyeOrigin != null ? eyeOrigin.position : transform.position;
+            if (HidingSpot.IsHiddenFrom(enemyController.Player, origin)) return false;
             Vector3 toPlayer = GetAimPoint() - origin;
 
             if (toPlayer.sqrMagnitude > viewDistance * viewDistance)

@@ -88,6 +88,13 @@ namespace CorrentesDaNoite.Enemies
             else _stateMachine.ChangeState(new EnemyIdleState(this, _stateMachine));
         }
 
+        public override void ReturnToRoutine()
+        {
+            int index = GetClosestGuardPointIndex();
+            if (index >= 0) _stateMachine.ChangeState(new WatchGuardWalkingState(this, _stateMachine, index));
+            else base.ReturnToRoutine();
+        }
+
         public bool HasValidGuardPoints()
         {
             if (guardPoints == null || guardPoints.Length == 0)
