@@ -7,6 +7,8 @@ namespace CorrentesDaNoite.Enemies
     [RequireComponent(typeof(EnemyMovement))]
     public class EnemyFootstepEmitter : MonoBehaviour
     {
+        const float CAPTION_DISTANCE = 8f;
+
         [Header("Footstep Timing")]
         [SerializeField] internal float movementThreshold = 0.2f;
         [SerializeField] internal float stepInterval = 0.4f;
@@ -21,10 +23,12 @@ namespace CorrentesDaNoite.Enemies
 
         EnemyMovement movement;
         float lastStepTime;
+        EnemyController _controller;
 
         void Awake()
         {
             movement = GetComponent<EnemyMovement>();
+            _controller = GetComponent<EnemyController>();
             // o atalho de null do c# nao pega o null falso da unity no campo vazio
             if (surfaceTracker == null) surfaceTracker = GetComponent<FootstepSurfaceTracker>();
             if (feetTransform == null) feetTransform = transform;
@@ -57,6 +61,9 @@ namespace CorrentesDaNoite.Enemies
             AudioConfig audioConfig = config.GetRandomAudioConfig();
             Vector3? pos = usePositionalAudio && feetTransform != null ? feetTransform.position : (Vector3?)null;
             AudioManager.Instance?.PlayConfig(audioConfig, pos);
+            if (IsNearPlayer()) UI.VoiceSubtitles.Instance?.Caption("[passos por perto]");
         }
+
+        bool IsNearPlayer() => _controller != null && _controller.PlayerTransform != null && (_controller.PlayerTransform.position - transform.position).sqrMagnitude < CAPTION_DISTANCE * CAPTION_DISTANCE;
     }
 }

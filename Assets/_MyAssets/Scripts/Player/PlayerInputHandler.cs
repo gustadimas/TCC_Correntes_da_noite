@@ -7,11 +7,13 @@ namespace CorrentesDaNoite.Player
     public class PlayerInputHandler : MonoBehaviour
     {
         PlayerController _playerController;
+        StoneThrower _stoneThrower;
         InputSystem_Actions _inputActions;
 
         void Awake()
         {
             _playerController = GetComponent<PlayerController>();
+            _stoneThrower = GetComponent<StoneThrower>();
             _inputActions = new InputSystem_Actions();
         }
 
@@ -24,6 +26,8 @@ namespace CorrentesDaNoite.Player
             _inputActions.Player.Run.canceled += OnRunCanceled;
             _inputActions.Player.Crouch.performed += OnCrouchPerformed;
             _inputActions.Player.Jump.performed += OnJumpPerformed;
+            _inputActions.Player.Interact.performed += OnInteractPerformed;
+            _inputActions.Player.Attack.performed += OnAttackPerformed;
         }
 
         void OnDisable()
@@ -36,6 +40,8 @@ namespace CorrentesDaNoite.Player
             _inputActions.Player.Run.canceled -= OnRunCanceled;
             _inputActions.Player.Crouch.performed -= OnCrouchPerformed;
             _inputActions.Player.Jump.performed -= OnJumpPerformed;
+            _inputActions.Player.Interact.performed -= OnInteractPerformed;
+            _inputActions.Player.Attack.performed -= OnAttackPerformed;
         }
 
         void OnMovePerformed(InputAction.CallbackContext context) => _playerController.OnMove(context);
@@ -44,5 +50,7 @@ namespace CorrentesDaNoite.Player
         void OnRunCanceled(InputAction.CallbackContext context) => _playerController.OnRun(context);
         void OnCrouchPerformed(InputAction.CallbackContext context) => _playerController.OnCrouch(context);
         void OnJumpPerformed(InputAction.CallbackContext context) => _playerController.OnJump(context);
+        void OnInteractPerformed(InputAction.CallbackContext context) => _stoneThrower?.PickUp();
+        void OnAttackPerformed(InputAction.CallbackContext context) => _stoneThrower?.Throw();
     }
 }

@@ -109,6 +109,8 @@ namespace CorrentesDaNoite.UI
                 .Replace("{correr}", gamepad ? (playStation ? "o R2" : "o RT") : "a tecla Shift")
                 .Replace("{pular}", gamepad ? (playStation ? "o X" : "o A") : "a tecla Espaço")
                 .Replace("{agachar}", gamepad ? (playStation ? "o Círculo" : "o B") : "as teclas Ctrl Esq ou C")
+                .Replace("{pegar}", gamepad ? (playStation ? "o Triângulo" : "o Y") : "a tecla E")
+                .Replace("{jogar}", gamepad ? (playStation ? "o Quadrado" : "o X") : "o botão esquerdo do mouse")
                 .Replace("{tecla_tras}", gamepad ? "ANALÓGICO PARA TRÁS" : "S")
                 .Replace("{tecla_correr}", gamepad ? (playStation ? "R2" : "RT") : "SHIFT");
         }
