@@ -20,6 +20,7 @@ namespace CorrentesDaNoite.Camera
         float _targetPitch;
         float _currentYaw;
         float _currentPitch;
+        Vector2 _mouseOffset;
 
         void Update()
         {
@@ -56,11 +57,13 @@ namespace CorrentesDaNoite.Camera
 
         public void SetEnabled(bool enabled) => enableMouseLook = enabled;
 
+        // o cursor fica travado e escondido no jogo entao a posicao vem da soma do movimento do mouse
         Vector2 GetMouseOffset()
         {
-            Vector2 center = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
-            Vector2 offset = ((Vector2)Input.mousePosition - center) / center;
-            return new Vector2(Mathf.Clamp(offset.x, -1f, 1f), Mathf.Clamp(offset.y, -1f, 1f));
+            if (Mouse.current == null || Cursor.lockState != CursorLockMode.Locked) return _mouseOffset;
+            _mouseOffset += Mouse.current.delta.ReadValue() / new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
+            _mouseOffset = new Vector2(Mathf.Clamp(_mouseOffset.x, -1f, 1f), Mathf.Clamp(_mouseOffset.y, -1f, 1f));
+            return _mouseOffset;
         }
     }
 }

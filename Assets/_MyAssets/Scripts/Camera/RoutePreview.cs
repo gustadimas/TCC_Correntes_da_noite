@@ -14,6 +14,8 @@ namespace CorrentesDaNoite.Camera
         [SerializeField] Transform _goal;
         [SerializeField] float _pitch = 30f;
         [SerializeField] float _distance = 24f;
+        [SerializeField] string _objective;
+        [SerializeField] VoiceLine _voice;
 
         Vector3[] _route;
         bool _played;
@@ -62,6 +64,8 @@ namespace CorrentesDaNoite.Camera
 
             yield return CutBack(brain);
             player.enabled = true;
+            ObjectiveHUD.Instance?.Show(_objective);
+            _voice.Play();
         }
 
         bool TryBuildRoute(Vector3 start)

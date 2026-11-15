@@ -26,7 +26,7 @@ namespace CorrentesDaNoite
             if (gamepad == UsingGamepad) return;
 
             UsingGamepad = gamepad;
-            Cursor.visible = !gamepad;
+            Cursor.visible = !gamepad && Cursor.lockState == CursorLockMode.None;
         }
     }
 }

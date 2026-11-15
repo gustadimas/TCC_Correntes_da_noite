@@ -107,6 +107,7 @@ namespace CorrentesDaNoite.Chase
         [SerializeField] TutorialPromptUI tutorialUI;
         [SerializeField] string slowMotionRunPrompt = "Segure Shift para correr!";
         [SerializeField] float slowMotionPromptDelay = 0.2f;
+        [SerializeField] VoiceLine _runVoice;
 
         [Header("Respawn Reset")]
         [SerializeField] float respawnResetDelay = 1f;
@@ -451,6 +452,7 @@ namespace CorrentesDaNoite.Chase
         {
             if (!enableSlowMoCue) return;
 
+            _runVoice.Play();
             if (slowMoRoutine != null)
                 StopCoroutine(slowMoRoutine);
 

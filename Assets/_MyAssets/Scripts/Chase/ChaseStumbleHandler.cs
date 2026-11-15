@@ -21,6 +21,7 @@ namespace CorrentesDaNoite.Chase
         [SerializeField] protected float defaultStumbleSpeedMultiplier = 0.3f;
         [SerializeField] protected float defaultStumbleDuration = 2f;
         [SerializeField] AudioClip _stumbleSound;
+        [SerializeField] UI.VoiceLine _stumbleVoice;
 
         [Header("Debug")]
         [SerializeField] protected bool debugMode;
@@ -82,6 +83,7 @@ namespace CorrentesDaNoite.Chase
             }
 
             SetRunningAnimation(false);
+            _stumbleVoice.Play();
             if (_stumbleSound != null) Audio.AudioManager.Instance?.PlayConfig(new Audio.AudioConfig { clip = _stumbleSound, volume = STUMBLE_VOLUME, pitch = 1f, spatialAudio = true }, transform.position);
 
             OnStumbleStarted?.Invoke(speedMultiplier, duration);

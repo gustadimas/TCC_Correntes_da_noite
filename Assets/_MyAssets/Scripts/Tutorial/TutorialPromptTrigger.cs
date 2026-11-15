@@ -12,6 +12,7 @@ namespace CorrentesDaNoite.Tutorial
         [SerializeField] bool triggerOnce = true;
         [SerializeField] bool hideOnExit;
         [SerializeField] Color gizmoColor = new Color(0f, 0.8f, 1f, 0.35f);
+        [SerializeField] VoiceLine _voice;
 
         bool _wasTriggered;
 
@@ -33,7 +34,8 @@ namespace CorrentesDaNoite.Tutorial
                 return;
             }
 
-            ShowPrompt();
+            _voice.Play();
+            if (!string.IsNullOrEmpty(message)) ShowPrompt();
 
             if (triggerOnce)
             {

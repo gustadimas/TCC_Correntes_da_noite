@@ -22,6 +22,7 @@ namespace CorrentesDaNoite
         [SerializeField] bool showMovementTutorialAfterSequence = true;
         [SerializeField] string movementPromptText = "Use WASD para se mover";
         [SerializeField] float movementPromptDelay = 0.3f;
+        [SerializeField] VoiceLine _wakeVoice;
         [Header("Lifecycle")]
         [SerializeField] bool disableAfterSequence = true;
         [SerializeField] bool deactivateObjectAfterSequence = true;
@@ -147,6 +148,7 @@ namespace CorrentesDaNoite
 
         void TryShowMovementTutorial()
         {
+            _wakeVoice.Play();
             if (!showMovementTutorialAfterSequence)
                 return;
 

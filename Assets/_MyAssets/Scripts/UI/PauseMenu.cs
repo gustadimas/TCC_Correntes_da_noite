@@ -64,6 +64,7 @@ namespace CorrentesDaNoite.UI
             pauseAction.action.performed += OnPausePerformed;
             pauseAction.action.Enable();
             SetPanelVisible(false);
+            FreeCursor(false);
         }
 
         private void OnDestroy()
@@ -71,6 +72,7 @@ namespace CorrentesDaNoite.UI
             pauseAction.action.performed -= OnPausePerformed;
             pauseAction.action.Disable();
             if (_isPaused) Unpause();
+            FreeCursor(true);
         }
 
         // o B do controle cai no cancel da ui e tem que fazer o mesmo que o esc mas o esc tambem e cancel
@@ -98,6 +100,7 @@ namespace CorrentesDaNoite.UI
             _timeScaleBeforePause = Time.timeScale;
             Time.timeScale = 0f;
             AudioListener.pause = true;
+            FreeCursor(true);
 
             // se pausou de novo antes do input voltar o estado guardado continua valendo
             if (_inputRoutine != null) StopCoroutine(_inputRoutine);
@@ -132,6 +135,14 @@ namespace CorrentesDaNoite.UI
             _isPaused = false;
             Time.timeScale = _timeScaleBeforePause;
             AudioListener.pause = false;
+            FreeCursor(false);
+        }
+
+        // no jogo o mouse so mexe a camera e o cursor so aparece no pause
+        static void FreeCursor(bool free)
+        {
+            Cursor.lockState = free ? CursorLockMode.None : CursorLockMode.Locked;
+            Cursor.visible = free && !ActiveInputDevice.UsingGamepad;
         }
 
         void RestartFromCheckpoint()
