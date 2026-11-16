@@ -7308,7 +7308,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "COnfigura\xE7\xF5es"
+  m_text: "Configura\xE7\xF5es"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b150c143627f2a64b8b49ccd18cdddd1, type: 2}
   m_sharedMaterial: {fileID: 1710041423618841708, guid: b150c143627f2a64b8b49ccd18cdddd1, type: 2}
