@@ -261,7 +261,6 @@ namespace CorrentesDaNoite.Player
 
         public void SetDirectionalZonesEnabled(bool enabled) => useDirectionalZones = enabled;
         public void SetCameraRelativeMovement(bool enabled) => useCameraRelativeMovement = enabled;
-        public void SetInvertDirectionalHorizontal(bool invert) => invertDirectionalHorizontal = invert;
         public void SetInputMultiplier(Vector2 multiplier) => _inputMultiplier = multiplier;
 
         public void StopMovementImmediate()

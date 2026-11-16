@@ -92,7 +92,6 @@ namespace CorrentesDaNoite.Chase.States
             {
                 controller.PlayerController.SetDirectionalZonesEnabled(true);
                 controller.PlayerController.SetCameraRelativeMovement(false);
-                controller.PlayerController.SetInvertDirectionalHorizontal(true);
                 controller.PlayerController.SetInputMultiplier(new Vector2(-1f, -1f));
                 ForcePlayerMovement();
             }
