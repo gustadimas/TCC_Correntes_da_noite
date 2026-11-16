@@ -7,6 +7,7 @@ namespace CorrentesDaNoite.Audio.Footsteps
         Normal,
         Grama,
         Terra,
-        Pedra
+        Pedra,
+        Madeira
     }
 }

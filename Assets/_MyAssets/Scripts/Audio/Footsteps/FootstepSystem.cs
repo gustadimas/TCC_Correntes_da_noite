@@ -26,6 +26,7 @@ namespace CorrentesDaNoite.Audio.Footsteps
         [SerializeField] internal FootstepConfig gramaConfig;
         [SerializeField] internal FootstepConfig terraConfig;
         [SerializeField] internal FootstepConfig pedraConfig;
+        [SerializeField] internal FootstepConfig madeiraConfig;
 
         protected float lastStepTime;
         protected Vector3 lastPosition;
@@ -117,6 +118,7 @@ namespace CorrentesDaNoite.Audio.Footsteps
                 SurfaceType.Grama => gramaConfig,
                 SurfaceType.Terra => terraConfig,
                 SurfaceType.Pedra => pedraConfig,
+                SurfaceType.Madeira => madeiraConfig,
                 _ => defaultConfig
             };
         }
