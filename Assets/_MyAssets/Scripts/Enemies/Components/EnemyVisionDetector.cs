@@ -24,6 +24,10 @@ namespace CorrentesDaNoite.Enemies
         const float VISION_DECAY = 0.5f;
 
         public bool IsNoticingPlayer => seeingTimer > 0f;
+        public float ViewDistance => viewDistance;
+        public float ViewAngle => viewAngle;
+        public Transform Eye => eyeOrigin;
+        public LayerMask ObstructionMask => obstructionMask;
         public float NoticeProgress => Mathf.Clamp01(seeingTimer / timeToAggro);
 
         protected virtual void Awake()

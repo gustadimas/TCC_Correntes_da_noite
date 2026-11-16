@@ -62,6 +62,7 @@ namespace CorrentesDaNoite.Enemies
             Vector3? pos = usePositionalAudio && feetTransform != null ? feetTransform.position : (Vector3?)null;
             AudioManager.Instance?.PlayConfig(audioConfig, pos);
             if (IsNearPlayer()) UI.VoiceSubtitles.Instance?.Caption("[passos por perto]");
+            if (_controller != null) UI.EnemyMarkers.Instance?.Step(_controller, feetTransform);
         }
 
         bool IsNearPlayer() => _controller != null && _controller.PlayerTransform != null && (_controller.PlayerTransform.position - transform.position).sqrMagnitude < CAPTION_DISTANCE * CAPTION_DISTANCE;
