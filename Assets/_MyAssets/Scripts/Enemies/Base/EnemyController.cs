@@ -96,7 +96,7 @@ namespace CorrentesDaNoite.Enemies
         public int SoundHeardCount => _soundHeardCount;
         public bool IsRotatingBackToPatrol => _isRotatingBackToPatrol;
         public int ClosestPatrolPointIndex => GetClosestPatrolPointIndex();
-        protected bool IsDetectionSuppressed => Time.time < _suppressDetectionUntil;
+        protected bool IsDetectionSuppressed => Time.time < _suppressDetectionUntil || (Player != null && Player.IsCaptured);
 
         protected virtual void Awake()
         {
@@ -466,6 +466,14 @@ namespace CorrentesDaNoite.Enemies
             int index = GetClosestPatrolPointIndex();
             if (index >= 0) _stateMachine.ChangeState(new EnemyPatrolState(this, _stateMachine, index));
             else _stateMachine.ChangeState(new EnemyIdleState(this, _stateMachine));
+        }
+
+        // outro inimigo pegou ela
+        public void GiveUpChase()
+        {
+            if (_stateMachine?.CurrentState is not (EnemyChaseState or EnemySpottedState or EnemySearchState)) return;
+            ResetDetectionAfterRespawn();
+            ReturnToRoutine();
         }
 
         protected void TeleportToStart()

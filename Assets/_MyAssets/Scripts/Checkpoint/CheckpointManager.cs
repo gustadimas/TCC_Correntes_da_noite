@@ -171,39 +171,28 @@ namespace CorrentesDaNoite.Checkpoint
             yield return new WaitUntil(() => fadeOutComplete);
 
             ExecuteRespawn(player, animator);
+            OnPlayerRespawned?.Invoke();
+            // fica deitada no escuro e so comeca a levantar quando a imagem volta
+            if (animator != null) animator.speed = 0f;
             if (_captureScreen != null) yield return _captureScreen.Show(fromCapture);
 
+            if (animator != null) animator.speed = 1f;
             bool fadeInComplete = false;
             FadeController.Instance.FadeIn(() => fadeInComplete = true, fadeDuration);
             yield return new WaitUntil(() => fadeInComplete);
 
             if (waitForRespawnAnimation && animator != null && !string.IsNullOrEmpty(respawnAnimationState))
-            {
-                yield return null;
-                AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+                while (IsGettingUp(animator)) yield return null;
 
-                float safetyTimer = 0f;
-                const float maxWait = 3f;
-
-                while (!stateInfo.IsName(respawnAnimationState) && safetyTimer < maxWait)
-                {
-                    yield return null;
-                    safetyTimer += Time.deltaTime;
-                    stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-                }
-
-                if (stateInfo.IsName(respawnAnimationState))
-                    yield return new WaitForSeconds(stateInfo.length);
-            }
-
-            if (animator != null && !string.IsNullOrEmpty(idleAnimationState))
-                animator.Play(idleAnimationState, 0, 0f);
-
-            OnPlayerRespawned?.Invoke();
-
+            if (animator != null && !string.IsNullOrEmpty(idleAnimationState)) animator.Play(idleAnimationState, 0, 0f);
             if (playerController != null) playerController.enabled = true;
-
             _isRespawning = false;
+        }
+
+        bool IsGettingUp(Animator animator)
+        {
+            AnimatorStateInfo state = animator.GetCurrentAnimatorStateInfo(0);
+            return state.IsName(respawnAnimationState) && state.normalizedTime < 1f;
         }
 
         void ExecuteRespawn(GameObject player, Animator animator)

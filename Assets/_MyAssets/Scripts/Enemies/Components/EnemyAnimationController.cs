@@ -15,6 +15,11 @@ namespace CorrentesDaNoite.Enemies
         EnemyFootstepEmitter _footstepEmitter;
         NavMeshAgent _agent;
         bool _hasLocomotionSpeed;
+        Animator _grabbed;
+        float _grabWeight;
+
+        // meio das maos da animacao antes do ik
+        public Vector3 AnimatedHands { get; private set; }
 
         static readonly int WalkSpeedHash = Animator.StringToHash("WalkSpeed");
         static readonly int RunSpeedHash = Animator.StringToHash("RunSpeed");
@@ -42,6 +47,32 @@ namespace CorrentesDaNoite.Enemies
             animator.SetFloat(RunSpeedHash, Mathf.Max(1f, speed / RUN_CLIP_SPEED));
         }
 
+        // maos dele vao pro corpo dela na captura
+        private void OnAnimatorIK(int layerIndex)
+        {
+            AnimatedHands = (animator.GetIKPosition(AvatarIKGoal.LeftHand) + animator.GetIKPosition(AvatarIKGoal.RightHand)) * 0.5f;
+            if (_grabbed == null || _grabWeight <= 0f) return;
+
+            Vector3 chest = _grabbed.GetBoneTransform(HumanBodyBones.Chest).position;
+            float halfWidth = Vector3.Distance(_grabbed.GetBoneTransform(HumanBodyBones.LeftUpperArm).position, _grabbed.GetBoneTransform(HumanBodyBones.RightUpperArm).position) * 0.4f;
+            // cada mao de um lado dela visto pelos ombros dele
+            Vector3 side = (animator.GetBoneTransform(HumanBodyBones.LeftUpperArm).position - animator.GetBoneTransform(HumanBodyBones.RightUpperArm).position).normalized * halfWidth;
+            SetHand(AvatarIKGoal.LeftHand, chest + side);
+            SetHand(AvatarIKGoal.RightHand, chest - side);
+        }
+
+        public void Grab(Animator grabbed, float weight)
+        {
+            _grabbed = grabbed;
+            _grabWeight = weight;
+        }
+
+        void SetHand(AvatarIKGoal hand, Vector3 position)
+        {
+            animator.SetIKPositionWeight(hand, _grabWeight);
+            animator.SetIKPosition(hand, position);
+        }
+
         public virtual void SetWalking(bool isWalking)
         {
             if (animator != null && HasParameter(walkingParameterName, AnimatorControllerParameterType.Bool))
@@ -60,10 +91,14 @@ namespace CorrentesDaNoite.Enemies
                 animator.SetBool(isRunningParamName, isRunning);
         }
 
+        // vai direto pro estado de captura de qualquer animacao
         public virtual void SetCapture()
         {
-            if (animator != null && HasParameter(captureTriggerName, AnimatorControllerParameterType.Trigger))
-                animator.SetTrigger(captureTriggerName);
+            if (animator == null) return;
+
+            int state = Animator.StringToHash(captureTriggerName);
+            if (animator.HasState(0, state)) animator.CrossFadeInFixedTime(state, 0.1f);
+            else if (HasParameter(captureTriggerName, AnimatorControllerParameterType.Trigger)) animator.SetTrigger(captureTriggerName);
         }
 
         public virtual void ResetAllTriggers()

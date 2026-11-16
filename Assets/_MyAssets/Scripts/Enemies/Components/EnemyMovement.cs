@@ -124,7 +124,14 @@ namespace CorrentesDaNoite.Enemies
 
             _navMeshAgent.isStopped = true;
             _navMeshAgent.ResetPath();
+            _navMeshAgent.velocity = Vector3.zero;
             _lastMoveSucceeded = false;
+        }
+
+        public void MoveBy(Vector3 offset)
+        {
+            if (_navMeshAgent != null && _navMeshAgent.isOnNavMesh) _navMeshAgent.Move(offset);
+            else transform.position += offset;
         }
 
         public void TeleportTo(Vector3 position)
