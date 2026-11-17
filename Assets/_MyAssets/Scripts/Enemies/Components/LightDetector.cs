@@ -13,8 +13,12 @@ namespace CorrentesDaNoite.Enemies
         [SerializeField] bool checkObstacles = true;
         [SerializeField] LayerMask obstacleLayer;
 
+        // de lado ou de costas ele so sente ela se encostar
+        const float TOUCH_DISTANCE = 2f;
+
         SphereCollider _detectionCollider;
         EnemyController _enemyController;
+        EnemyVisionDetector _vision;
         Transform _playerTransform;
         bool _isDetectingPlayer;
         float _suppressDetectionUntil;
@@ -25,6 +29,7 @@ namespace CorrentesDaNoite.Enemies
         void Awake()
         {
             _enemyController = GetComponent<EnemyController>();
+            _vision = GetComponent<EnemyVisionDetector>();
 
             _detectionCollider = GetComponent<SphereCollider>();
             if (_detectionCollider == null)
@@ -44,7 +49,7 @@ namespace CorrentesDaNoite.Enemies
 
             if (_playerTransform != null)
             {
-                bool canSeePlayer = (!checkObstacles || HasLineOfSight()) && !HidingSpot.IsHiddenFrom(_enemyController != null ? _enemyController.Player : null, lightSource.position);
+                bool canSeePlayer = IsFacingOrTouching() && (!checkObstacles || HasLineOfSight()) && !HidingSpot.IsHiddenFrom(_enemyController != null ? _enemyController.Player : null, lightSource.position);
 
                 if (canSeePlayer != _isDetectingPlayer)
                 {
@@ -71,6 +76,17 @@ namespace CorrentesDaNoite.Enemies
             _playerTransform = null;
             _isDetectingPlayer = false;
             _enemyController?.OnPlayerLostFromLight();
+        }
+
+        bool IsFacingOrTouching()
+        {
+            Vector3 toPlayer = _playerTransform.position - transform.position;
+            toPlayer.y = 0f;
+            if (_vision == null || toPlayer.magnitude <= TOUCH_DISTANCE) return true;
+
+            Vector3 forward = _vision.Eye.forward;
+            forward.y = 0f;
+            return Vector3.Angle(forward, toPlayer) <= _vision.ViewAngle * 0.5f;
         }
 
         bool HasLineOfSight()

@@ -41731,7 +41731,7 @@ Transform:
   m_GameObject: {fileID: 591766929}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -86.3, y: 0, z: -129.6}
+  m_LocalPosition: {x: -100.3, y: 0, z: -129.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -54768,7 +54768,7 @@ MonoBehaviour:
   enableSoundReactions: 1
   soundRotationSpeed: 3
   soundAlertDuration: 3
-  minSoundDistanceToReact: 3
+  minSoundDistanceToReact: 2
   soundsToTriggerChase: 3
   reactToWalkingSounds: 1
   reactToRunningSounds: 1
@@ -82096,7 +82096,7 @@ MonoBehaviour:
   enableSoundReactions: 1
   soundRotationSpeed: 3
   soundAlertDuration: 3
-  minSoundDistanceToReact: 3
+  minSoundDistanceToReact: 2
   soundsToTriggerChase: 3
   reactToWalkingSounds: 1
   reactToRunningSounds: 1
@@ -90014,7 +90014,7 @@ MonoBehaviour:
   enableSoundReactions: 1
   soundRotationSpeed: 3
   soundAlertDuration: 3
-  minSoundDistanceToReact: 3
+  minSoundDistanceToReact: 2
   soundsToTriggerChase: 3
   reactToWalkingSounds: 1
   reactToRunningSounds: 1
@@ -121756,7 +121756,7 @@ MonoBehaviour:
   enableSoundReactions: 1
   soundRotationSpeed: 3
   soundAlertDuration: 3
-  minSoundDistanceToReact: 3
+  minSoundDistanceToReact: 2
   soundsToTriggerChase: 3
   reactToWalkingSounds: 1
   reactToRunningSounds: 1
